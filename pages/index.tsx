@@ -1,7 +1,7 @@
-import type { NextPage } from "next";
-import styled from "@emotion/styled";
-import Navigation from "../components/Navigation";
-import Main from "../components/MainWrapper";
+import type { NextPage } from 'next';
+import styled from '@emotion/styled';
+import Navigation from '../components/Navigation';
+import MainWrapper from '../components/MainWrapper';
 
 const Container = styled.div`
   display: flex;
@@ -16,7 +16,8 @@ const Home: NextPage = () => {
   return (
     <Container>
       <Navigation onClick={onClick} />
-      <Main />
+      <MainWrapper />
+      test5
     </Container>
   );
 };

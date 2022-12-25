@@ -1,14 +1,16 @@
-import styled from "@emotion/styled";
+import styled from '@emotion/styled';
+import BoxShadows from '../styles/BoxShadows';
 
-type NavigationProps = {
+interface NavigationProps {
   onClick?: () => void;
-};
+}
 
 const NavigationWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  box-shadow: ${BoxShadows.Standard};
 `;
 
 const NavItems = styled.div`
@@ -17,7 +19,7 @@ const NavItems = styled.div`
 
 const Navigation: React.FC<NavigationProps> = ({ onClick }) => {
   return (
-    <NavigationWrapper>
+    <NavigationWrapper onClick={onClick}>
       <NavItems>Home</NavItems>
       <NavItems>About</NavItems>
       <NavItems>Contact</NavItems>

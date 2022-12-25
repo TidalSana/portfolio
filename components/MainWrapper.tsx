@@ -1,15 +1,15 @@
-import styled from "@emotion/styled";
+import styled from '@emotion/styled';
 
-type MainProps = {};
+interface MainProps {}
 
-const MainWrapper = styled.div`
+const Main = styled.div`
   display: flex;
   width: 80%;
   border: 1px solid red;
 `;
 
-const Main: React.FC<MainProps> = () => {
-  return <MainWrapper>testing</MainWrapper>;
+const MainWrapper: React.FC<MainProps> = () => {
+  return <Main>testing</Main>;
 };
 
-export default Main;
+export default MainWrapper;
