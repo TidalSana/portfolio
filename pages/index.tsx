@@ -17,7 +17,6 @@ const Home: NextPage = () => {
     <Container>
       <Navigation onClick={onClick} />
       <MainWrapper />
-      test5
     </Container>
   );
 };
