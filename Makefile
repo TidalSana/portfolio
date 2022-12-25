@@ -1,3 +1,3 @@
 # dev
-dev: 
-	npm run dev
+dev:
+	yarn run dev
