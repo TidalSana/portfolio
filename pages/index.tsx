@@ -2,6 +2,7 @@ import type { NextPage } from 'next';
 import styled from '@emotion/styled';
 import Navigation from '../components/Navigation';
 import MainWrapper from '../components/MainWrapper';
+import { useColorMode } from '@chakra-ui/react';
 
 const Container = styled.div`
   display: flex;
@@ -12,11 +13,13 @@ const Container = styled.div`
 `;
 
 const Home: NextPage = () => {
-  const onClick = () => {};
+  const { colorMode, toggleColorMode } = useColorMode();
+
   return (
     <Container>
-      <Navigation onClick={onClick} />
+      <Navigation />
       <MainWrapper />
+      <button onClick={toggleColorMode}>testing</button>
     </Container>
   );
 };

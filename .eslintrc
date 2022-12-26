@@ -12,7 +12,11 @@
     "airbnb-base",
     "airbnb-typescript"
   ],
-  "overrides": [],
+  "overrides": [
+    {
+    "files": ["*.ts", "*.tsx"]
+    }
+  ],
   "plugins": ["react", "jsx-a11y"],
   "rules": {
     "arrow-body-style": 0,
