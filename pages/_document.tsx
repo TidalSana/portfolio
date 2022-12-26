@@ -5,7 +5,7 @@ import NextDocument, {
 import theme from '../styles/theme';
 
 export default class Document extends NextDocument {
-  render() {
+  static render() {
     return (
       <Html lang="en">
         <Head />

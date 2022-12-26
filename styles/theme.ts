@@ -10,8 +10,8 @@ const theme = extendTheme({
   colors: {
     brand: {
       main: '#281d33',
-      accent: '##8a7c8e',
-      accentShade: '#fbf9fa',
+      lightAccent: '#8a7c8e',
+      lightAccentShade: '#fbf9fa',
       darkAccent: '#b33e69',
       darkAccentShade: '#281d33',
     },
@@ -20,14 +20,6 @@ const theme = extendTheme({
     heading: '"Roboto Condensed", sans-serif',
     body: '"Roboto", sans-serif',
   },
-  // styles: {
-  //   global: {
-  //     body: {
-  //       bg: 'brand.main',
-  //       color: 'white',
-  //     },
-  //   },
-  // },
 });
 
 export default theme;

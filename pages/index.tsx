@@ -1,26 +1,21 @@
 import type { NextPage } from 'next';
-import styled from '@emotion/styled';
+import {
+  Flex, useColorMode,
+} from '@chakra-ui/react';
+import React from 'react';
 import Navigation from '../components/Navigation';
 import MainWrapper from '../components/MainWrapper';
-import { useColorMode } from '@chakra-ui/react';
-
-const Container = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  width: 100%;
-`;
 
 const Home: NextPage = () => {
-  const { colorMode, toggleColorMode } = useColorMode();
+  /** ChakraUI */
+  const { toggleColorMode } = useColorMode();
 
+  /** Render */
   return (
-    <Container>
+    <Flex boxShadow="xl" rounded="md" align="center" justifyContent="center" flexDirection="column" width="100%">
       <Navigation />
       <MainWrapper />
-      <button onClick={toggleColorMode}>testing</button>
-    </Container>
+    </Flex>
   );
 };
 

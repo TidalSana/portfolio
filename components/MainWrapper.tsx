@@ -1,15 +1,10 @@
-import styled from '@emotion/styled';
+import { Flex } from '@chakra-ui/react';
 
 interface MainProps {}
 
-const MainWrapper = styled.div`
-  display: flex;
-  width: 80%;
-  border: 1px solid red;
-`;
-
 const Main: React.FC<MainProps> = () => {
-  return <MainWrapper>Main stuff</MainWrapper>;
+  return (
+    <Flex width="80%">Main Wrapper</Flex>);
 };
 
 export default Main;
