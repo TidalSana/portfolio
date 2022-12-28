@@ -1,10 +1,17 @@
-import { Flex } from '@chakra-ui/react';
+import { VStack } from '@chakra-ui/react';
+import ProfileWrapper from './ProfileWrapper';
+import ProjectsWrapper from './ProjectsWrapper';
 
 interface MainProps {}
 
 const Main: React.FC<MainProps> = () => {
+  /** Render */
   return (
-    <Flex width="80%">Main Wrapper</Flex>);
+    <VStack width="100%" align="center" justifyContent="center">
+      <ProfileWrapper />
+      <ProjectsWrapper />
+    </VStack>
+  );
 };
 
 export default Main;
