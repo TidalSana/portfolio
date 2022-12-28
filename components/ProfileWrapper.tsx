@@ -1,5 +1,5 @@
 import {
-  Box, Flex, Heading, VStack, Image, keyframes, Text,
+  Box, Flex, Heading, VStack, Image, keyframes, Text, useColorMode,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 
@@ -32,6 +32,7 @@ const headingAnimation = `${bioAnimationKeyFrames} 0.5s ease-in`;
 const typingAnimation = `${typingKeyFrames} 1s steps(20, end) forwards, ${blinkKeyFrames} 1s infinite`;
 
 const ProfileWrapper: React.FC<ProfileWrapperProps> = () => {
+  const { colorMode } = useColorMode();
   /** Render */
   return (
     <Flex
@@ -70,15 +71,19 @@ const ProfileWrapper: React.FC<ProfileWrapperProps> = () => {
             borderRadius="full"/>
         </Flex>
         <Box
+          width="100%"
           className="intro-header-container"
           rounded="lg"
+          bg={colorMode === 'dark' ? 'lightMode.color' : 'darkMode.color'}
           padding="5em"
           as={motion.div}
           animation={headingAnimation}>
           <Box
+            bg="inherit"
             margin="1em"
             display="inline-block">
             <Box
+              bg="inherit"
               overflow="hidden"
               animation={typingAnimation}
               whiteSpace="nowrap"
@@ -86,6 +91,7 @@ const ProfileWrapper: React.FC<ProfileWrapperProps> = () => {
               width="0"
               className="intro-heading-typed-out">
               <Heading
+                color={colorMode === 'dark' ? 'brand.darkAccentShade' : 'brand.lightAccentShade'}
                 as="h1" size="4xl"
                 >
                 {"What's up!?"}
@@ -93,11 +99,20 @@ const ProfileWrapper: React.FC<ProfileWrapperProps> = () => {
             </Box>
           </Box>
           <Flex
+            bg="inherit"
             as={motion.div}
             flexDirection="column"
             pl="1em">
-            <Text as="b" fontSize="xl">Hafa Adai (Hello)! 🌺</Text>
-            <Text noOfLines={3} fontSize="md">
+            <Text
+              color={colorMode === 'dark' ? 'brand.darkAccentShade' : 'brand.lightAccentShade'}
+              as="b"
+              fontSize="xl">
+              Hafa Adai (Hello)! 🌺
+            </Text>
+            <Text
+              color={colorMode === 'dark' ? 'brand.darkAccentShade' : 'brand.lightAccentShade'}
+              noOfLines={4}
+              fontSize="md">
               My name is Josh and I&apos;m a Jr. FullStack Engineer from Bozeman, MT.
               I&apos;m constantly working on my craft (code) and design.
               I&apos;m all about eSports, video games, and custom mechanical keyboards.

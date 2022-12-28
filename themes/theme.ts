@@ -42,6 +42,20 @@ const theme = extendTheme({
       },
     }),
   },
+  // components: {
+  //   Text: {
+  //     variants: (props: StyleFunctionProps) => ({
+  //       /** If dark background use this */
+  //       darkBackground: {
+  //         color: props.colorMode === 'dark' ? 'brand.lightAccentShade' : 'brand.darkAccentShade',
+  //       },
+  //       /** If light background use this */
+  //       lightBackground: {
+  //         color: props.colorMode === 'dark' ? 'brand.darkAccentShade' : 'brand.lightAccentShade',
+  //       },
+  //     }),
+  //   },
+  // },
 });
 
 export default theme;
