@@ -62,6 +62,7 @@ const ProfileWrapper: React.FC<ProfileWrapperProps> = () => {
           transition=".2s ease-out"
           boxSize="270px"
           borderRadius="full"
+          boxShadow="dark-lg"
           className="intro-profile-image">
           <Image
             src="/josh.jpeg"
@@ -74,6 +75,7 @@ const ProfileWrapper: React.FC<ProfileWrapperProps> = () => {
           width="100%"
           className="intro-header-container"
           rounded="lg"
+          boxShadow="dark-lg"
           bg={colorMode === 'dark' ? 'lightMode.color' : 'darkMode.color'}
           padding="5em"
           as={motion.div}
