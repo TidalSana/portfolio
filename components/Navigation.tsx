@@ -55,7 +55,7 @@ const Navigation: React.FC<NavigationProps> = () => {
           </Box>
         ))}
         <Spacer />
-        <Button onClick={toggleColorMode}>Color Mode</Button>
+        <Button onClick={(e) => { e.stopPropagation(); toggleColorMode(); }}>Color Mode</Button>
       </HStack>
     </Flex>
   );

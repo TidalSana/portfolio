@@ -1,10 +1,11 @@
 import {
   Box,
-  Flex, Heading, HStack, Icon, Image, keyframes, useColorMode, VStack,
+  Flex, Heading, HStack, Icon, Image, keyframes, useColorMode, useColorModeValue, VStack,
 } from '@chakra-ui/react';
-import { motion, Variants } from 'framer-motion';
+import { motion, useInView, Variants } from 'framer-motion';
 import React from 'react';
 import { AiFillFolder, AiFillFolderOpen } from 'react-icons/ai';
+import { Breakpoint } from 'react-socks';
 
 interface ProjectCardProps {
   project: string,
@@ -17,9 +18,12 @@ interface InnerImageContainerProps {
 const InnerImageContainer: React.FC<InnerImageContainerProps> = ({ project }) => {
   /** State */
   const [openIcon, setOpenIcon] = React.useState(false);
+  const ref = React.useRef(null);
+  const isInView = useInView(ref);
 
   /** ChakraUI */
   const { colorMode } = useColorMode();
+  const headingColor = useColorModeValue('brand.lightAccentShade', 'brand.darkAccentShade');
 
   /** Framer UI */
   const bouncingAnimationKeyFrames = keyframes`
@@ -36,6 +40,7 @@ const InnerImageContainer: React.FC<InnerImageContainerProps> = ({ project }) =>
   };
 
   const cardVariants: Variants = {
+    /** Tablet view and above */
     intial: {
       zIndex: 9,
       x: 0,
@@ -45,7 +50,6 @@ const InnerImageContainer: React.FC<InnerImageContainerProps> = ({ project }) =>
       scale: 0,
       transition: { ...curve, delay: 2 },
     },
-
     animate: {
       zIndex: 11,
       x: 300,
@@ -56,56 +60,149 @@ const InnerImageContainer: React.FC<InnerImageContainerProps> = ({ project }) =>
       position: 'absolute',
       transition: { ...curve, delay: 0 },
     },
+
+    /** Mobile View */
+    initialMobile: {
+      zIndex: 9,
+      x: -150,
+      y: -100,
+      rotate: 0,
+      opacity: 0,
+      scale: 0,
+      transition: { ...curve, delay: 2 },
+    },
+    animateMobile: {
+      zIndex: 11,
+      x: 150,
+      y: -130,
+      rotate: 10,
+      scale: 1,
+      opacity: 1,
+      position: 'absolute',
+      transition: { ...curve, delay: 0 },
+    },
   };
 
   /** Render */
   return (
-    <VStack className="inner-project-card-container" bg="transparent" spacing="1em">
+    <VStack
+      p=".4em"
+      // w="80vw"
+      spacing="1em"
+      boxShadow="dark-lg"
+      className="inner-project-card-container"
+      bg={colorMode === 'dark' ? 'brand.lightAccentShade' : 'brand.darkAccentShade'}>
       <Box
+        bgGradient={colorMode === 'dark' ? 'radial(brand.main, brand.darkAccentShade)' : 'radial(brand.darkAccentShade, brand.main)' }
+        // bg={colorMode === 'dark' ? 'brand.main' : 'brand.lightAccentShade'}
         className="project-image-icon-container"
-        rounded="lg"
-        boxSize="400px"
-          >
-        <HStack
-          className="horizontal-stack-project-folder"
-          bg="transparent"
-          rounded="xl"
-          as={motion.div}
-          initial="initial"
-          whileHover="animate"
-          onMouseEnter={() => setOpenIcon(true)}
-          onMouseLeave={() => setOpenIcon(false)}>
-          <Icon
-            zIndex={10}
-            bg="transparent"
-            boxSize="100%"
-            color="brand.darkAccent"
-            as={!openIcon ? AiFillFolder : AiFillFolderOpen}>
-          </Icon>
-          <Box
-
+        rounded="3xl"
+        boxSize="300px">
+        {/* Desktop View and up */}
+        <Breakpoint large up>
+          <HStack
             bg="transparent"
             as={motion.div}
-            variants={cardVariants}
-            className="motion-project-image-div"
+            initial="initial"
+            whileHover="animate"
+            onMouseEnter={() => setOpenIcon(true)}
+            onMouseLeave={() => setOpenIcon(false)}
+            className="horizontal-stack-project-folder">
+            <Icon
+              zIndex={10}
+              boxSize="100%"
+              bg="transparent"
+              color="brand.darkAccent"
+              as={!openIcon ? AiFillFolder : AiFillFolderOpen}>
+            </Icon>
+            <Box
+              bg="transparent"
+              as={motion.div}
+              variants={cardVariants}
+              className="motion-project-image-div"
             >
-            <Image
-              animation={bouncingAnimation}
-              width="200px"
-              height="200px"
-              src="/cat.jpg"
-              alt="Joshua Semana"
-              objectFit="cover"
-              borderRadius="xl"/>
-          </Box>
-        </HStack>
+              <Image
+                animation={bouncingAnimation}
+                width="200px"
+                height="200px"
+                src="/cat.jpg"
+                alt="Joshua Semana"
+                objectFit="cover"
+                borderRadius="xl"/>
+            </Box>
+          </HStack>
+        </Breakpoint>
+        {/* Tablet view and smaller */}
+        <Breakpoint medium only>
+          <HStack
+            bg="transparent"
+            as={motion.div}
+            initial="initial"
+            whileInView="animate"
+            ref={ref}
+            className="horizontal-stack-project-folder">
+            <Icon
+              zIndex={10}
+              boxSize="100%"
+              bg="transparent"
+              color="brand.darkAccent"
+              as={!isInView ? AiFillFolder : AiFillFolderOpen}>
+            </Icon>
+            <Box
+              bg="transparent"
+              as={motion.div}
+              variants={cardVariants}
+              className="motion-project-image-div">
+              <Image
+                animation={bouncingAnimation}
+                width="200px"
+                height="200px"
+                src="/cat.jpg"
+                alt="Joshua Semana"
+                objectFit="cover"
+                borderRadius="xl"/>
+            </Box>
+          </HStack>
+        </Breakpoint>
+        {/* Tablet view and smaller */}
+        <Breakpoint small down>
+          <HStack
+            bg="transparent"
+            as={motion.div}
+            initial="initialMobile"
+            whileInView="animateMobile"
+            ref={ref}
+            className="horizontal-stack-project-folder">
+            <Icon
+              zIndex={10}
+              boxSize="100%"
+              bg="transparent"
+              color="brand.darkAccent"
+              as={!isInView ? AiFillFolder : AiFillFolderOpen}>
+            </Icon>
+            <Box
+              bg="transparent"
+              as={motion.div}
+              variants={cardVariants}
+              className="motion-project-image-div">
+              <Image
+                animation={bouncingAnimation}
+                width="150px"
+                height="150px"
+                src="/cat.jpg"
+                alt="Joshua Semana"
+                objectFit="cover"
+                borderRadius="xl"/>
+            </Box>
+          </HStack>
+        </Breakpoint>
       </Box>
       <Heading
-        className="project-header-name"
-        pb="12px"
-        color={colorMode === 'dark' ? 'brand.lightAccent' : 'brand.lightAccentShade'}
         as="h4"
-        size="md">
+        pb="12px"
+        size="md"
+        className="project-header-name"
+        color={headingColor}>
         {project}
       </Heading>
     </VStack>
@@ -118,20 +215,17 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   /** ChakraUi */
   const { colorMode } = useColorMode();
 
-  // TODO: ADD OPPSITE COLOR shadow for project, also separate items into components
-
   /** Render */
   return (
     <Flex
-      overflowX="hidden"
+      w="100%"
       align="center"
-      rounded="xl"
-      boxShadow={colorMode === 'dark' ? 'dark-lg' : '2xl'}
-      justifyContent="center"
+      rounded="2xl"
+      overflowX="hidden"
       flexDirection="column"
+      justifyContent="center"
       className="project-card-item"
-      bg={colorMode === 'dark' ? 'brand.lightAccentShade' : 'brand.darkAccentShade'}
-      w="100%">
+      boxShadow={colorMode === 'dark' ? 'dark-lg' : '2xl'}>
       <InnerImageContainer project={project} />
     </Flex>
   );

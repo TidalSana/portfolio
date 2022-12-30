@@ -1,5 +1,7 @@
 import {
-  Box, Flex, Heading, VStack, Image, Text, useColorMode,
+  Box, Flex, Heading, VStack,
+  Image, Text, useColorModeValue,
+  // useColorModeValue,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import { Breakpoint } from 'react-socks';
@@ -10,7 +12,11 @@ interface IntroHeaderContainerProps {}
 
 const IntroHeaderContainer: React.FC<IntroHeaderContainerProps> = () => {
   /** ChakraUI */
-  const { colorMode } = useColorMode();
+  const oppBg = useColorModeValue('darkMode.color', 'lightMode.color');
+  const textColor = useColorModeValue('brand.lightAccentShade', 'brand.darkAccentShade');
+  const hOneColor = useColorModeValue('brand.lightAccentShade', 'brand.darkAccentShade');
+
+  /** FramerUI */
   const { headingAnimation, typingAnimation } = animations;
 
   /** Render */
@@ -23,7 +29,7 @@ const IntroHeaderContainer: React.FC<IntroHeaderContainerProps> = () => {
           className="intro-header-container"
           rounded="lg"
           boxShadow="dark-lg"
-          bg={colorMode === 'dark' ? 'lightMode.color' : 'darkMode.color'}
+          bg={oppBg}
           padding="5em"
           as={motion.div}
           animation={headingAnimation}>
@@ -38,9 +44,10 @@ const IntroHeaderContainer: React.FC<IntroHeaderContainerProps> = () => {
               whiteSpace="nowrap"
               borderRight=".5em solid #b33e69"
               width="0"
+              rounded="none"
               className="intro-heading-typed-out">
               <Heading
-                color={colorMode === 'dark' ? 'brand.darkAccentShade' : 'brand.lightAccentShade'}
+                color={hOneColor}
                 as="h1" size="4xl"
                 >
                 {"What's up!?"}
@@ -53,15 +60,16 @@ const IntroHeaderContainer: React.FC<IntroHeaderContainerProps> = () => {
             flexDirection="column"
             pl="1em">
             <Text
-              color={colorMode === 'dark' ? 'brand.darkAccentShade' : 'brand.lightAccentShade'}
               as="b"
-              fontSize="xl">
+              mb="15px"
+              fontSize="xl"
+              color="brand.darkAccent">
               Hafa Adai (Hello)! 🌺
             </Text>
             <Text
-              color={colorMode === 'dark' ? 'brand.darkAccentShade' : 'brand.lightAccentShade'}
-              noOfLines={4}
-              fontSize="md">
+              noOfLines={5}
+              fontSize="md"
+              color={textColor}>
               My name is Josh and I&apos;m a Jr. FullStack Engineer from Bozeman, MT.
               I&apos;m constantly working on my craft (code) and design.
               I&apos;m all about eSports, video games, and custom mechanical keyboards.
@@ -73,46 +81,49 @@ const IntroHeaderContainer: React.FC<IntroHeaderContainerProps> = () => {
       <Breakpoint medium only>
         <Box
           width="80vw"
-          className="intro-header-container"
           rounded="lg"
           boxShadow="dark-lg"
-          bg={colorMode === 'dark' ? 'lightMode.color' : 'darkMode.color'}
           padding="5em"
           as={motion.div}
-          animation={headingAnimation}>
+          animation={headingAnimation}
+          className="intro-header-container"
+          bg={oppBg}>
           <Box
             bg="inherit"
-            margin="1em"
             display="inline-block">
             <Box
+              width="0"
               bg="inherit"
               overflow="hidden"
               animation={typingAnimation}
               whiteSpace="nowrap"
-              borderRight=".5em solid #b33e69"
-              width="0"
+              rounded="none"
+              borderRight=".2em solid #b33e69"
               className="intro-heading-typed-out">
               <Heading
-                color={colorMode === 'dark' ? 'brand.darkAccentShade' : 'brand.lightAccentShade'}
-                as="h1" size="2xl"
+                as="h1"
+                mb="8px"
+                size="2xl"
+                color={hOneColor}
                 >
                 {"What's up!?"}
               </Heading>
             </Box>
           </Box>
           <Flex
+            textAlign="left"
             bg="inherit"
             as={motion.div}
-            flexDirection="column"
-            pl="1em">
+            flexDirection="column">
             <Text
-              color={colorMode === 'dark' ? 'brand.darkAccentShade' : 'brand.lightAccentShade'}
               as="b"
+              mb="10px"
+              color="brand.darkAccent"
               fontSize="lg">
               Hafa Adai (Hello)! 🌺
             </Text>
             <Text
-              color={colorMode === 'dark' ? 'brand.darkAccentShade' : 'brand.lightAccentShade'}
+              color={textColor}
               noOfLines={5}
               fontSize="md">
               My name is Josh and I&apos;m a Jr. FullStack Engineer from Bozeman, MT.
@@ -133,7 +144,7 @@ const IntroHeaderContainer: React.FC<IntroHeaderContainerProps> = () => {
           as={motion.div}
           animation={headingAnimation}
           className="intro-header-container"
-          bg={colorMode === 'dark' ? 'lightMode.color' : 'darkMode.color'}
+          bg={oppBg}
           >
           <Box
             bg="inherit"
@@ -144,13 +155,14 @@ const IntroHeaderContainer: React.FC<IntroHeaderContainerProps> = () => {
               bg="inherit"
               overflow="hidden"
               whiteSpace="nowrap"
+              rounded="none"
               animation={typingAnimation}
-              borderRight=".5em solid #b33e69"
+              borderRight=".2em solid #b33e69"
               className="intro-heading-typed-out">
               <Heading
                 as="h1"
                 size="2xl"
-                color={colorMode === 'dark' ? 'brand.darkAccentShade' : 'brand.lightAccentShade'}>
+                color={textColor}>
                 {"What's up!?"}
               </Heading>
             </Box>
@@ -163,14 +175,14 @@ const IntroHeaderContainer: React.FC<IntroHeaderContainerProps> = () => {
               as="b"
               mb="8px"
               fontSize="lg"
-              color={colorMode === 'dark' ? 'brand.darkAccentShade' : 'brand.lightAccentShade'}>
+              color="brand.darkAccent">
               Hafa Adai (Hello)! 🌺
             </Text>
             <Text
-              color={colorMode === 'dark' ? 'brand.darkAccentShade' : 'brand.lightAccentShade'}
               noOfLines={8}
-              fontSize="sm">
-              My name is Josh and I&apos;m a Jr. FullStack Engineer from Bozeman, MT.
+              fontSize="sm"
+              color={textColor}>
+              My name is Josh and I&apos;m a Jr. FullStack Engineer in Bozeman, MT.
               I&apos;m constantly working on my craft (code) and design.
               I&apos;m all about eSports, video games, and custom mechanical keyboards.
             </Text>
@@ -182,16 +194,21 @@ const IntroHeaderContainer: React.FC<IntroHeaderContainerProps> = () => {
 };
 
 const ProfileWrapper: React.FC<ProfileWrapperProps> = () => {
+  /** ChakraUI */
+  const bg = useColorModeValue('lightMode.color', 'darkMode.color');
+
+  /** Framer */
   const { imageAnimation } = animations;
 
   /** Render */
   return (
     <Flex
-      className="intro-profile-introduction"
+      p="1em"
+      m="1em"
       width="80%"
-      justifyContent="center"
-      p="1em" m="1em"
       rounded="lg"
+      justifyContent="center"
+      className="intro-profile-introduction"
       >
       <VStack
         bg={'transparent'}
@@ -205,7 +222,7 @@ const ProfileWrapper: React.FC<ProfileWrapperProps> = () => {
             top="80px"
             position="relative"
             justifyContent="center"
-            bg="colors.white"
+            bg={bg}
             align="center"
             zIndex={2}
             as={motion.div}
@@ -231,10 +248,10 @@ const ProfileWrapper: React.FC<ProfileWrapperProps> = () => {
             zIndex={2}
             top="50px"
             align="center"
-            bg="colors.white"
+            bg={bg}
             position="relative"
-            boxSize="220px"
-            boxShadow="dark-lg"
+            boxSize="205px"
+            boxShadow="2xl"
             borderRadius="full"
             justifyContent="center"
             as={motion.div}

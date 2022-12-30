@@ -42,11 +42,13 @@ const theme = extendTheme({
         overflowX: 'hidden',
         margin: 0,
         fontSize: '1.4rem',
+        bg: props.colorMode === 'dark' ? 'darkMode.color' : 'lightMode.color',
       },
       div: {
         /** Opposite respect to the color mode */
+        borderRadius: 'lg',
         color: props.colorMode === 'dark' ? 'brand.lightAccentShade' : 'brand.darkAccentShade',
-        bg: props.colorMode === 'dark' ? 'darkMode.color' : 'lightMode.color',
+        bg: 'transparent',
       },
       svg: {
         filter: 'drop-shadow(3px 5px 2px rgb(0 0 0 / 0.4))',
