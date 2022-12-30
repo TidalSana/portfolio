@@ -1,42 +1,121 @@
 import {
   Box,
-  Flex, Heading, Icon, useColorMode, VStack,
+  Flex, Heading, HStack, Icon, Image, keyframes, useColorMode, VStack,
 } from '@chakra-ui/react';
+import { motion, Variants } from 'framer-motion';
+import React from 'react';
 import { AiFillFolder, AiFillFolderOpen } from 'react-icons/ai';
 
 interface ProjectCardProps {
   project: string,
 }
 
+const bouncingAnimationKeyFrames = keyframes`
+  0% { trasnform: translateY(0px); }
+  100%   { transform: translateY(20px); }
+`;
+
+const bouncingAnimation = `${bouncingAnimationKeyFrames} 1s ease-in-out alternate infinite`;
+
 const ProjectCard: React.FC<ProjectCardProps> = ({
   project,
 }) => {
+  /** State */
+  const [openIcon, setOpenIcon] = React.useState(false);
+
   /** ChakraUi */
   const { colorMode } = useColorMode();
+
+  /** Framer */
+  const curve = {
+    type: 'spring',
+    stiffness: 500,
+    damping: 30,
+  };
+
+  const cardVariants: Variants = {
+    intial: {
+      zIndex: 9,
+      x: 0,
+      y: -100,
+      rotate: 0,
+      opacity: 0,
+      scale: 0,
+      transition: { ...curve, delay: 2 },
+    },
+
+    animate: {
+      zIndex: 11,
+      x: 300,
+      y: -150,
+      rotate: 10,
+      scale: 1,
+      opacity: 1,
+      position: 'absolute',
+      transition: { ...curve, delay: 0 },
+    },
+  };
+
+  // TODO: ADD OPPSITE COLOR shadow for project, also separate items into components
 
   /** Render */
   return (
     <Flex
-      rounded="lg"
-      className="project-card-item"
-      bg="transparent"
+      overflowX="hidden"
       align="center"
+      rounded="xl"
+      boxShadow={colorMode === 'dark' ? 'dark-lg' : '2xl'}
       justifyContent="center"
       flexDirection="column"
+      className="project-card-item"
+      bg={colorMode === 'dark' ? 'brand.lightAccentShade' : 'brand.darkAccentShade'}
       w="100%">
-      <VStack bg="transparent">
+      <VStack bg="transparent" spacing="1em">
         <Box
-          rounded="2xl"
-          boxSize="300px"
-          bg={colorMode === 'dark' ? 'brand.lightAccentShade' : 'brand.darkAccentShade'}>
-            {/* TODO: Add a swap when hovering */}
-          <Icon boxSize="100%" color="brand.darkAccent" as={AiFillFolder}></Icon>
+          className="project-image-icon-container"
+          rounded="lg"
+          boxSize="400px"
+          >
+          <HStack
+            className="horizontal-stack-project-folder"
+            bg="transparent"
+            rounded="xl"
+            as={motion.div}
+            initial="initial"
+            whileHover="animate"
+            onMouseEnter={() => setOpenIcon(true)}
+            onMouseLeave={() => setOpenIcon(false)}>
+            <Icon
+              zIndex={10}
+              bg="transparent"
+              boxSize="100%"
+              color="brand.darkAccent"
+              as={!openIcon ? AiFillFolder : AiFillFolderOpen}>
+            </Icon>
+            <Box
+
+              bg="transparent"
+              as={motion.div}
+              variants={cardVariants}
+              className="motion-project-image-div"
+            >
+              <Image
+                animation={bouncingAnimation}
+                width="200px"
+                height="200px"
+                src="/cat.jpg"
+                alt="Joshua Semana"
+                objectFit="cover"
+                borderRadius="xl"/>
+            </Box>
+          </HStack>
         </Box>
         <Heading
-          mb="px"
-          color="brand.lightAccentShade"
+          className="project-header-name"
+          pb="12px"
+          color={colorMode === 'dark' ? 'brand.lightAccent' : 'brand.lightAccentShade'}
           as="h4"
-          size="sm">
+          size="md">
           {project}
         </Heading>
       </VStack>

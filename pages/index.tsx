@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 import {
-  Flex, Spinner,
+  Flex, Spinner, useColorMode,
 } from '@chakra-ui/react';
 import React from 'react';
 import Navigation from '../components/Navigation';
@@ -11,6 +11,7 @@ const Home: NextPage = () => {
   const [loading, setLoading] = React.useState(true);
 
   /** ChakraUI */
+  const { colorMode } = useColorMode();
 
   /** Loading Spinner */
   React.useEffect(() => {
@@ -39,7 +40,11 @@ const Home: NextPage = () => {
         )
         : (
           <Flex width="100vw" height="100vh" justifyContent="center" align="center">
-            <Spinner size="xl"/>
+            <Spinner
+              size="xl"
+              speed="0.65s"
+              thickness="8px"
+              color={colorMode === 'dark' ? 'brand.lightAccentShade' : 'brand.darkAccentShade'}/>
           </Flex>
         )
           }

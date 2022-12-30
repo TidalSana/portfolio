@@ -33,12 +33,23 @@ const theme = extendTheme({
     global: (props: StyleFunctionProps) => ({
       html: {
         /** This stays respect to the color mode */
+        overflowX: 'hidden',
+        margin: 0,
+        fonSize: '62.5%',
         bg: props.colorMode === 'dark' ? 'darkMode.color' : 'lightMode.color',
+      },
+      body: {
+        overflowX: 'hidden',
+        margin: 0,
+        fontSize: '1.4rem',
       },
       div: {
         /** Opposite respect to the color mode */
         color: props.colorMode === 'dark' ? 'brand.lightAccentShade' : 'brand.darkAccentShade',
         bg: props.colorMode === 'dark' ? 'darkMode.color' : 'lightMode.color',
+      },
+      svg: {
+        filter: 'drop-shadow(3px 5px 2px rgb(0 0 0 / 0.4))',
       },
     }),
   },

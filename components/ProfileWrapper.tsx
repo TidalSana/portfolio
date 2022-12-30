@@ -32,7 +32,9 @@ const headingAnimation = `${bioAnimationKeyFrames} 0.5s ease-in`;
 const typingAnimation = `${typingKeyFrames} 1s steps(20, end) forwards, ${blinkKeyFrames} 1s infinite`;
 
 const ProfileWrapper: React.FC<ProfileWrapperProps> = () => {
+  /** ChakraUI */
   const { colorMode } = useColorMode();
+
   /** Render */
   return (
     <Flex
