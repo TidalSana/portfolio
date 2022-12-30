@@ -10,23 +10,25 @@ interface ProjectCardProps {
   project: string,
 }
 
-const bouncingAnimationKeyFrames = keyframes`
-  0% { trasnform: translateY(0px); }
-  100%   { transform: translateY(20px); }
-`;
+interface InnerImageContainerProps {
+  project: string,
+}
 
-const bouncingAnimation = `${bouncingAnimationKeyFrames} 1s ease-in-out alternate infinite`;
-
-const ProjectCard: React.FC<ProjectCardProps> = ({
-  project,
-}) => {
+const InnerImageContainer: React.FC<InnerImageContainerProps> = ({ project }) => {
   /** State */
   const [openIcon, setOpenIcon] = React.useState(false);
 
-  /** ChakraUi */
+  /** ChakraUI */
   const { colorMode } = useColorMode();
 
-  /** Framer */
+  /** Framer UI */
+  const bouncingAnimationKeyFrames = keyframes`
+    0% { trasnform: translateY(0px); }
+    100%   { transform: translateY(20px); }
+  `;
+
+  const bouncingAnimation = `${bouncingAnimationKeyFrames} 1s ease-in-out alternate infinite`;
+
   const curve = {
     type: 'spring',
     stiffness: 500,
@@ -56,6 +58,66 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     },
   };
 
+  /** Render */
+  return (
+    <VStack className="inner-project-card-container" bg="transparent" spacing="1em">
+      <Box
+        className="project-image-icon-container"
+        rounded="lg"
+        boxSize="400px"
+          >
+        <HStack
+          className="horizontal-stack-project-folder"
+          bg="transparent"
+          rounded="xl"
+          as={motion.div}
+          initial="initial"
+          whileHover="animate"
+          onMouseEnter={() => setOpenIcon(true)}
+          onMouseLeave={() => setOpenIcon(false)}>
+          <Icon
+            zIndex={10}
+            bg="transparent"
+            boxSize="100%"
+            color="brand.darkAccent"
+            as={!openIcon ? AiFillFolder : AiFillFolderOpen}>
+          </Icon>
+          <Box
+
+            bg="transparent"
+            as={motion.div}
+            variants={cardVariants}
+            className="motion-project-image-div"
+            >
+            <Image
+              animation={bouncingAnimation}
+              width="200px"
+              height="200px"
+              src="/cat.jpg"
+              alt="Joshua Semana"
+              objectFit="cover"
+              borderRadius="xl"/>
+          </Box>
+        </HStack>
+      </Box>
+      <Heading
+        className="project-header-name"
+        pb="12px"
+        color={colorMode === 'dark' ? 'brand.lightAccent' : 'brand.lightAccentShade'}
+        as="h4"
+        size="md">
+        {project}
+      </Heading>
+    </VStack>
+  );
+};
+
+const ProjectCard: React.FC<ProjectCardProps> = ({
+  project,
+}) => {
+  /** ChakraUi */
+  const { colorMode } = useColorMode();
+
   // TODO: ADD OPPSITE COLOR shadow for project, also separate items into components
 
   /** Render */
@@ -70,55 +132,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       className="project-card-item"
       bg={colorMode === 'dark' ? 'brand.lightAccentShade' : 'brand.darkAccentShade'}
       w="100%">
-      <VStack bg="transparent" spacing="1em">
-        <Box
-          className="project-image-icon-container"
-          rounded="lg"
-          boxSize="400px"
-          >
-          <HStack
-            className="horizontal-stack-project-folder"
-            bg="transparent"
-            rounded="xl"
-            as={motion.div}
-            initial="initial"
-            whileHover="animate"
-            onMouseEnter={() => setOpenIcon(true)}
-            onMouseLeave={() => setOpenIcon(false)}>
-            <Icon
-              zIndex={10}
-              bg="transparent"
-              boxSize="100%"
-              color="brand.darkAccent"
-              as={!openIcon ? AiFillFolder : AiFillFolderOpen}>
-            </Icon>
-            <Box
-
-              bg="transparent"
-              as={motion.div}
-              variants={cardVariants}
-              className="motion-project-image-div"
-            >
-              <Image
-                animation={bouncingAnimation}
-                width="200px"
-                height="200px"
-                src="/cat.jpg"
-                alt="Joshua Semana"
-                objectFit="cover"
-                borderRadius="xl"/>
-            </Box>
-          </HStack>
-        </Box>
-        <Heading
-          className="project-header-name"
-          pb="12px"
-          color={colorMode === 'dark' ? 'brand.lightAccent' : 'brand.lightAccentShade'}
-          as="h4"
-          size="md">
-          {project}
-        </Heading>
-      </VStack>
+      <InnerImageContainer project={project} />
     </Flex>
   );
 };
