@@ -4,11 +4,13 @@ import {
   Flex,
   HStack,
   Icon,
+  keyframes,
   Spacer,
   useColorMode,
   // Button,
   // Menu, MenuButton, MenuItem, MenuList,
 } from '@chakra-ui/react';
+import { motion } from 'framer-motion';
 import { RiHome2Line, RiHardDrive2Fill, RiMailLine } from 'react-icons/ri';
 
 interface NavigationProps {}
@@ -32,7 +34,17 @@ const mapNavItems = {
 };
 
 const Navigation: React.FC<NavigationProps> = () => {
+  /** ChakraUI */
   const { toggleColorMode } = useColorMode();
+
+  const wiggleIconKeyFrames = keyframes`
+    0% { transform: rotate(0) }
+    25% { transform: rotate(-10deg) }
+    75% { transform: rotate(10deg) }
+    100% { transform: rotate(0) }
+  `;
+
+  const wiggleAnimation = `${wiggleIconKeyFrames} .5s ease-out alternate infinite`;
 
   return (
     // <Menu>
@@ -45,12 +57,10 @@ const Navigation: React.FC<NavigationProps> = () => {
     //     <MenuItem>Projects</MenuItem>
     //   </MenuList>
     // </Menu>
-    <Flex width="100" justifyContent="space-between" align="center" py="5" px="6">
-      <HStack as="nav" spacing="8">
+    <Flex width="80%" justifyContent="center" align="center" py="5" px="6">
+      <HStack as="nav" spacing="10">
         {Object.values(mapNavItems).map((li, i) => (
-          <Box key={i} _hover={{
-            // background: 'colors.grey',
-          }}>
+          <Box as={motion.div} whileHover={wiggleAnimation} key={i} _hover={{}}>
             <Icon as={li.icon} >{li.name}</Icon>
           </Box>
         ))}

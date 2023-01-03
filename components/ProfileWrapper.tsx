@@ -1,13 +1,12 @@
 import {
   Box, Flex, Heading, VStack,
-  Image, Text, useColorModeValue,
+  Image, Text, useColorModeValue, chakra,
   // useColorModeValue,
 } from '@chakra-ui/react';
-import { motion } from 'framer-motion';
+import { isValidMotionProp, motion, Variants } from 'framer-motion';
 import { Breakpoint } from 'react-socks';
 import animations from '../styles/animations';
 
-interface ProfileWrapperProps {}
 interface IntroHeaderContainerProps {}
 
 const IntroHeaderContainer: React.FC<IntroHeaderContainerProps> = () => {
@@ -18,6 +17,8 @@ const IntroHeaderContainer: React.FC<IntroHeaderContainerProps> = () => {
 
   /** FramerUI */
   const { headingAnimation, typingAnimation } = animations;
+
+  // !! FINISH LINING UP PROFILE WRAPPER!!
 
   /** Render */
   return (
@@ -193,12 +194,38 @@ const IntroHeaderContainer: React.FC<IntroHeaderContainerProps> = () => {
   );
 };
 
+interface ProfileWrapperProps {}
+
 const ProfileWrapper: React.FC<ProfileWrapperProps> = () => {
   /** ChakraUI */
   const bg = useColorModeValue('lightMode.color', 'darkMode.color');
+  const ChakraBox = chakra(motion.div, {
+    shouldForwardProp: isValidMotionProp,
+  });
 
   /** Framer */
   const { imageAnimation } = animations;
+
+  const curve = {
+    type: 'spring',
+    stiffness: 500,
+    damping: 50,
+  };
+
+  const profileBannerVariant: Variants = {
+    initial: {
+      x: -200,
+      opacity: 0,
+      scale: 0,
+      transition: { ...curve, delay: 1 },
+    },
+    animate: {
+      x: 0,
+      opacity: 1,
+      scale: 1,
+      transition: { ...curve, delay: 0 },
+    },
+  };
 
   /** Render */
   return (
@@ -206,6 +233,7 @@ const ProfileWrapper: React.FC<ProfileWrapperProps> = () => {
       p="1em"
       m="1em"
       width="80%"
+      height="90vh"
       rounded="lg"
       justifyContent="center"
       className="intro-profile-introduction"
@@ -223,14 +251,13 @@ const ProfileWrapper: React.FC<ProfileWrapperProps> = () => {
             position="relative"
             justifyContent="center"
             bg={bg}
+            boxSize="270px"
             align="center"
             zIndex={2}
             as={motion.div}
-            animation={imageAnimation}
-            initial={{ x: -200 }}
-            animate={ { x: 0 } }
-            transition=".2s ease-out"
-            boxSize="270px"
+            variants={profileBannerVariant}
+            initial="initial"
+            whileInView="animate"
             borderRadius="full"
             boxShadow="dark-lg"
             className="intro-profile-image">

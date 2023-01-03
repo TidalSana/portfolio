@@ -44,13 +44,14 @@ const ProjectGrid: React.FC<ProjectGridProps> = () => {
       {/* Tablet View */}
       <Breakpoint medium only>
         <Grid
+          p="1em"
           width="100vw"
           justifyContent="center"
           alignItems="center"
-          rowGap="10"
+          rowGap="300px"
           columnGap="20"
           className="project-grid"
-          templateRows="repeat(4, 1fr)"
+          templateRows="repeat(4, 600px)"
           templateColumns="repeat (1, 1fr)"
           bg={colorMode === 'dark' ? 'brand.main' : 'brand.lightAccent'}>
           <GridItem rounded="xl" className="grid-item" rowStart={1} colStart={1} bg={gridItemBg} width="100%">
@@ -70,13 +71,13 @@ const ProjectGrid: React.FC<ProjectGridProps> = () => {
       {/* Phone View */}
       <Breakpoint small down>
         <Grid
+          p="1em"
           width="100vw"
           justifyContent="center"
           alignItems="center"
-          rowGap="10"
-          columnGap="20"
+          // rowGap="400px"
           className="project-grid"
-          templateRows="repeat(4, 1fr)"
+          templateRows="repeat(4, 650px)"
           templateColumns="repeat (1, 1fr)"
           bg={colorMode === 'dark' ? 'brand.main' : 'brand.lightAccent'}>
           <GridItem rounded="xl" className="grid-item" rowStart={1} colStart={1} bg={gridItemBg} width="100%">
@@ -105,6 +106,7 @@ const ProjectsWrapper: React.FC<ProjectsWrapperProps> = () => {
   return (
     <VStack
       m="1em"
+      p="2em"
       width="100%"
       align="center"
       spacing="1em"
@@ -114,7 +116,7 @@ const ProjectsWrapper: React.FC<ProjectsWrapperProps> = () => {
       bg={colorMode === 'dark' ? 'brand.main' : 'brand.lightAccent'}>
       {/* Desktop view and bigger */}
       <Breakpoint large up>
-        <HStack m="1em" bg="transparent">
+        <HStack m="1em" spacing="1rem" bg="transparent">
           <Heading
             mr="3px"
             as="h2"
@@ -128,7 +130,7 @@ const ProjectsWrapper: React.FC<ProjectsWrapperProps> = () => {
       </Breakpoint>
       {/* Tablet view and smaller */}
       <Breakpoint medium down>
-        <HStack m="5em" bg="transparent">
+        <HStack m="1em" spacing=".2rem" bg="transparent">
           <Heading
             mr="3px"
             as="h2"

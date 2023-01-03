@@ -27,36 +27,41 @@ const InnerImageContainer: React.FC<InnerImageContainerProps> = ({ project }) =>
 
   /** Framer UI */
   const bouncingAnimationKeyFrames = keyframes`
-    0% { trasnform: translateY(0px); }
+    0% { transform: translateY(0px); }
     100%   { transform: translateY(20px); }
+  `;
+  const bouncingBaitAnimationKeyFrames = keyframes`
+    0%  { transform: translateY(0px); }
+    50% { transform: translateY(10px); }
+    75% { transform: translateY(0px); }
+    100% { transform: translateY(10px); }
   `;
 
   const bouncingAnimation = `${bouncingAnimationKeyFrames} 1s ease-in-out alternate infinite`;
+  const bouncingBaitAnimation = `${bouncingBaitAnimationKeyFrames} 2.4s ease-out alternate infinite`;
 
   const curve = {
     type: 'spring',
     stiffness: 500,
-    damping: 30,
+    damping: 50,
   };
 
   const cardVariants: Variants = {
     /** Tablet view and above */
-    intial: {
-      zIndex: 9,
-      x: 0,
-      y: -100,
-      rotate: 0,
-      opacity: 0,
-      scale: 0,
+    initial: {
+      zIndex: 8,
+      x: 50,
+      y: -10,
+      rotate: -20,
+      scale: 0.7,
       transition: { ...curve, delay: 2 },
     },
     animate: {
-      zIndex: 11,
-      x: 300,
+      zIndex: 10,
+      x: 250,
       y: -150,
       rotate: 10,
       scale: 1,
-      opacity: 1,
       position: 'absolute',
       transition: { ...curve, delay: 0 },
     },
@@ -92,14 +97,13 @@ const InnerImageContainer: React.FC<InnerImageContainerProps> = ({ project }) =>
       boxShadow="dark-lg"
       className="inner-project-card-container"
       bg={colorMode === 'dark' ? 'brand.lightAccentShade' : 'brand.darkAccentShade'}>
-      <Box
-        bgGradient={colorMode === 'dark' ? 'radial(brand.main, brand.darkAccentShade)' : 'radial(brand.darkAccentShade, brand.main)' }
-        // bg={colorMode === 'dark' ? 'brand.main' : 'brand.lightAccentShade'}
-        className="project-image-icon-container"
-        rounded="3xl"
-        boxSize="300px">
-        {/* Desktop View and up */}
-        <Breakpoint large up>
+      {/* Desktop View and up */}
+      <Breakpoint large up>
+        <Box
+          bgGradient={colorMode === 'dark' ? 'radial(brand.main, brand.darkAccentShade)' : 'radial(brand.darkAccentShade, brand.main)' }
+          className="project-image-icon-container"
+          rounded="3xl"
+          boxSize="300px">
           <HStack
             bg="transparent"
             as={motion.div}
@@ -109,20 +113,20 @@ const InnerImageContainer: React.FC<InnerImageContainerProps> = ({ project }) =>
             onMouseLeave={() => setOpenIcon(false)}
             className="horizontal-stack-project-folder">
             <Icon
-              zIndex={10}
+              zIndex={9}
               boxSize="100%"
               bg="transparent"
               color="brand.darkAccent"
               as={!openIcon ? AiFillFolder : AiFillFolderOpen}>
             </Icon>
             <Box
+              position="absolute"
               bg="transparent"
               as={motion.div}
               variants={cardVariants}
-              className="motion-project-image-div"
-            >
+              className="motion-project-image-div">
               <Image
-                animation={bouncingAnimation}
+                animation={openIcon ? bouncingAnimation : bouncingBaitAnimation}
                 width="200px"
                 height="200px"
                 src="/cat.jpg"
@@ -131,9 +135,15 @@ const InnerImageContainer: React.FC<InnerImageContainerProps> = ({ project }) =>
                 borderRadius="xl"/>
             </Box>
           </HStack>
-        </Breakpoint>
-        {/* Tablet view and smaller */}
-        <Breakpoint medium only>
+        </Box>
+      </Breakpoint>
+      {/* Tablet view and smaller */}
+      <Breakpoint medium only>
+        <Box
+          bgGradient={colorMode === 'dark' ? 'radial(brand.main, brand.darkAccentShade)' : 'radial(brand.darkAccentShade, brand.main)' }
+          className="project-image-icon-container"
+          rounded="3xl"
+          boxSize="400px">
           <HStack
             bg="transparent"
             as={motion.div}
@@ -163,9 +173,15 @@ const InnerImageContainer: React.FC<InnerImageContainerProps> = ({ project }) =>
                 borderRadius="xl"/>
             </Box>
           </HStack>
-        </Breakpoint>
-        {/* Tablet view and smaller */}
-        <Breakpoint small down>
+        </Box>
+      </Breakpoint>
+      {/* Mobiile view and smaller */}
+      <Breakpoint small down>
+        <Box
+          bgGradient={colorMode === 'dark' ? 'radial(brand.main, brand.darkAccentShade)' : 'radial(brand.darkAccentShade, brand.main)' }
+          className="project-image-icon-container"
+          rounded="3xl"
+          boxSize="200px">
           <HStack
             bg="transparent"
             as={motion.div}
@@ -195,8 +211,8 @@ const InnerImageContainer: React.FC<InnerImageContainerProps> = ({ project }) =>
                 borderRadius="xl"/>
             </Box>
           </HStack>
-        </Breakpoint>
-      </Box>
+        </Box>
+      </Breakpoint>
       <Heading
         as="h4"
         pb="12px"

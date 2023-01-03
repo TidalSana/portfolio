@@ -1,4 +1,5 @@
 import { VStack } from '@chakra-ui/react';
+import AboutWrapper from './AboutWrapper';
 import ProfileWrapper from './ProfileWrapper';
 import ProjectsWrapper from './ProjectsWrapper';
 
@@ -10,6 +11,7 @@ const Main: React.FC<MainProps> = () => {
     <VStack width="100%" align="center" justifyContent="center">
       <ProfileWrapper />
       <ProjectsWrapper />
+      <AboutWrapper />
     </VStack>
   );
 };
