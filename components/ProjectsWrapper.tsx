@@ -125,7 +125,7 @@ const ProjectsWrapper: React.FC<ProjectsWrapperProps> = () => {
             color="brand.lightAccentShade">
             Projects
           </Heading>
-          <Icon color="brand.lightAccentShade" boxSize="8" as={RiCalendarTodoFill}></Icon>
+          <Icon color="brand.lightAccentShade" boxSize="8" as={RiCalendarTodoFill} />
         </HStack>
       </Breakpoint>
       {/* Tablet view and smaller */}
@@ -138,7 +138,7 @@ const ProjectsWrapper: React.FC<ProjectsWrapperProps> = () => {
             color="brand.lightAccentShade">
             Projects
           </Heading>
-          <Icon color="brand.lightAccentShade" boxSize="8" as={RiCalendarTodoFill}></Icon>
+          <Icon color="brand.lightAccentShade" boxSize="8" as={RiCalendarTodoFill} />
         </HStack>
       </Breakpoint>
       <ProjectGrid />

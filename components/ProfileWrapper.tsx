@@ -1,9 +1,9 @@
 import {
   Box, Flex, Heading, VStack,
-  Image, Text, useColorModeValue, chakra,
+  Image, Text, useColorModeValue,
   // useColorModeValue,
 } from '@chakra-ui/react';
-import { isValidMotionProp, motion, Variants } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import { Breakpoint } from 'react-socks';
 import animations from '../styles/animations';
 
@@ -199,13 +199,8 @@ interface ProfileWrapperProps {}
 const ProfileWrapper: React.FC<ProfileWrapperProps> = () => {
   /** ChakraUI */
   const bg = useColorModeValue('lightMode.color', 'darkMode.color');
-  const ChakraBox = chakra(motion.div, {
-    shouldForwardProp: isValidMotionProp,
-  });
 
   /** Framer */
-  const { imageAnimation } = animations;
-
   const curve = {
     type: 'spring',
     stiffness: 500,
@@ -215,6 +210,12 @@ const ProfileWrapper: React.FC<ProfileWrapperProps> = () => {
   const profileBannerVariant: Variants = {
     initial: {
       x: -200,
+      opacity: 0,
+      scale: 0,
+      transition: { ...curve, delay: 1 },
+    },
+    initialMobile: {
+      x: -60,
       opacity: 0,
       scale: 0,
       transition: { ...curve, delay: 1 },
@@ -247,19 +248,20 @@ const ProfileWrapper: React.FC<ProfileWrapperProps> = () => {
         {/* Tablet View and Desktop View */}
         <Breakpoint medium up>
           <Flex
-            top="80px"
-            position="relative"
-            justifyContent="center"
-            bg={bg}
-            boxSize="270px"
-            align="center"
             zIndex={2}
+            top="80px"
+            align="center"
+            bg={bg}
+            position="relative"
+            boxSize="270px"
+            boxShadow="dark-lg"
+            borderRadius="full"
+            justifyContent="center"
             as={motion.div}
             variants={profileBannerVariant}
             initial="initial"
             whileInView="animate"
-            borderRadius="full"
-            boxShadow="dark-lg"
+            transition=".2s ease-out"
             className="intro-profile-image">
             <Image
               src="/josh.jpeg"
@@ -282,9 +284,9 @@ const ProfileWrapper: React.FC<ProfileWrapperProps> = () => {
             borderRadius="full"
             justifyContent="center"
             as={motion.div}
-            animation={imageAnimation}
-            initial={{ x: -200 }}
-            animate={ { x: 0 } }
+            variants={profileBannerVariant}
+            initial="initialMobile"
+            whileInView="animate"
             transition=".2s ease-out"
             className="intro-profile-image">
             <Image

@@ -203,12 +203,12 @@ const InnerImageContainer: React.FC<InnerImageContainerProps> = ({ project }) =>
               className="motion-project-image-div">
               <Image
                 animation={bouncingAnimation}
-                width="150px"
-                height="150px"
+                width="120px"
+                height="120px"
                 src="/cat.jpg"
                 alt="Joshua Semana"
                 objectFit="cover"
-                borderRadius="xl"/>
+                borderRadius="xl" />
             </Box>
           </HStack>
         </Box>

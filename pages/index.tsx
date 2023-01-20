@@ -23,13 +23,14 @@ const Home: NextPage = () => {
   /** Render */
   return (
     <Flex
-      className="main-page-layout"
+      width="100%"
       boxShadow="xl"
       rounded="md"
       align="center"
+      overflowX="hidden"
       justifyContent="center"
       flexDirection="column"
-      width="100%"
+      className="main-page-layout"
       >
       {!loading
         ? (
