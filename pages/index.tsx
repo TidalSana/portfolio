@@ -2,13 +2,16 @@ import type { NextPage } from 'next';
 import {
   Flex, Spinner, useColorMode,
 } from '@chakra-ui/react';
-import React from 'react';
+import React, { useRef } from 'react';
 import Navigation from '../components/Navigation';
 import MainWrapper from '../components/MainWrapper';
 
 const Home: NextPage = () => {
   /** State */
   const [loading, setLoading] = React.useState(true);
+  const homeRef = React.useRef(null);
+  const projectsRef = useRef(null);
+  const aboutRef = useRef(null);
 
   /** ChakraUI */
   const { colorMode } = useColorMode();
@@ -35,8 +38,15 @@ const Home: NextPage = () => {
       {!loading
         ? (
           <>
-            <Navigation />
-            <MainWrapper />
+            <Navigation
+              homeRef={homeRef}
+              projectsRef={projectsRef}
+              aboutRef={aboutRef}
+               />
+            <MainWrapper
+              homeRef={homeRef}
+              projectsRef={projectsRef}
+              aboutRef={aboutRef} />
           </>
         )
         : (

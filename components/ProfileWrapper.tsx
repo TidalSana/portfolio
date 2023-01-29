@@ -1,9 +1,12 @@
 import {
   Box, Flex, Heading, VStack,
   Image, Text, useColorModeValue,
+  forwardRef,
+  ComponentWithAs,
   // useColorModeValue,
 } from '@chakra-ui/react';
 import { motion, Variants } from 'framer-motion';
+import React from 'react';
 import { Breakpoint } from 'react-socks';
 import animations from '../styles/animations';
 
@@ -194,9 +197,13 @@ const IntroHeaderContainer: React.FC<IntroHeaderContainerProps> = () => {
   );
 };
 
-interface ProfileWrapperProps {}
+interface ProfileWrapperProps {
+  ref?: any;
+}
 
-const ProfileWrapper: React.FC<ProfileWrapperProps> = () => {
+type ProfileWrapperType = ComponentWithAs<'div', ProfileWrapperProps> & {};
+
+const ProfileWrapper: ProfileWrapperType = forwardRef((props, ref) => {
   /** ChakraUI */
   const bg = useColorModeValue('lightMode.color', 'darkMode.color');
 
@@ -231,6 +238,7 @@ const ProfileWrapper: React.FC<ProfileWrapperProps> = () => {
   /** Render */
   return (
     <Flex
+      ref={ref}
       p="1em"
       m="1em"
       width="80%"
@@ -301,6 +309,8 @@ const ProfileWrapper: React.FC<ProfileWrapperProps> = () => {
       </VStack>
     </Flex>
   );
-};
+});
+
+ProfileWrapper.displayName = 'ProfileWrapper';
 
 export default ProfileWrapper;

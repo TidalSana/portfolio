@@ -3,15 +3,23 @@ import AboutWrapper from './AboutWrapper';
 import ProfileWrapper from './ProfileWrapper';
 import ProjectsWrapper from './ProjectsWrapper';
 
-interface MainProps {}
+interface MainProps {
+  homeRef?: any;
+  projectsRef?: any;
+  aboutRef?: any;
+}
 
-const Main: React.FC<MainProps> = () => {
+const Main: React.FC<MainProps> = ({
+  homeRef,
+  projectsRef,
+  aboutRef,
+}) => {
   /** Render */
   return (
     <VStack width="100%" align="center" justifyContent="center">
-      <ProfileWrapper />
-      <ProjectsWrapper />
-      <AboutWrapper />
+      <ProfileWrapper ref={homeRef} />
+      <ProjectsWrapper ref={projectsRef} />
+      <AboutWrapper ref={aboutRef} />
     </VStack>
   );
 };

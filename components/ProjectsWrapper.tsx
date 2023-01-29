@@ -1,4 +1,6 @@
 import {
+  ComponentWithAs,
+  forwardRef,
   Grid, GridItem, Heading, HStack, Icon, useColorMode, VStack,
 } from '@chakra-ui/react';
 import { RiCalendarTodoFill } from 'react-icons/ri';
@@ -7,6 +9,8 @@ import ProjectCard from './ProjectFolder';
 
 interface ProjectsWrapperProps {}
 interface ProjectGridProps {}
+
+type ProjectsWrapperType = ComponentWithAs<'div', ProjectsWrapperProps> & {};
 
 const ProjectGrid: React.FC<ProjectGridProps> = () => {
   const { colorMode } = useColorMode();
@@ -98,13 +102,14 @@ const ProjectGrid: React.FC<ProjectGridProps> = () => {
   );
 };
 
-const ProjectsWrapper: React.FC<ProjectsWrapperProps> = () => {
+const ProjectsWrapper: ProjectsWrapperType = forwardRef((props, ref) => {
   /** ChakraUI */
   const { colorMode } = useColorMode();
 
   /** Render */
   return (
     <VStack
+      ref={ref}
       m="1em"
       p="2em"
       width="100%"
@@ -144,6 +149,6 @@ const ProjectsWrapper: React.FC<ProjectsWrapperProps> = () => {
       <ProjectGrid />
     </VStack>
   );
-};
+});
 
 export default ProjectsWrapper;

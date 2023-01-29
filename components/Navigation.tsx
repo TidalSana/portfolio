@@ -4,14 +4,17 @@ import {
   Flex,
   HStack,
   Icon,
-  keyframes,
   Spacer,
   useColorMode,
 } from '@chakra-ui/react';
-import { motion, Variants } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { RiHome2Line, RiHardDrive2Fill, RiMailLine } from 'react-icons/ri';
 
-interface NavigationProps {}
+interface NavigationProps {
+  homeRef?: any;
+  projectsRef?: any;
+  aboutRef?: any;
+}
 
 const mapNavItems = {
   home: {
@@ -31,9 +34,16 @@ const mapNavItems = {
   },
 };
 
-const Navigation: React.FC<NavigationProps> = () => {
+const Navigation: React.FC<NavigationProps> = ({ homeRef, projectsRef, aboutRef }) => {
   /** ChakraUI */
   const { toggleColorMode } = useColorMode();
+
+  const scrollToWrapper = (e: any, element: string) => {
+    e.preventDefault();
+    if (element === 'Home') homeRef.current.scrollIntoView({ behaviour: 'smooth' });
+    if (element === 'Projects') projectsRef.current.scrollIntoView({ behavior: 'smooth' });
+    if (element === 'About') aboutRef.current.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
     // <Menu>
@@ -52,6 +62,7 @@ const Navigation: React.FC<NavigationProps> = () => {
           <Box
             as={motion.div}
             key={i}
+            onClick={(e) => scrollToWrapper(e, li.name)}
             whileHover={{ cursor: 'pointer', scale: 1.2 }}
             >
             <Icon as={li.icon}>{li.name}</Icon>
