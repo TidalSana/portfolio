@@ -29,11 +29,11 @@ const IntroHeaderContainer: React.FC<IntroHeaderContainerProps> = () => {
       {/* Desktop View */}
       <Breakpoint large up>
         <Box
+          bg={oppBg}
           width="100%"
           className="intro-header-container"
           rounded="lg"
           boxShadow="dark-lg"
-          bg={oppBg}
           padding="5em"
           as={motion.div}
           animation={headingAnimation}>
@@ -242,7 +242,7 @@ const ProfileWrapper: ProfileWrapperType = forwardRef((props, ref) => {
       p="1em"
       m="1em"
       width="80%"
-      height="90vh"
+      height="91vh"
       rounded="lg"
       justifyContent="center"
       className="intro-profile-introduction"

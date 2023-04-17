@@ -146,6 +146,8 @@ const ProjectsWrapper: ProjectsWrapperType = forwardRef((props, ref) => {
           <Icon color="brand.lightAccentShade" boxSize="8" as={RiCalendarTodoFill} />
         </HStack>
       </Breakpoint>
+
+      {/* Content - Project List */}
       <ProjectGrid />
     </VStack>
   );

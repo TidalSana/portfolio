@@ -8,7 +8,8 @@ import {
   useColorMode,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
-import { RiHome2Line, RiHardDrive2Fill, RiMailLine } from 'react-icons/ri';
+import { BsPersonCircle } from 'react-icons/bs';
+import { RiHome2Line, RiHardDrive2Fill } from 'react-icons/ri';
 
 interface NavigationProps {
   homeRef?: any;
@@ -29,7 +30,7 @@ const mapNavItems = {
   },
   about: {
     name: 'About',
-    icon: RiMailLine,
+    icon: BsPersonCircle,
     active: false,
   },
 };

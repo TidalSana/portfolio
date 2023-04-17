@@ -58,7 +58,7 @@ const InnerImageContainer: React.FC<InnerImageContainerProps> = ({ project }) =>
     },
     animate: {
       zIndex: 10,
-      x: 250,
+      x: 200,
       y: -150,
       rotate: 10,
       scale: 1,
@@ -132,7 +132,11 @@ const InnerImageContainer: React.FC<InnerImageContainerProps> = ({ project }) =>
                 src="/cat.jpg"
                 alt="Joshua Semana"
                 objectFit="cover"
-                borderRadius="xl"/>
+                borderRadius="xl"
+                _hover={{
+                  cursor: 'pointer',
+                }}
+                />
             </Box>
           </HStack>
         </Box>
@@ -170,7 +174,11 @@ const InnerImageContainer: React.FC<InnerImageContainerProps> = ({ project }) =>
                 src="/cat.jpg"
                 alt="Joshua Semana"
                 objectFit="cover"
-                borderRadius="xl"/>
+                borderRadius="xl"
+                _hover={{
+                  cursor: 'pointer',
+                }}
+                />
             </Box>
           </HStack>
         </Box>
