@@ -96,14 +96,16 @@ const InnerImageContainer: React.FC<InnerImageContainerProps> = ({ project }) =>
       spacing="1em"
       boxShadow="dark-lg"
       className="inner-project-card-container"
-      bg={colorMode === 'dark' ? 'brand.lightAccentShade' : 'brand.darkAccentShade'}>
+      bg={colorMode === 'dark' ? 'brand.lightAccentShade' : 'brand.darkAccentShade'}
+    >
       {/* Desktop View and up */}
       <Breakpoint large up>
         <Box
           bgGradient={colorMode === 'dark' ? 'radial(brand.main, brand.darkAccentShade)' : 'radial(brand.darkAccentShade, brand.main)' }
           className="project-image-icon-container"
           rounded="3xl"
-          boxSize="300px">
+          boxSize="300px"
+        >
           <HStack
             bg="transparent"
             as={motion.div}
@@ -111,20 +113,23 @@ const InnerImageContainer: React.FC<InnerImageContainerProps> = ({ project }) =>
             whileHover="animate"
             onMouseEnter={() => setOpenIcon(true)}
             onMouseLeave={() => setOpenIcon(false)}
-            className="horizontal-stack-project-folder">
+            className="horizontal-stack-project-folder"
+          >
             <Icon
               zIndex={9}
               boxSize="100%"
               bg="transparent"
               color="brand.darkAccent"
-              as={!openIcon ? AiFillFolder : AiFillFolderOpen}>
+              as={!openIcon ? AiFillFolder : AiFillFolderOpen}
+            >
             </Icon>
             <Box
               position="absolute"
               bg="transparent"
               as={motion.div}
               variants={cardVariants}
-              className="motion-project-image-div">
+              className="motion-project-image-div"
+            >
               <Image
                 animation={openIcon ? bouncingAnimation : bouncingBaitAnimation}
                 width="200px"
@@ -136,7 +141,7 @@ const InnerImageContainer: React.FC<InnerImageContainerProps> = ({ project }) =>
                 _hover={{
                   cursor: 'pointer',
                 }}
-                />
+              />
             </Box>
           </HStack>
         </Box>
@@ -147,26 +152,30 @@ const InnerImageContainer: React.FC<InnerImageContainerProps> = ({ project }) =>
           bgGradient={colorMode === 'dark' ? 'radial(brand.main, brand.darkAccentShade)' : 'radial(brand.darkAccentShade, brand.main)' }
           className="project-image-icon-container"
           rounded="3xl"
-          boxSize="400px">
+          boxSize="400px"
+        >
           <HStack
             bg="transparent"
             as={motion.div}
             initial="initial"
             whileInView="animate"
             ref={ref}
-            className="horizontal-stack-project-folder">
+            className="horizontal-stack-project-folder"
+          >
             <Icon
               zIndex={10}
               boxSize="100%"
               bg="transparent"
               color="brand.darkAccent"
-              as={!isInView ? AiFillFolder : AiFillFolderOpen}>
+              as={!isInView ? AiFillFolder : AiFillFolderOpen}
+            >
             </Icon>
             <Box
               bg="transparent"
               as={motion.div}
               variants={cardVariants}
-              className="motion-project-image-div">
+              className="motion-project-image-div"
+            >
               <Image
                 animation={bouncingAnimation}
                 width="200px"
@@ -178,7 +187,7 @@ const InnerImageContainer: React.FC<InnerImageContainerProps> = ({ project }) =>
                 _hover={{
                   cursor: 'pointer',
                 }}
-                />
+              />
             </Box>
           </HStack>
         </Box>
@@ -189,26 +198,30 @@ const InnerImageContainer: React.FC<InnerImageContainerProps> = ({ project }) =>
           bgGradient={colorMode === 'dark' ? 'radial(brand.main, brand.darkAccentShade)' : 'radial(brand.darkAccentShade, brand.main)' }
           className="project-image-icon-container"
           rounded="3xl"
-          boxSize="200px">
+          boxSize="200px"
+        >
           <HStack
             bg="transparent"
             as={motion.div}
             initial="initialMobile"
             whileInView="animateMobile"
             ref={ref}
-            className="horizontal-stack-project-folder">
+            className="horizontal-stack-project-folder"
+          >
             <Icon
               zIndex={10}
               boxSize="100%"
               bg="transparent"
               color="brand.darkAccent"
-              as={!isInView ? AiFillFolder : AiFillFolderOpen}>
+              as={!isInView ? AiFillFolder : AiFillFolderOpen}
+            >
             </Icon>
             <Box
               bg="transparent"
               as={motion.div}
               variants={cardVariants}
-              className="motion-project-image-div">
+              className="motion-project-image-div"
+            >
               <Image
                 animation={bouncingAnimation}
                 width="120px"
@@ -216,7 +229,8 @@ const InnerImageContainer: React.FC<InnerImageContainerProps> = ({ project }) =>
                 src="/cat.jpg"
                 alt="Joshua Semana"
                 objectFit="cover"
-                borderRadius="xl" />
+                borderRadius="xl"
+              />
             </Box>
           </HStack>
         </Box>
@@ -226,7 +240,8 @@ const InnerImageContainer: React.FC<InnerImageContainerProps> = ({ project }) =>
         pb="12px"
         size="md"
         className="project-header-name"
-        color={headingColor}>
+        color={headingColor}
+      >
         {project}
       </Heading>
     </VStack>
@@ -249,7 +264,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       flexDirection="column"
       justifyContent="center"
       className="project-card-item"
-      boxShadow={colorMode === 'dark' ? 'dark-lg' : '2xl'}>
+      boxShadow={colorMode === 'dark' ? 'dark-lg' : '2xl'}
+    >
       <InnerImageContainer project={project} />
     </Flex>
   );

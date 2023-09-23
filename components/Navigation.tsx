@@ -65,7 +65,7 @@ const Navigation: React.FC<NavigationProps> = ({ homeRef, projectsRef, aboutRef 
             key={i}
             onClick={(e) => scrollToWrapper(e, li.name)}
             whileHover={{ cursor: 'pointer', scale: 1.2 }}
-            >
+          >
             <Icon as={li.icon}>{li.name}</Icon>
           </Box>
         ))}

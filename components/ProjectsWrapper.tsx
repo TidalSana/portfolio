@@ -30,7 +30,8 @@ const ProjectGrid: React.FC<ProjectGridProps> = () => {
           className="project-grid"
           templateRows="repeat(2, 1fr)"
           templateColumns="repeat (5, 1fr)"
-          bg={colorMode === 'dark' ? 'brand.main' : 'brand.lightAccent'}>
+          bg={colorMode === 'dark' ? 'brand.main' : 'brand.lightAccent'}
+        >
           <GridItem rounded="xl" className="grid-item" rowStart={1} colStart={1} colEnd={3} bg={gridItemBg} width="100%">
             <ProjectCard project="Library" />
           </GridItem>
@@ -57,7 +58,8 @@ const ProjectGrid: React.FC<ProjectGridProps> = () => {
           className="project-grid"
           templateRows="repeat(4, 600px)"
           templateColumns="repeat (1, 1fr)"
-          bg={colorMode === 'dark' ? 'brand.main' : 'brand.lightAccent'}>
+          bg={colorMode === 'dark' ? 'brand.main' : 'brand.lightAccent'}
+        >
           <GridItem rounded="xl" className="grid-item" rowStart={1} colStart={1} bg={gridItemBg} width="100%">
             <ProjectCard project="Library" />
           </GridItem>
@@ -83,7 +85,8 @@ const ProjectGrid: React.FC<ProjectGridProps> = () => {
           className="project-grid"
           templateRows="repeat(4, 650px)"
           templateColumns="repeat (1, 1fr)"
-          bg={colorMode === 'dark' ? 'brand.main' : 'brand.lightAccent'}>
+          bg={colorMode === 'dark' ? 'brand.main' : 'brand.lightAccent'}
+        >
           <GridItem rounded="xl" className="grid-item" rowStart={1} colStart={1} bg={gridItemBg} width="100%">
             <ProjectCard project="Library" />
           </GridItem>
@@ -118,7 +121,8 @@ const ProjectsWrapper: ProjectsWrapperType = forwardRef((props, ref) => {
       justifyContent="center"
       className="project-wrapper-outer-wrapper"
       rounded="none"
-      bg={colorMode === 'dark' ? 'brand.main' : 'brand.lightAccent'}>
+      bg={colorMode === 'dark' ? 'brand.main' : 'brand.lightAccent'}
+    >
       {/* Desktop view and bigger */}
       <Breakpoint large up>
         <HStack m="1em" spacing="1rem" bg="transparent">
@@ -127,7 +131,8 @@ const ProjectsWrapper: ProjectsWrapperType = forwardRef((props, ref) => {
             as="h2"
             size="xl"
             alignSelf="left"
-            color="brand.lightAccentShade">
+            color="brand.lightAccentShade"
+          >
             Projects
           </Heading>
           <Icon color="brand.lightAccentShade" boxSize="8" as={RiCalendarTodoFill} />
@@ -140,7 +145,8 @@ const ProjectsWrapper: ProjectsWrapperType = forwardRef((props, ref) => {
             mr="3px"
             as="h2"
             size="xl"
-            color="brand.lightAccentShade">
+            color="brand.lightAccentShade"
+          >
             Projects
           </Heading>
           <Icon color="brand.lightAccentShade" boxSize="8" as={RiCalendarTodoFill} />

@@ -36,9 +36,10 @@ const AboutContent: React.FC<AboutContentProps> = () => {
 
         {/* About me description section */}
         <HStack spacing={2}
-          justifyContent="space-evenly"
+          justifyContent="center"
+          gap="4em"
           w="80vw"
-          p="5"
+          p=""
           mb="5"
           // bg={oppBg}
         >
@@ -46,19 +47,18 @@ const AboutContent: React.FC<AboutContentProps> = () => {
           <VStack
             p="5"
             animation={bouncingAnimation}
-            // _hover={{ transform: 'scale(2.0)' }}
             bg={invertedBg}
             spacing={3}
             maxW="500px"
             borderRadius="lg"
-            boxShadow="2xl"
-            >
+          >
             <Text
               as="b"
               // color="brand.darkAccent"
               color={oppBg}
               fontSize="xl"
-              noOfLines={3}>
+              noOfLines={3}
+            >
               I like my coffee like I like my code - strong, hot, and with no bugs. 😉
             </Text>
 
@@ -89,7 +89,7 @@ const AboutContent: React.FC<AboutContentProps> = () => {
               color={oppBg }
               fontSize="md"
               noOfLines={9}
-              >
+            >
               Currently, I&apos;m a full-stack engineer at
               {' '}
               <a href="www.biproxi.com" style={{
@@ -97,7 +97,8 @@ const AboutContent: React.FC<AboutContentProps> = () => {
                 fontWeight: 'bolder',
                 textDecoration: 'none',
                 cursor: 'pointer',
-              }}>
+              }}
+              >
                 Biproxi
               </a>
               ,
@@ -115,14 +116,14 @@ const AboutContent: React.FC<AboutContentProps> = () => {
             boxSize="270px"
             borderRadius="full"
             boxShadow="2xl"
-            >
+          >
             <Image
               src="/aboutme.jpeg"
               alt="About me profile image"
               objectFit="cover"
               boxSize="250px"
               borderRadius="full"
-              />
+            />
           </Flex>
         </HStack>
 
@@ -160,13 +161,14 @@ const AboutContent: React.FC<AboutContentProps> = () => {
             p="5"
             spacing={3}
             maxW="500px"
-      >
+          >
             <Text
               as="b"
               color="brand.darkAccent"
               // color={textColor}
               fontSize="md"
-              noOfLines={5}>
+              noOfLines={5}
+            >
               I like my coffee like I like my code - strong, hot, and with no bugs. 😉
             </Text>
 
@@ -185,7 +187,7 @@ const AboutContent: React.FC<AboutContentProps> = () => {
               color={textColor}
               fontSize="sm"
               noOfLines={9}
-        >
+            >
               As a full-stack engineer at Biproxi CRE Platform,
               I have had the opportunity to work collaboratively with the head of engineering,
               and other team members to make significant contributions to the platform.
@@ -199,14 +201,14 @@ const AboutContent: React.FC<AboutContentProps> = () => {
             boxSize="260px"
             borderRadius="full"
             boxShadow="md"
-      >
+          >
             <Image
               src="/aboutme.jpeg"
               alt="About me profile image"
               objectFit="cover"
               boxSize="250px"
               borderRadius="full"
-      />
+            />
           </Flex>
         </VStack>
       </Breakpoint>

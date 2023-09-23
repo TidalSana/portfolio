@@ -34,7 +34,7 @@ const Home: NextPage = () => {
       justifyContent="center"
       flexDirection="column"
       className="main-page-layout"
-      >
+    >
       {!loading
         ? (
           <>
@@ -42,11 +42,12 @@ const Home: NextPage = () => {
               homeRef={homeRef}
               projectsRef={projectsRef}
               aboutRef={aboutRef}
-               />
+            />
             <MainWrapper
               homeRef={homeRef}
               projectsRef={projectsRef}
-              aboutRef={aboutRef} />
+              aboutRef={aboutRef}
+            />
           </>
         )
         : (
@@ -55,7 +56,8 @@ const Home: NextPage = () => {
               size="xl"
               speed="0.65s"
               thickness="8px"
-              color={colorMode === 'dark' ? 'brand.lightAccentShade' : 'brand.darkAccentShade'}/>
+              color={colorMode === 'dark' ? 'brand.lightAccentShade' : 'brand.darkAccentShade'}
+            />
           </Flex>
         )
           }
