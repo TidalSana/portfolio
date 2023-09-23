@@ -8,6 +8,7 @@ import {
 import React from 'react';
 import { BsPersonCircle } from 'react-icons/bs';
 import { Breakpoint } from 'react-socks';
+import Skills from './SkillsComponent';
 
 interface AboutWrapperProps {}
 interface AboutContentProps {}
@@ -39,7 +40,6 @@ const AboutContent: React.FC<AboutContentProps> = () => {
           justifyContent="center"
           gap="4em"
           w="80vw"
-          p=""
           mb="5"
           // bg={oppBg}
         >
@@ -130,6 +130,7 @@ const AboutContent: React.FC<AboutContentProps> = () => {
         <HStack
           animation={bouncingAnimation}
           w="80vw"
+          mt="20"
           justifyContent="center"
           bg={darkPurple}
         >
@@ -142,9 +143,12 @@ const AboutContent: React.FC<AboutContentProps> = () => {
             <Heading size="lg" color={oppBg}>Skills</Heading>
             <Text noOfLines={5} fontSize="md" color={oppBg}>
               Despite my experience with various languages and platforms in the past,
-              I now primarily work with and feel most proficient in the following languages,
+              I now primarily work with, and feel most proficient in the following languages,
               and technologies on a daily basis:
             </Text>
+
+            {/* Skills Components */}
+            <Skills />
           </VStack>
         </HStack>
       </Breakpoint>

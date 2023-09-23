@@ -80,7 +80,7 @@ const IntroHeaderContainer: React.FC<IntroHeaderContainerProps> = () => {
               fontSize="md"
               color={textColor}
             >
-              My name is Josh and I&apos;m a Jr. FullStack Engineer from Bozeman, MT.
+              My name is Josh and I&apos;m a FullStack Engineer from Bozeman, MT.
               I&apos;m constantly working on my craft (code) and design.
               I&apos;m all about eSports, video games, and custom mechanical keyboards.
             </Text>
@@ -142,7 +142,7 @@ const IntroHeaderContainer: React.FC<IntroHeaderContainerProps> = () => {
               noOfLines={5}
               fontSize="md"
             >
-              My name is Josh and I&apos;m a Jr. FullStack Engineer from Bozeman, MT.
+              My name is Josh and I&apos;m a FullStack Engineer from Bozeman, MT.
               I&apos;m constantly working on my craft (code) and design.
               I&apos;m all about eSports, video games, and custom mechanical keyboards.
             </Text>
@@ -204,7 +204,7 @@ const IntroHeaderContainer: React.FC<IntroHeaderContainerProps> = () => {
               fontSize="sm"
               color={textColor}
             >
-              My name is Josh and I&apos;m a Jr. FullStack Engineer in Bozeman, MT.
+              My name is Josh and I&apos;m a FullStack Engineer in Bozeman, MT.
               I&apos;m constantly working on my craft (code) and design.
               I&apos;m all about eSports, video games, and custom mechanical keyboards.
             </Text>
