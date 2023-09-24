@@ -46,17 +46,8 @@ const Navigation: React.FC<NavigationProps> = ({ homeRef, projectsRef, aboutRef 
     if (element === 'About') aboutRef.current.scrollIntoView({ behavior: 'smooth' });
   };
 
+  /** Render */
   return (
-    // <Menu>
-    //   <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-    //     Menu
-    //   </MenuButton>
-    //   <MenuList>
-    //     <MenuItem>Home</MenuItem>
-    //     <MenuItem>About</MenuItem>
-    //     <MenuItem>Projects</MenuItem>
-    //   </MenuList>
-    // </Menu>
     <Flex width="80%" justifyContent="center" align="center" py="5" px="6">
       <HStack as="nav" spacing="10">
         {Object.values(mapNavItems).map((li, i) => (

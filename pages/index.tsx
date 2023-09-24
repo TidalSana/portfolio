@@ -5,6 +5,7 @@ import {
 import React, { useRef } from 'react';
 import Navigation from '../components/Navigation';
 import MainWrapper from '../components/MainWrapper';
+import FooterComponent from '../components/FooterComponent';
 
 const Home: NextPage = () => {
   /** State */
@@ -61,6 +62,7 @@ const Home: NextPage = () => {
           </Flex>
         )
           }
+      <FooterComponent />
     </Flex>
   );
 };

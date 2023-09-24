@@ -27,7 +27,9 @@ const AboutContent: React.FC<AboutContentProps> = () => {
   100% { transform: translateY(5px); }
 `;
 
-  const bouncingAnimation = `${bouncingAnimationKeyFrames} 1s ease-in-out alternate infinite`;
+  const bouncingAnimation = `${bouncingAnimationKeyFrames} 1.5s ease-in-out alternate infinite 1s`;
+  const bouncingAnimationOne = `${bouncingAnimationKeyFrames} 1.5s ease-in-out alternate infinite 2s`;
+  const bouncingAnimationThree = `${bouncingAnimationKeyFrames} 1.5s ease-in-out alternate infinite 2.5s`;
 
   /** Render */
   return (
@@ -101,15 +103,26 @@ const AboutContent: React.FC<AboutContentProps> = () => {
               >
                 Biproxi
               </a>
-              ,
-              I have had the opportunity to work collaboratively with the head of engineering,
-              and other team members to make significant contributions to the CRE platform.
+              , and
+              {' '}
+              <a href="www.officespace.com" style={{
+                color: '#b33e69',
+                fontWeight: 'bolder',
+                textDecoration: 'none',
+                cursor: 'pointer',
+              }}
+              >
+                OfficeSpace
+              </a>
+              &nbsp;
+              I&apos;ve had the opportunity to work collaboratively with the head of engineering,
+              and other team members to make significant contributions to both CRE platforms.
             </Text>
           </VStack>
 
           {/* Photo Icon Container */}
           <Flex
-            animation={bouncingAnimation}
+            animation={bouncingAnimationOne}
             bg={invertedBg}
             alignItems="center"
             justifyContent="center"
@@ -128,7 +141,7 @@ const AboutContent: React.FC<AboutContentProps> = () => {
         </HStack>
 
         <HStack
-          animation={bouncingAnimation}
+          animation={bouncingAnimationThree}
           w="80vw"
           mt="20"
           justifyContent="center"

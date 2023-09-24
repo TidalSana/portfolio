@@ -288,7 +288,6 @@ const ProfileWrapper: ProfileWrapperType = forwardRef((props, ref) => {
             variants={profileBannerVariant}
             initial="initial"
             whileInView="animate"
-            transition=".2s ease-out"
             className="intro-profile-image"
           >
             <Image
@@ -316,7 +315,6 @@ const ProfileWrapper: ProfileWrapperType = forwardRef((props, ref) => {
             variants={profileBannerVariant}
             initial="initialMobile"
             whileInView="animate"
-            transition=".2s ease-out"
             className="intro-profile-image"
           >
             <Image
