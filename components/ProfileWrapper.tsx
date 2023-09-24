@@ -6,7 +6,7 @@ import {
   // useColorModeValue,
 } from '@chakra-ui/react';
 import { motion, Variants } from 'framer-motion';
-import React from 'react';
+import React, { RefObject } from 'react';
 import { Breakpoint } from 'react-socks';
 import animations from '../styles/animations';
 
@@ -216,7 +216,7 @@ const IntroHeaderContainer: React.FC<IntroHeaderContainerProps> = () => {
 };
 
 interface ProfileWrapperProps {
-  ref?: any;
+  ref: RefObject<HTMLDivElement>;
 }
 
 type ProfileWrapperType = ComponentWithAs<'div', ProfileWrapperProps> & {};

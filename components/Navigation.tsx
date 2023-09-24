@@ -8,13 +8,14 @@ import {
   useColorMode,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
+import { RefObject } from 'react';
 import { BsPersonCircle } from 'react-icons/bs';
 import { RiHome2Line, RiHardDrive2Fill } from 'react-icons/ri';
 
 interface NavigationProps {
-  homeRef?: any;
-  projectsRef?: any;
-  aboutRef?: any;
+  homeRef?: RefObject<HTMLDivElement | null>;
+  projectsRef?: RefObject<HTMLDivElement | null>;
+  aboutRef?: RefObject<HTMLDivElement | null>;
 }
 
 const mapNavItems = {
@@ -41,9 +42,9 @@ const Navigation: React.FC<NavigationProps> = ({ homeRef, projectsRef, aboutRef 
 
   const scrollToWrapper = (e: any, element: string) => {
     e.preventDefault();
-    if (element === 'Home') homeRef.current.scrollIntoView({ behaviour: 'smooth' });
-    if (element === 'Projects') projectsRef.current.scrollIntoView({ behavior: 'smooth' });
-    if (element === 'About') aboutRef.current.scrollIntoView({ behavior: 'smooth' });
+    if (element === 'Home' && homeRef !== undefined && homeRef.current !== null) homeRef.current.scrollIntoView({ behavior: 'smooth' });
+    if (element === 'Projects' && projectsRef !== undefined && projectsRef.current !== null) projectsRef.current.scrollIntoView({ behavior: 'smooth' });
+    if (element === 'About' && aboutRef !== undefined && aboutRef.current !== null) aboutRef.current.scrollIntoView({ behavior: 'smooth' });
   };
 
   /** Render */

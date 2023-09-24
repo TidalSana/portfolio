@@ -2,7 +2,7 @@ import type { NextPage } from 'next';
 import {
   Flex, Spinner, useColorMode,
 } from '@chakra-ui/react';
-import React, { useRef } from 'react';
+import React from 'react';
 import Navigation from '../components/Navigation';
 import MainWrapper from '../components/MainWrapper';
 import FooterComponent from '../components/FooterComponent';
@@ -10,12 +10,17 @@ import FooterComponent from '../components/FooterComponent';
 const Home: NextPage = () => {
   /** State */
   const [loading, setLoading] = React.useState(true);
-  const homeRef = React.useRef(null);
-  const projectsRef = useRef(null);
-  const aboutRef = useRef(null);
+  const homeRef = React.useRef<HTMLDivElement | null>(null);
+  const projectsRef = React.useRef<HTMLDivElement | null>(null);
+  const aboutRef = React.useRef<HTMLDivElement | null>(null);
 
   /** ChakraUI */
   const { colorMode } = useColorMode();
+
+  /** Scroll to top */
+  const scrollToTop = () => {
+    homeRef?.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   /** Loading Spinner */
   React.useEffect(() => {
@@ -28,12 +33,12 @@ const Home: NextPage = () => {
   return (
     <Flex
       width="100%"
-      boxShadow="xl"
       rounded="md"
+      boxShadow="xl"
       align="center"
       overflowX="hidden"
-      justifyContent="center"
       flexDirection="column"
+      justifyContent="center"
       className="main-page-layout"
     >
       {!loading
@@ -62,7 +67,7 @@ const Home: NextPage = () => {
           </Flex>
         )
           }
-      <FooterComponent />
+      <FooterComponent scrollToHome={scrollToTop} />
     </Flex>
   );
 };

@@ -36,142 +36,150 @@ const AboutContent: React.FC<AboutContentProps> = () => {
     <>
       {/* Desktop View */}
       <Breakpoint large up>
-
-        {/* About me description section */}
-        <HStack spacing={2}
-          justifyContent="center"
-          gap="4em"
+        <VStack
+          p="10"
           w="80vw"
-          mb="5"
+          spacing={8}
+          id="AboutContent"
+          justifyContent="space-evenly"
           // bg={oppBg}
         >
-          {/* Text Containers */}
-          <VStack
-            p="5"
-            animation={bouncingAnimation}
-            bg={invertedBg}
-            spacing={3}
-            maxW="500px"
-            borderRadius="lg"
-          >
-            <Text
-              as="b"
-              // color="brand.darkAccent"
-              color={oppBg}
-              fontSize="xl"
-              noOfLines={3}
-            >
-              I like my coffee like I like my code - strong, hot, and with no bugs. 😉
-            </Text>
-
-            <Text
-              color={oppBg}
-              fontSize="md"
-            >
-              Hey! My name is
-              {' '}
-              <b>Joshua Semana</b>
-              , or
-              {' '}
-              <b>TidalSana</b>
-              {' '}
-              online for the cool folks.
-            </Text>
-
-            <Text
-              color={oppBg }
-              fontSize="md"
-              noOfLines={9}
-            >
-              I highly value continuous learning and growth,
-              both individually and in collaboration with people, teams, and technologies.
-            </Text>
-
-            <Text
-              color={oppBg }
-              fontSize="md"
-              noOfLines={9}
-            >
-              Currently, I&apos;m a full-stack engineer at
-              {' '}
-              <a href="www.biproxi.com" style={{
-                color: '#b33e69',
-                fontWeight: 'bolder',
-                textDecoration: 'none',
-                cursor: 'pointer',
-              }}
-              >
-                Biproxi
-              </a>
-              , and
-              {' '}
-              <a href="www.officespace.com" style={{
-                color: '#b33e69',
-                fontWeight: 'bolder',
-                textDecoration: 'none',
-                cursor: 'pointer',
-              }}
-              >
-                OfficeSpace
-              </a>
-              &nbsp;
-              I&apos;ve had the opportunity to work collaboratively with the head of engineering,
-              and other team members to make significant contributions to both CRE platforms.
-            </Text>
-          </VStack>
-
-          {/* Photo Icon Container */}
-          <Flex
-            animation={bouncingAnimationOne}
-            bg={invertedBg}
-            alignItems="center"
+          {/* About me description section */}
+          <HStack spacing={2}
             justifyContent="center"
-            boxSize="270px"
-            borderRadius="full"
-            boxShadow="2xl"
+            gap="4em"
+            w="80vw"
+            mb="5"
           >
-            <Image
-              src="/aboutme.jpeg"
-              alt="About me profile image"
-              objectFit="cover"
-              boxSize="250px"
+            {/* Text Containers */}
+            <VStack
+              p="5"
+              animation={bouncingAnimation}
+              bg={invertedBg}
+              spacing={3}
+              maxW="500px"
+              borderRadius="lg"
+            >
+              <Text
+                as="b"
+              // color="brand.darkAccent"
+                color={oppBg}
+                fontSize="xl"
+                noOfLines={3}
+              >
+                I like my coffee like I like my code - strong, hot, and with no bugs. 😉
+              </Text>
+
+              <Text
+                color={oppBg}
+                fontSize="md"
+              >
+                Hey! My name is
+                {' '}
+                <b>Joshua Semana</b>
+                , or
+                {' '}
+                <b>TidalSana</b>
+                {' '}
+                online for the cool folks.
+              </Text>
+
+              <Text
+                color={oppBg }
+                fontSize="md"
+                noOfLines={9}
+              >
+                I highly value continuous learning and growth,
+                both individually and in collaboration with people, teams, and technologies.
+              </Text>
+
+              <Text
+                color={oppBg }
+                fontSize="md"
+                noOfLines={9}
+              >
+                Currently, I&apos;m a full-stack engineer at
+                {' '}
+                <a href="www.biproxi.com" style={{
+                  color: '#b33e69',
+                  fontWeight: 'bolder',
+                  textDecoration: 'none',
+                  cursor: 'pointer',
+                }}
+                >
+                  Biproxi
+                </a>
+                , and
+                {' '}
+                <a href="www.officespace.com" style={{
+                  color: '#b33e69',
+                  fontWeight: 'bolder',
+                  textDecoration: 'none',
+                  cursor: 'pointer',
+                }}
+                >
+                  OfficeSpace
+                </a>
+                &nbsp;
+                I&apos;ve had the opportunity to work collaboratively with the head of engineering,
+                and other team members to make significant contributions to both CRE platforms.
+              </Text>
+            </VStack>
+
+            {/* Photo Icon Container */}
+            <Flex
+              animation={bouncingAnimationOne}
+              bg={invertedBg}
+              alignItems="center"
+              justifyContent="center"
+              boxSize="270px"
               borderRadius="full"
-            />
-          </Flex>
-        </HStack>
+              boxShadow="2xl"
+            >
+              <Image
+                src="/aboutme.jpeg"
+                alt="About me profile image"
+                objectFit="cover"
+                boxSize="250px"
+                borderRadius="full"
+              />
+            </Flex>
+          </HStack>
 
-        <HStack
-          animation={bouncingAnimationThree}
-          w="80vw"
-          mt="20"
-          justifyContent="center"
-          bg={darkPurple}
-        >
-          <VStack
-            p="5"
-            maxW="500px"
-            textAlign="left"
-            bg={invertedBg}
+          <HStack
+            w="80vw"
+            bg={darkPurple}
+            justifyContent="center"
+            animation={bouncingAnimationThree}
           >
-            <Heading size="lg" color={oppBg}>Skills</Heading>
-            <Text noOfLines={5} fontSize="md" color={oppBg}>
-              Despite my experience with various languages and platforms in the past,
-              I now primarily work with, and feel most proficient in the following languages,
-              and technologies on a daily basis:
-            </Text>
+            <VStack
+              p="5"
+              maxW="500px"
+              textAlign="left"
+              bg={invertedBg}
+            >
+              <Heading size="lg" color={oppBg}>Skills</Heading>
+              <Text noOfLines={5} fontSize="md" color={oppBg}>
+                Despite my experience with various languages and platforms in the past,
+                I now primarily work with, and feel most proficient in the following languages,
+                and technologies on a daily basis:
+              </Text>
 
-            {/* Skills Components */}
-            <Skills />
-          </VStack>
-        </HStack>
+              {/* Skills Components */}
+              <Skills />
+            </VStack>
+          </HStack>
+        </VStack>
       </Breakpoint>
 
-      {/* Tablet View */}
+      {/* Tablet View and smaller */}
       <Breakpoint medium down>
-        <VStack spacing={8}
-          justifyContent="space-evenly"
+        <VStack
+          p="4"
           w="80vw"
-          p="10"
+          spacing={8}
+          id="AboutContentMobile"
+          justifyContent="space-evenly"
           // bg={oppBg}
         >
           <VStack
@@ -227,6 +235,9 @@ const AboutContent: React.FC<AboutContentProps> = () => {
               borderRadius="full"
             />
           </Flex>
+
+          {/* Skills Components */}
+          <Skills />
         </VStack>
       </Breakpoint>
     </>
@@ -240,10 +251,8 @@ const AboutWrapper: AboutWrapperType = forwardRef((props, ref) => {
   /** Render */
   return (
     <VStack
-      id="AboutWrapper"
       ref={ref}
-      // w="80vw"
-      h="100vh"
+      id="AboutWrapper"
       bg={darkPurple}
     >
       {/* Desktop View and larger */}

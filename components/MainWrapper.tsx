@@ -1,12 +1,13 @@
 import { VStack } from '@chakra-ui/react';
+import { RefObject } from 'react';
 import AboutWrapper from './AboutWrapper';
 import ProfileWrapper from './ProfileWrapper';
 import ProjectsWrapper from './ProjectsWrapper';
 
 interface MainProps {
-  homeRef?: any;
-  projectsRef?: any;
-  aboutRef?: any;
+  homeRef: RefObject<HTMLDivElement>;
+  projectsRef: RefObject<HTMLDivElement>;
+  aboutRef: RefObject<HTMLDivElement>;
 }
 
 const Main: React.FC<MainProps> = ({

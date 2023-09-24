@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MouseEventHandler } from 'react';
 import {
   Flex,
   Icon,
@@ -9,17 +9,32 @@ import {
 } from '@chakra-ui/react';
 import { AiFillGithub, AiFillLinkedin } from 'react-icons/ai';
 
-const FooterComponent: React.FC = () => {
+interface FooterComponentProps {
+  scrollToHome: MouseEventHandler<HTMLParagraphElement>
+}
+const FooterComponent: React.FC<FooterComponentProps> = ({
+  scrollToHome,
+}) => {
   /** Render */
   return (
     <Flex
       p="5"
+      gap="3"
       fontSize="xs"
       align="center"
       textAlign="center"
       flexDirection="column"
       justifyContent="center"
     >
+      <Text
+        fontSize="sm"
+        color="teal.500"
+        onClick={scrollToHome}
+        _hover={{ cursor: 'pointer', textDecoration: 'underline' }}
+      >
+        back to the top
+      </Text>
+
       <LinkBox>
         <Flex gap="2" p="2">
           {/* Github */}
