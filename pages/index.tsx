@@ -54,6 +54,7 @@ const Home: NextPage = () => {
               projectsRef={projectsRef}
               aboutRef={aboutRef}
             />
+            <FooterComponent scrollToHome={scrollToTop} />
           </>
         )
         : (
@@ -67,7 +68,6 @@ const Home: NextPage = () => {
           </Flex>
         )
           }
-      <FooterComponent scrollToHome={scrollToTop} />
     </Flex>
   );
 };
