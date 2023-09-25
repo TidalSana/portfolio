@@ -18,13 +18,13 @@ const AboutContent: React.FC<AboutContentProps> = () => {
   /** Hooks */
   const oppBg = useColorModeValue('darkMode.color', 'lightMode.color');
   const invertedBg = useColorModeValue('lightMode.color', 'darkMode.color');
-  const textColor = useColorModeValue('brand.lightAccentShade', 'brand.darkAccentShade');
+  // const textColor = useColorModeValue('brand.lightAccentShade', 'brand.darkAccentShade');
   const darkPurple = useColorModeValue('brand.main', 'lightMode.color');
 
   /** Animations */
   const bouncingAnimationKeyFrames = keyframes`
   0% { transform: translateY(0px); }
-  100% { transform: translateY(5px); }
+  100% { transform: translateY(7px); }
 `;
 
   const bouncingAnimation = `${bouncingAnimationKeyFrames} 1.5s ease-in-out alternate infinite 1s`;
@@ -85,7 +85,7 @@ const AboutContent: React.FC<AboutContentProps> = () => {
               </Text>
 
               <Text
-                color={oppBg }
+                color={oppBg}
                 fontSize="md"
                 noOfLines={9}
               >
@@ -94,13 +94,13 @@ const AboutContent: React.FC<AboutContentProps> = () => {
               </Text>
 
               <Text
-                color={oppBg }
+                color={oppBg}
                 fontSize="md"
                 noOfLines={9}
               >
                 Currently, I&apos;m a full-stack engineer at
                 {' '}
-                <a href="www.biproxi.com" style={{
+                <a href="https://www.biproxi.com" style={{
                   color: '#b33e69',
                   fontWeight: 'bolder',
                   textDecoration: 'none',
@@ -111,14 +111,14 @@ const AboutContent: React.FC<AboutContentProps> = () => {
                 </a>
                 , and
                 {' '}
-                <a href="www.officespace.com" style={{
+                <a href="https://www.officespace.com" style={{
                   color: '#b33e69',
                   fontWeight: 'bolder',
                   textDecoration: 'none',
                   cursor: 'pointer',
                 }}
                 >
-                  OfficeSpace
+                  OfficeSpace.
                 </a>
                 &nbsp;
                 I&apos;ve had the opportunity to work collaboratively with the head of engineering,
@@ -186,6 +186,7 @@ const AboutContent: React.FC<AboutContentProps> = () => {
             p="5"
             spacing={3}
             maxW="500px"
+            bg={invertedBg}
           >
             <Text
               as="b"
@@ -198,10 +199,13 @@ const AboutContent: React.FC<AboutContentProps> = () => {
             </Text>
 
             <Text
-              color={textColor}
+              color={oppBg}
               fontSize="sm"
             >
-              Hey! My name is Joshua Semana, or
+              Hey! My name is
+              {' '}
+              <b>Joshua Semana</b>
+              , or
               {' '}
               <b>TidalSana</b>
               {' '}
@@ -209,23 +213,54 @@ const AboutContent: React.FC<AboutContentProps> = () => {
             </Text>
 
             <Text
-              color={textColor}
+              color={oppBg}
               fontSize="sm"
               noOfLines={9}
             >
-              As a full-stack engineer at Biproxi CRE Platform,
-              I have had the opportunity to work collaboratively with the head of engineering,
-              and other team members to make significant contributions to the platform.
+              I highly value continuous learning and growth,
+              both individually and in collaboration with people, teams, and technologies.
+            </Text>
+
+            <Text
+              color={oppBg}
+              fontSize="sm"
+              noOfLines={9}
+            >
+              Currently, I&apos;m a full-stack engineer at
+              {' '}
+              <a href="https://www.biproxi.com" style={{
+                color: '#b33e69',
+                fontWeight: 'bolder',
+                textDecoration: 'none',
+                cursor: 'pointer',
+              }}
+              >
+                Biproxi
+              </a>
+              , and
+              {' '}
+              <a href="https://www.officespace.com" style={{
+                color: '#b33e69',
+                fontWeight: 'bolder',
+                textDecoration: 'none',
+                cursor: 'pointer',
+              }}
+              >
+                OfficeSpace.
+              </a>
+              &nbsp;
+              I&apos;ve had the opportunity to work collaboratively with the head of engineering,
+              and other team members to make significant contributions to both CRE platforms.
             </Text>
           </VStack>
 
           <Flex
+            boxShadow="md"
+            boxSize="260px"
             bg={invertedBg}
             alignItems="center"
-            justifyContent="center"
-            boxSize="260px"
             borderRadius="full"
-            boxShadow="md"
+            justifyContent="center"
           >
             <Image
               src="/aboutme.jpeg"

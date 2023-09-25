@@ -50,7 +50,7 @@ const Navigation: React.FC<NavigationProps> = ({ homeRef, projectsRef, aboutRef 
   /** Render */
   return (
     <Flex width="80%" justifyContent="center" align="center" py="5" px="6">
-      <HStack as="nav" spacing="10">
+      <HStack as="nav" spacing="10" alignItems="center" justifyContent="center">
         {Object.values(mapNavItems).map((li, i) => (
           <Box
             as={motion.div}
@@ -61,6 +61,7 @@ const Navigation: React.FC<NavigationProps> = ({ homeRef, projectsRef, aboutRef 
             <Icon as={li.icon}>{li.name}</Icon>
           </Box>
         ))}
+
         <Spacer />
         <Button onClick={(e) => { e.stopPropagation(); toggleColorMode(); }}>Color Mode</Button>
       </HStack>

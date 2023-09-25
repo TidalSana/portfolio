@@ -118,9 +118,9 @@ const ProjectsWrapper: ProjectsWrapperType = forwardRef((props, ref) => {
       width="100%"
       align="center"
       spacing="1em"
+      rounded="none"
       justifyContent="center"
       className="project-wrapper-outer-wrapper"
-      rounded="none"
       bg={colorMode === 'dark' ? 'brand.main' : 'brand.lightAccent'}
     >
       {/* Desktop view and bigger */}

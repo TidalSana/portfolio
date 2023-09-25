@@ -6,6 +6,7 @@ import {
   LinkOverlay,
   LinkBox,
   Link,
+  Image,
 } from '@chakra-ui/react';
 import { AiFillGithub, AiFillLinkedin } from 'react-icons/ai';
 
@@ -48,6 +49,9 @@ const FooterComponent: React.FC<FooterComponentProps> = ({
           </LinkOverlay>
         </Flex>
       </LinkBox>
+
+      {/* Logo */}
+      <Image src="/js-logo.svg" alt="logo" boxSize="50px" borderRadius="full" />
 
       <Text>
         Made with ❤️ by
