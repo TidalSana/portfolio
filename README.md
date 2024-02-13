@@ -1,6 +1,6 @@
 # Josh's Portfolio Site 💪😘
 
-Yo! Here's the link to the [portfolio](https://nextjs.org/)!
+Yo! Here's the link to the [portfolio](https://www.joshuasemana.com/)!
 
 ## What I used?
 I can't even fully remember 🤔 all them, because of some sort of hiatus I had on the project, but these are the main technologies:
