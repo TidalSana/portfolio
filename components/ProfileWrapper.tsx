@@ -291,7 +291,7 @@ const ProfileWrapper: ProfileWrapperType = forwardRef((props, ref) => {
             className="intro-profile-image"
           >
             <Image
-              src="/josh.jpeg"
+              src="/me.JPG"
               alt="Joshua Semana"
               objectFit="cover"
               boxSize="250px"
@@ -318,7 +318,7 @@ const ProfileWrapper: ProfileWrapperType = forwardRef((props, ref) => {
             className="intro-profile-image"
           >
             <Image
-              src="/josh.jpeg"
+              src="/me.JPG"
               alt="Joshua Semana"
               objectFit="cover"
               boxSize="190px"
