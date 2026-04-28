@@ -25,24 +25,18 @@ const ProjectGrid: React.FC<ProjectGridProps> = () => {
           p="20px"
           justifyContent="center"
           alignItems="center"
-          rowGap="10"
-          columnGap="20"
           className="project-grid"
-          templateRows="repeat(2, 1fr)"
-          templateColumns="repeat (5, 1fr)"
+          templateRows="1fr"
+          templateColumns="1fr"
           bg={colorMode === 'dark' ? 'brand.main' : 'brand.lightAccent'}
         >
-          <GridItem rounded="xl" className="grid-item" rowStart={1} colStart={1} colEnd={3} bg={gridItemBg} width="100%">
-            <ProjectCard project="Library" />
-          </GridItem>
-          <GridItem rounded="xl" className="grid-item" rowStart={2} colStart={1} colEnd={3} bg={gridItemBg} width="100%">
-            <ProjectCard project="Shopping Cart" />
-          </GridItem>
-          <GridItem rounded="xl" className="grid-item" rowStart={1} colStart={4} colEnd={6} bg={gridItemBg} width="100%">
-            <ProjectCard project="Miyoo Mini Tracker" />
-          </GridItem>
-          <GridItem rounded="xl" className="grid-item" rowStart={2} colStart={4} colEnd={6} bg={gridItemBg} width="100%">
-            <ProjectCard project="BattleShip" />
+          <GridItem rounded="xl" className="grid-item" bg={gridItemBg} width="100%">
+            <ProjectCard
+              project="ExtrasOnly"
+              description="A global keycap extras registry solving the 'browser tab fatigue' of hunting across dozens of vendor sites. Features an idempotent TypeScript scraping pipeline aggregating Shopify data, a custom 4-gate classification algorithm integrated with Claude 4.5 Haiku API for intelligent product categorization, and full-stack implementation from Prisma to Next.js."
+              image="/extrasonly-screenshot-1.png"
+              link="https://github.com/TidalSana/extras-only"
+            />
           </GridItem>
         </Grid>
       </Breakpoint>
@@ -53,24 +47,18 @@ const ProjectGrid: React.FC<ProjectGridProps> = () => {
           width="100vw"
           justifyContent="center"
           alignItems="center"
-          rowGap="300px"
-          columnGap="20"
           className="project-grid"
-          templateRows="repeat(4, 600px)"
-          templateColumns="repeat (1, 1fr)"
+          templateRows="1fr"
+          templateColumns="1fr"
           bg={colorMode === 'dark' ? 'brand.main' : 'brand.lightAccent'}
         >
-          <GridItem rounded="xl" className="grid-item" rowStart={1} colStart={1} bg={gridItemBg} width="100%">
-            <ProjectCard project="Library" />
-          </GridItem>
-          <GridItem rounded="xl" className="grid-item" rowStart={2} colStart={1} bg={gridItemBg} width="100%">
-            <ProjectCard project="Shopping Cart" />
-          </GridItem>
-          <GridItem rounded="xl" className="grid-item" rowStart={3} colStart={1} bg={gridItemBg} width="100%">
-            <ProjectCard project="Miyoo Mini Tracker" />
-          </GridItem>
-          <GridItem rounded="xl" className="grid-item" rowStart={4} colStart={1} bg={gridItemBg} width="100%">
-            <ProjectCard project="BattleShip" />
+          <GridItem rounded="xl" className="grid-item" bg={gridItemBg} width="100%">
+            <ProjectCard
+              project="ExtrasOnly"
+              description="A global keycap extras registry solving the 'browser tab fatigue' of hunting across dozens of vendor sites. Features an idempotent TypeScript scraping pipeline aggregating Shopify data, a custom 4-gate classification algorithm integrated with Claude 4.5 Haiku API for intelligent product categorization, and full-stack implementation from Prisma to Next.js."
+              image="/extrasonly-screenshot-1.png"
+              link="https://github.com/TidalSana/extras-only"
+            />
           </GridItem>
         </Grid>
       </Breakpoint>
@@ -81,23 +69,18 @@ const ProjectGrid: React.FC<ProjectGridProps> = () => {
           width="100vw"
           justifyContent="center"
           alignItems="center"
-          // rowGap="400px"
           className="project-grid"
-          templateRows="repeat(4, 650px)"
-          templateColumns="repeat (1, 1fr)"
+          templateRows="1fr"
+          templateColumns="1fr"
           bg={colorMode === 'dark' ? 'brand.main' : 'brand.lightAccent'}
         >
-          <GridItem rounded="xl" className="grid-item" rowStart={1} colStart={1} bg={gridItemBg} width="100%">
-            <ProjectCard project="Library" />
-          </GridItem>
-          <GridItem rounded="xl" className="grid-item" rowStart={2} colStart={1} bg={gridItemBg} width="100%">
-            <ProjectCard project="Shopping Cart" />
-          </GridItem>
-          <GridItem rounded="xl" className="grid-item" rowStart={3} colStart={1} bg={gridItemBg} width="100%">
-            <ProjectCard project="Miyoo Mini Tracker" />
-          </GridItem>
-          <GridItem rounded="xl" className="grid-item" rowStart={4} colStart={1} bg={gridItemBg} width="100%">
-            <ProjectCard project="BattleShip" />
+          <GridItem rounded="xl" className="grid-item" bg={gridItemBg} width="100%">
+            <ProjectCard
+              project="ExtrasOnly"
+              description="A global keycap extras registry solving the 'browser tab fatigue' of hunting across dozens of vendor sites. Features an idempotent TypeScript scraping pipeline aggregating Shopify data, a custom 4-gate classification algorithm integrated with Claude 4.5 Haiku API for intelligent product categorization, and full-stack implementation from Prisma to Next.js."
+              image="/extrasonly-screenshot-1.png"
+              link="https://github.com/TidalSana/extras-only"
+            />
           </GridItem>
         </Grid>
       </Breakpoint>

@@ -1,6 +1,6 @@
 import {
   Box,
-  Flex, Heading, HStack, Icon, Image, keyframes, useColorMode, useColorModeValue, VStack,
+  Flex, Heading, HStack, Icon, Image, keyframes, Text, useColorMode, useColorModeValue, VStack,
 } from '@chakra-ui/react';
 import { motion, useInView, Variants } from 'framer-motion';
 import React from 'react';
@@ -9,13 +9,19 @@ import { Breakpoint } from 'react-socks';
 
 interface ProjectCardProps {
   project: string,
+  description?: string,
+  image?: string,
+  link?: string,
 }
 
 interface InnerImageContainerProps {
   project: string,
+  description?: string,
+  image?: string,
+  link?: string,
 }
 
-const InnerImageContainer: React.FC<InnerImageContainerProps> = ({ project }) => {
+const InnerImageContainer: React.FC<InnerImageContainerProps> = ({ project, description, image = '/cat.jpg', link }) => {
   /** State */
   const [openIcon, setOpenIcon] = React.useState(false);
   const ref = React.useRef(null);
@@ -134,13 +140,14 @@ const InnerImageContainer: React.FC<InnerImageContainerProps> = ({ project }) =>
                 animation={openIcon ? bouncingAnimation : bouncingBaitAnimation}
                 width="200px"
                 height="200px"
-                src="/cat.jpg"
-                alt="Joshua Semana"
+                src={image}
+                alt={project}
                 objectFit="cover"
                 borderRadius="xl"
                 _hover={{
                   cursor: 'pointer',
                 }}
+                onClick={() => link && window.open(link, '_blank')}
               />
             </Box>
           </HStack>
@@ -180,13 +187,14 @@ const InnerImageContainer: React.FC<InnerImageContainerProps> = ({ project }) =>
                 animation={bouncingAnimation}
                 width="200px"
                 height="200px"
-                src="/cat.jpg"
-                alt="Joshua Semana"
+                src={image}
+                alt={project}
                 objectFit="cover"
                 borderRadius="xl"
                 _hover={{
                   cursor: 'pointer',
                 }}
+                onClick={() => link && window.open(link, '_blank')}
               />
             </Box>
           </HStack>
@@ -226,10 +234,14 @@ const InnerImageContainer: React.FC<InnerImageContainerProps> = ({ project }) =>
                 animation={bouncingAnimation}
                 width="120px"
                 height="120px"
-                src="/cat.jpg"
-                alt="Joshua Semana"
+                src={image}
+                alt={project}
                 objectFit="cover"
                 borderRadius="xl"
+                _hover={{
+                  cursor: 'pointer',
+                }}
+                onClick={() => link && window.open(link, '_blank')}
               />
             </Box>
           </HStack>
@@ -244,12 +256,27 @@ const InnerImageContainer: React.FC<InnerImageContainerProps> = ({ project }) =>
       >
         {project}
       </Heading>
+      {description && (
+        <Text
+          px="1em"
+          pb="1em"
+          fontSize="sm"
+          textAlign="center"
+          color={headingColor}
+          opacity={0.9}
+        >
+          {description}
+        </Text>
+      )}
     </VStack>
   );
 };
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
   project,
+  description,
+  image,
+  link,
 }) => {
   /** ChakraUi */
   const { colorMode } = useColorMode();
@@ -266,7 +293,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       className="project-card-item"
       boxShadow={colorMode === 'dark' ? 'dark-lg' : '2xl'}
     >
-      <InnerImageContainer project={project} />
+      <InnerImageContainer project={project} description={description} image={image} link={link} />
     </Flex>
   );
 };
