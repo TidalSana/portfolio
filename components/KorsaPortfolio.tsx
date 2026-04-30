@@ -130,6 +130,10 @@ export default function KorsaPortfolio() {
                         Joshua Semana
                       </h1>
 
+                      <p className="mb-3 text-lg font-semibold text-accent md:text-xl">
+                        Hafa Adai (Hello)! 🌺
+                      </p>
+
                       <div className="mb-4 flex flex-wrap items-center gap-3">
                         <p className="text-xl font-medium text-offwhite/90">
                           Full-Stack Engineer
@@ -138,9 +142,15 @@ export default function KorsaPortfolio() {
                         <span className="text-sm text-emerald-400">Available</span>
                       </div>
 
+                      <p className="mb-4 max-w-2xl text-base leading-relaxed text-offwhite/85">
+                        My name is Josh and I&apos;m a FullStack Engineer from Bozeman, MT.
+                        I&apos;m constantly working on my craft (code), and design.
+                        I&apos;m all about eSports, video games, and custom mechanical keyboards.
+                      </p>
+
                       <p className="mb-6 max-w-2xl text-base leading-relaxed text-offwhite/70">
                         Building elegant, high-performance web experiences with TypeScript, Next.js,
-                        and AI integration. Based in Bozeman, MT.
+                        and AI integration.
                       </p>
                     </motion.div>
                   </div>
@@ -267,6 +277,20 @@ export default function KorsaPortfolio() {
                         <span className="text-offwhite/30">#</span>
                         <p className="text-offwhite/90">
                           Full-stack engineer based in Bozeman, Montana
+                        </p>
+                      </div>
+                      <div className="flex gap-2">
+                        <span className="text-offwhite/30">-</span>
+                        <p className="text-offwhite/90">
+                          <span className="font-semibold text-accent">Hafa Adai (Hello)! 🌺</span>
+                        </p>
+                      </div>
+                      <div className="flex gap-2">
+                        <span className="text-offwhite/30">-</span>
+                        <p className="text-offwhite/70">
+                          My name is Josh and I&apos;m a FullStack Engineer from Bozeman, MT.
+                          I&apos;m constantly working on my craft (code), and design.
+                          I&apos;m all about eSports, video games, and custom mechanical keyboards.
                         </p>
                       </div>
                       <div className="flex gap-2">
