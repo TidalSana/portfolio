@@ -21,7 +21,12 @@ interface InnerImageContainerProps {
   link?: string,
 }
 
-const InnerImageContainer: React.FC<InnerImageContainerProps> = ({ project, description, image = '/cat.jpg', link }) => {
+const InnerImageContainer: React.FC<InnerImageContainerProps> = ({
+  project,
+  description,
+  image = '/cat.jpg',
+  link,
+}) => {
   /** State */
   const [openIcon, setOpenIcon] = React.useState(false);
   const ref = React.useRef(null);
@@ -147,7 +152,11 @@ const InnerImageContainer: React.FC<InnerImageContainerProps> = ({ project, desc
                 _hover={{
                   cursor: 'pointer',
                 }}
-                onClick={() => link && window.open(link, '_blank')}
+                onClick={() => {
+                  if (link != null && link !== '') {
+                    window.open(link, '_blank');
+                  }
+                }}
               />
             </Box>
           </HStack>
@@ -194,7 +203,11 @@ const InnerImageContainer: React.FC<InnerImageContainerProps> = ({ project, desc
                 _hover={{
                   cursor: 'pointer',
                 }}
-                onClick={() => link && window.open(link, '_blank')}
+                onClick={() => {
+                  if (link != null && link !== '') {
+                    window.open(link, '_blank');
+                  }
+                }}
               />
             </Box>
           </HStack>
@@ -241,7 +254,11 @@ const InnerImageContainer: React.FC<InnerImageContainerProps> = ({ project, desc
                 _hover={{
                   cursor: 'pointer',
                 }}
-                onClick={() => link && window.open(link, '_blank')}
+                onClick={() => {
+                  if (link != null && link !== '') {
+                    window.open(link, '_blank');
+                  }
+                }}
               />
             </Box>
           </HStack>
@@ -256,7 +273,7 @@ const InnerImageContainer: React.FC<InnerImageContainerProps> = ({ project, desc
       >
         {project}
       </Heading>
-      {description && (
+      {description != null && description !== '' ? (
         <Text
           px="1em"
           pb="1em"
@@ -267,7 +284,7 @@ const InnerImageContainer: React.FC<InnerImageContainerProps> = ({ project, desc
         >
           {description}
         </Text>
-      )}
+      ) : null}
     </VStack>
   );
 };

@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-main font-sans text-offwhite antialiased;
+  }
+}
+
+@layer utilities {
+  .zen-border {
+    @apply border border-offwhite/5 transition-all duration-300 hover:border-accent/20;
+  }
+
+  @keyframes bounce-subtle {
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+
+    50% {
+      transform: translateY(7px);
+    }
+  }
+
+  .animate-bounce-subtle {
+    animation: bounce-subtle 1.5s ease-in-out alternate infinite;
+  }
+
+  .animate-bounce-delay {
+    animation: bounce-subtle 1.5s ease-in-out alternate infinite 1s;
+  }
+
+  .glow-keyboards {
+    box-shadow: 0 0 60px rgba(179, 62, 105, 0.15);
+  }
+}

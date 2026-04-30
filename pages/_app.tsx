@@ -4,6 +4,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 import type { AppProps } from 'next/app';
 import { BreakpointProvider } from 'react-socks';
 import theme from '../themes/theme';
+import '../styles/globals.css';
 
 type ColorMode = 'light' | 'dark' | undefined;
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
