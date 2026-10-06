@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-label="Spellkey, a one-eyed keyboard character"><style>@media(prefers-color-scheme:dark){svg{--sk-ink:#fff;--sk-paper:#000}}</style><g class="sk-float"><g class="sk-cap">
+<path fill="var(--sk-ink,#000)" d="M66 32H174Q191 32 197 53L224 177Q233 208 201 208H39Q7 208 16 177L43 53Q49 32 66 32Z"/>
+<path fill="none" stroke="var(--sk-paper,#fff)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" d="M59 59L34 178Q31 190 45 190H195Q209 190 206 178L181 59"/>
+<g class="sk-eye"><path fill="var(--sk-paper,#fff)" d="M83 116H161C159 141 144 156 122 156S86 142 83 116Z"/><circle class="sk-pupil" cx="138" cy="118" r="13" fill="var(--sk-ink,#000)"/></g>
+</g></g></svg>
