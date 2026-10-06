@@ -8,3 +8,7 @@ I can't even fully remember 🤔 all them, because of some sort of hiatus I had 
 - [NextJS](https://nextjs.org/)
 - [ChakraUI](https://chakra-ui.com/)
 - [Framer (Motion)](https://www.framer.com/motion/)
+
+## Keyboard portfolio checkpoint
+
+The interactive prototype is saved at `/keyspace/index.html`. See [preview instructions and handoff](docs/keyboard-checkpoint.md).

@@ -1,0 +1,26 @@
+{
+  "source": "CHERRYMX CAD_CAM KEYCAPS.stp",
+  "author": "Shoppster",
+  "url": "https://grabcad.com/library/cherry-mx-keycaps-1",
+  "sha256": "39bab5920dfdc10ee236946cc409d4ed7c43aa70b3eda38ddc78925fb23339a0",
+  "conversion": "OpenCascade via occt-import-js; 0.025mm absolute linear deflection; 0.15 angular deflection",
+  "transform": "translate XY center and Z floor; rotate -90deg around X; uniform scale 0.1",
+  "rows": {
+    "r2": {
+      "meshIndex": 9,
+      "dimensionsMM": [
+        18,
+        18,
+        7.2308098570923605
+      ]
+    },
+    "r3": {
+      "meshIndex": 7,
+      "dimensionsMM": [
+        18,
+        17.999999999999986,
+        7.14740096999094
+      ]
+    }
+  }
+}

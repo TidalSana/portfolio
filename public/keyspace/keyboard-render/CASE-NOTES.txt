@@ -1,0 +1,49 @@
+Photo reconstruction update
+
+The reference photos show the USB at the rear (negative Z), with WKL blockers
+at the opposite/front edge. The full-width upper shell sits over a lower body
+whose short sides retreat along approximately the rear three quarters, returning
+to wide front shoulders through eased doglegs. This produces a real open shelf.
+
+This version models that silhouette, the two-piece seam, a plain inset brass
+weight, eight underside screw wells, four empty shallow circular foot pockets,
+and a larger USB pill counterbore with a smaller recessed opening. Invented
+signature marks, decorative cuts and protruding rubber feet have been removed.
+The exposed plate mode hides illustrative switches and PCB.
+
+All dimensions are photo estimates, not measured manufacturer CAD. The original
+community keycaps and their existing layout have not been changed. The weight
+pocket and foot pockets have separate non-intersecting contours for triangulation.
+
+The recessed side wall remains straight. The experimental outward draft and
+concave blend were removed at the user’s correction. The shoulder outline
+and upper bevel are unchanged.
+
+Shoulder-only revision: outward slope and small base blend are restricted to
+the rounded return (Z 1.15–2.86), fading out at its ends. The long recessed
+wall and exterior front wall retain their vertical profiles.
+
+Shell/seam revision from the latest upside-down photo: top case remains the
+full-width key-opening shell (Y .06 to .96). Bottom case begins at Y .038;
+its side ledge is at Y -.382, leaving a .42 band above the seam when inverted.
+Underside datum is now -1.25 with the existing 7-degree slope. Weight, wells
+and recesses follow that underside. The shoulder-only slope is preserved.
+These remain visual estimates from the photograph.
+
+Ledge width revision: side inset reduced from 1.55 to 1.00 model units
+(about 35% narrower). Both straight recess walls move outward .55; rear
+wall width follows. Shoulder draft scales to the narrower ledge. Seam,
+case heights, overall footprint, and weight remain unchanged.
+
+Screw revision: all eight counterbores have shallow visible metal cross-heads.
+Screw axes align with assembly Y (no 7-degree local tilt); hidden shafts cross
+the shell seam and terminate inside the top-case height.
+
+Deeper screw revision: heads moved .20 model units farther inside all eight
+unchanged .205-radius openings. Shafts remain vertical. Ledge geometry has
+matching passages; rear-wall passages use matching color/shadow shader cuts
+so the wall does not obscure recessed heads.
+
+Screw seating datum: rear head faces now sit .04 model units above the
+ledge plane in the inverted view. Front heads recess at least .30 units.
+Counterbore mouths retain their size and position; bores extend to the seats.
