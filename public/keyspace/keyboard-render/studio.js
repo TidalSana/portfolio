@@ -45,6 +45,37 @@ const rows=[
 [['Ctrl',1.5,29],['',1,null],['Alt',1.5,29],['',7,3],['Alt',1.5,29],['',1,null],['Ctrl',1.5,29]]];
 rows.forEach((row,r)=>{let x=-15*1.905/2;for(const [letter,u,id] of row){const cx=x+u*1.905/2;x+=u*1.905;if(id===null)continue;const group=new THREE.Group();group.position.set(cx,.83,(r-2)*1.905);root.add(group);const material=new THREE.MeshStandardMaterial({color:['Esc','Enter'].includes(letter)?STRIKER_DARK:'#345B94',roughness:.36,metalness:0,envMapIntensity:.50,bumpMap:micro,bumpScale:.003});applyAbsSurface(material);const body=letter==='Caps'?stepped.body:geo(id);const mesh=new THREE.Mesh(body,material);mesh.castShadow=true;mesh.receiveShadow=true;group.add(mesh);
 const c=document.createElement('canvas');c.width=u>2?1024:512;c.height=512;const ctx=c.getContext('2d'),w=(letter==='Caps'?stepped.width:id===29?bottomModCAD.width:boardCAD[id].width)*10;ctx.scale(c.width/w,512/18);paintKeycapLegend(ctx,letter,w,'#FFFCF7',{kana:true});const tex=new THREE.CanvasTexture(c);tex.colorSpace=THREE.SRGBColorSpace;tex.anisotropy=renderer.capabilities.getMaxAnisotropy();const lm=new THREE.MeshStandardMaterial({map:tex,transparent:true,depthWrite:false,roughness:.48,bumpMap:micro,bumpScale:.003,envMapIntensity:.50,polygonOffset:true,polygonOffsetFactor:-1});applyAbsSurface(lm,{legend:true});const legend=new THREE.Mesh(letter==='Caps'?stepped.top:geo(id,true),lm);legend.receiveShadow=true;group.add(legend);keys.push({x:cx,z:(r-2)*1.905,u,group,letter,material,legend,canvas:c,texture:tex,widthMM:w});}});
+// Raised F/J homing bars share the keycap material and travel with each key.
+const homingGeometry=new THREE.CapsuleGeometry(.028,.31,6,12);
+homingGeometry.rotateZ(Math.PI/2);
+for(const key of keys.filter(k=>k.letter==='F'||k.letter==='J')){
+ const top=new THREE.Mesh(geo(7,true),new THREE.MeshBasicMaterial({side:THREE.DoubleSide}));
+ const hit=new THREE.Raycaster(new THREE.Vector3(0,5,.48),new THREE.Vector3(0,-1,0)).intersectObject(top)[0];
+ if(!hit)throw new Error('Homing bar missed keycap surface');
+ const bar=new THREE.Mesh(homingGeometry,key.material);bar.name='homing-bar-'+key.letter;
+ const normal=hit.face.normal.clone();if(normal.y<0)normal.negate();
+ bar.position.copy(hit.point).addScaledVector(normal,.003);
+ bar.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),normal);
+ bar.castShadow=true;bar.receiveShadow=true;key.group.add(bar);top.material.dispose();
+ // A tight, softly feathered contact shadow follows the curved cap surface.
+ // Only F/J receive this extra occlusion; the board lighting stays unchanged.
+ const contactMaterial=new THREE.ShaderMaterial({
+  transparent:true,depthWrite:false,polygonOffset:true,polygonOffsetFactor:-2,
+  vertexShader:`varying vec2 capPosition;
+   void main(){capPosition=position.xz;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}`,
+  fragmentShader:`varying vec2 capPosition;
+   void main(){
+    vec2 p=capPosition-vec2(.022,.461);
+    float distanceToBar=length(vec2(max(abs(p.x)-.155,0.0),p.y));
+    float opacity=.70*(1.0-smoothstep(.018,.065,distanceToBar));
+    if(opacity<.005)discard;
+    gl_FragColor=vec4(.10,.115,.095,opacity);
+   }`
+ });
+ const contact=new THREE.Mesh(geo(7,true),contactMaterial);
+ contact.name='homing-contact-shadow-'+key.letter;contact.position.y=.002;
+ key.group.add(contact);
+}
 const caseModel=buildCase(THREE,root,keys);caseModel.setFinish('#d5b7b3');
 // Color studies use the same lighting and geometry; palette values are visual approximations.
 const palettes={

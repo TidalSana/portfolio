@@ -1,4 +1,4 @@
-import './studio.js?v=light48';
+import './studio.js?v=homing-shadows';
 import * as THREE from './assets/three.module.js';
 const {renderer,camera,root,setView}=window.studio;
 const groups=root.children.filter(o=>o.isGroup&&Math.abs(o.position.y-.83)<.001);
@@ -51,3 +51,8 @@ renderer.domElement.addEventListener('pointercancel',()=>{down=null;hover(null)}
 renderer.domElement.addEventListener('pointerup',e=>{const origin=down;down=null;if(!origin)return;const g=hitKey(e);hover(g);if(Math.hypot(e.clientX-origin[0],e.clientY-origin[1])>5)return;const key=keyGroups.get(g);if(key)send(key)});
 
 window.addEventListener('focus',()=>parent.postMessage({type:'keyboard-page-focus'},location.origin));
+
+// Keep Spellkey aware of the pointer over the embedded keyboard.
+window.addEventListener('pointermove',e=>{
+ if(e.pointerType!=='touch'&&!document.hidden)parent.postMessage({type:'keyboard-pointer',x:e.clientX,y:e.clientY},location.origin);
+},{passive:true});

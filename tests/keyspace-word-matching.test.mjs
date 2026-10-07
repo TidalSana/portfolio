@@ -1,0 +1,10 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {wordPrefix,completeWord,destinationWords} from '../public/keyspace/word-matching.js';
+const type=text=>[...text].reduce((prefix,letter)=>wordPrefix(prefix+letter),'');
+test('all four destinations recover after unrelated keys',()=>{for(const word of destinationWords){assert.equal(type('asdfxyz!'+word),word);assert(completeWord(type('asdfxyz!'+word)));}});
+test('typos and repeated starts recover',()=>{assert.equal(type('woxwork'),'work');assert.equal(type('ppprojects'),'projects');assert.equal(type('wow'),'w');});
+test('only complete visible destinations submit',()=>{for(const partial of ['', 'w','wor','project','keyboar','m','josh'])assert.equal(completeWord(partial),false);assert.equal(completeWord(type('workx')),false);});
+test('case insensitive matching',()=>assert.equal(type('WORK'),'work'));
+test('long key mashing stays bounded',()=>assert.equal(type('x'.repeat(10000)+'keyboards'),'keyboards'));
+test('backspace removes matched progress',()=>{const prefix=type('randomwork').slice(0,-1);assert.equal(prefix,'wor');assert.equal(completeWord(prefix),false);assert.equal(wordPrefix(prefix+'k'),'work');});
