@@ -1,5 +1,5 @@
 import {wordPrefix,completeWord} from './word-matching.js';
-import {performer,initPerformer} from './spellkey-performer.js';
+import {performer,initPerformer} from './spellkey-performer.js?v=stable-resize';
 import {mountScene} from './render-adapter.js?v=homing-shadows';
 import {destinations} from './destinations.js';
 const app=document.querySelector('#app');
