@@ -21,3 +21,9 @@ type: project
 - Original checkout and uncommitted handoff remain untouched. Prior handoff text above is historical context.
 - Root homepage replacement remains separate. This request authorizes saving, pushing, and opening a PR, not merging or deploying.
 - Local design sheets remain in this chat’s outputs, outside the shipped site.
+
+## 2026-10-06 — Root cutover authorized
+
+- Josh confirmed PR #3 merged and explicitly requested a new PR making the keyboard portfolio the main homepage.
+- Branch feat/keyboard-homepage-cutover starts from merge 3924046. Root / rewrites to /keyspace/index.html before the legacy page. Asset URLs support both entry points.
+- The earlier “root homepage remains separate” notes are historical; cutover is now authorized. Merging this new PR is not authorized yet. Deployment status is unknown until checked after merge.

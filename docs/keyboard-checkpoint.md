@@ -47,3 +47,11 @@ F and J have raised homing bars with local contact shadows. They share the keyca
 word-matching.js implements bounded suffix matching. Run its regression checks with `node --test tests/keyspace-word-matching.test.mjs`.
 
 This checkpoint updates /keyspace/index.html only. The Next.js root homepage is unchanged. Full Next.js build and deployment are not claimed by this static checkpoint.
+
+## Root homepage cutover
+
+The cutover PR serves the accepted static keyboard page at `/` using a Next.js beforeFiles rewrite. Browser URLs remain on the root with hash destinations such as `/#work`. `/keyspace/index.html` remains available. Styles/scripts use the stable /keyspace asset prefix; the keyboard iframe and destination photos resolve relative to their modules.
+
+Rollback: remove the root beforeFiles rewrite in next.config.js to restore the retained legacy pages/index.tsx. No legacy source or routes are deleted.
+
+Post-deploy check: open / in a fresh tab, type random letters followed by work and Enter, return with Escape, open Me and Keyboards to check photos, and confirm the F/J bars and arm-free Spellkey. Verify /keyspace/index.html still loads.
