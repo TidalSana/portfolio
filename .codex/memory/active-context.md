@@ -27,3 +27,11 @@ type: project
 - Josh confirmed PR #3 merged and explicitly requested a new PR making the keyboard portfolio the main homepage.
 - Branch feat/keyboard-homepage-cutover starts from merge 3924046. Root / rewrites to /keyspace/index.html before the legacy page. Asset URLs support both entry points.
 - The earlier “root homepage remains separate” notes are historical; cutover is now authorized. Merging this new PR is not authorized yet. Deployment status is unknown until checked after merge.
+
+## 2026-10-06 — Resize fix and stop point
+
+- PR #4 merged at e34762c; root cutover is included in this branch. No assumption about deployment status.
+- Branch fix/word-resize-jitter: resizing no longer calls the random scatter function. Each cast owns a stable layout; resize reflows those same slots and offsets, coalesced to one animation frame. Cursor selection and typed progress are preserved.
+- Reproduced the original jitter with height-only resize. Fixed browser checks: positions/cursor unchanged on height-only resize; typed “wo” survives mobile resizing with one cursor; returning to desktop restores exact positions.
+- Original local preview on port 8766 also has this fix. The worktree includes the root cutover; original scratch preview continues at its existing URL.
+- Stop after opening the fix PR. Do not merge or deploy without Josh’s instruction. Next session: review PR/deployment, then resize the production page and verify word order, typing, and Spellkey casting.

@@ -55,3 +55,9 @@ The cutover PR serves the accepted static keyboard page at `/` using a Next.js b
 Rollback: remove the root beforeFiles rewrite in next.config.js to restore the retained legacy pages/index.tsx. No legacy source or routes are deleted.
 
 Post-deploy check: open / in a fresh tab, type random letters followed by work and Enter, return with Escape, open Me and Keyboards to check photos, and confirm the F/J bars and arm-free Spellkey. Verify /keyspace/index.html still loads.
+
+## Resize stability
+
+Word slots, offsets, and idle timing are randomized only during a cast. Window resize reflows that saved layout without changing the cursor suggestion. Repeated resize events are coalesced into an animation frame. Desktop/mobile layout changes preserve the typed prefix and restore the same positions when returning to the original width.
+
+Regression checks: `node --test tests/*.test.mjs` includes layout stability, bounded placements, and typing/root-route checks.
