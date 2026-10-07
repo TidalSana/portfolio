@@ -46,3 +46,23 @@
 
 .destination-caret{display:inline-block;position:relative;width:0;height:1em;vertical-align:-.12em;border-left:1px solid #254f47;animation:prompt-blink 1.2s steps(1) infinite;pointer-events:none}.word-idle{white-space:pre}
 @media(prefers-reduced-motion:reduce){.destination-caret{animation:none}}
+
+/* Local minimal preview: the floating words are the visible typing surface. */
+.destination-bar{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+#travel-form{display:none}
+.travel{grid-template-rows:1fr}
+.board-stage,.story{grid-row:1}
+
+/* Rounded cartoon gloves with rolled cuffs and a distinct pointing pose. */
+.rubber-arm{stroke-width:15}
+.glove{stroke-width:4.5}
+.glove-crease{stroke-width:2.8}
+.hand-point{opacity:0}
+
+/* Spellkey keeps his eye and word gestures without visible arms or hands. */
+.spellkey-button .rubber-arm{display:none}
+
+/* The destination word itself is the visible typing surface. */
+.spell-nav button.matching{color:#748079}
+.typed-letters{font-weight:600;color:#173f3c}
+.enter-cue{position:absolute;left:calc(100% + 8px);top:0;font-size:13px;color:#173f3c;font-style:normal}

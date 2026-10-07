@@ -1,6 +1,6 @@
 # Interactive keyboard portfolio checkpoint
 
-Saved 2026-10-06. Development is paused at the accepted single-cursor interaction.
+Saved 2026-10-06. Current checkpoint includes word-only navigation and forgiving typing.
 
 ## Preview
 
@@ -17,7 +17,7 @@ Then visit http://127.0.0.1:8780/keyspace/index.html#home. Serve over HTTP; ES m
 
 Turquoise case, GMK Rubrehose keycaps, Cherry-profile geometry and finished lighting. Header contains Joshua Semana and the animated Spellkey. Drag the keyboard to orbit. Type Work, Projects, Me or Keyboards and press Enter, or click a floating word. Escape returns home. Clicking rendered keys also types, with key travel and fading highlights.
 
-Spellkey has mirrored rubber-hose hands, hidden at rest. Clicking him retracts and redistributes the words; leaving and returning to the page also retracts/releases them. Word positions and the idle suggested destination are random. Exactly one floating word has a cursor; typing moves it into the matching word after the entered letters. Reduced motion is supported.
+Spellkey’s arms and hands are hidden entirely. His eye follows the pointer while the page is active, including over the keyboard iframe. Clicking him retracts and redistributes the words; leaving and returning to the page also retracts/releases them. Word positions and the idle suggested destination are random. Exactly one floating word has a cursor; typing moves it into the matching word after the entered letters. There is no visible input section. Random keys recover by keeping the longest suffix that begins work, projects, me, or keyboards. Typed letters darken; complete words show an Enter cue. Enter opens only a complete word, Backspace edits progress, and Escape clears progress even at home. Reduced motion is supported.
 
 ## Files
 
@@ -39,3 +39,11 @@ The original preview was checked on desktop/mobile, including navigation, Escape
 ## Resume
 
 Continue from this checkpoint only when asked. Next decision: integrate the accepted prototype into the production Next.js homepage or keep iterating at the standalone preview route. Do not resume visual changes merely because the handoff is loaded.
+
+## Follow-up checkpoint — 2026-10-06
+
+F and J have raised homing bars with local contact shadows. They share the keycap material and move with keypresses. Hidden arm geometry and arm-poses.js remain to preserve the current body gestures; no arms are visible. Earlier glove/emotion sheets remain local design experiments, not production routes.
+
+word-matching.js implements bounded suffix matching. Run its regression checks with `node --test tests/keyspace-word-matching.test.mjs`.
+
+This checkpoint updates /keyspace/index.html only. The Next.js root homepage is unchanged. Full Next.js build and deployment are not claimed by this static checkpoint.
