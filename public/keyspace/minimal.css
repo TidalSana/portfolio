@@ -66,3 +66,13 @@
 .spell-nav button.matching{color:#748079}
 .typed-letters{font-weight:600;color:#173f3c}
 .enter-cue{position:absolute;left:calc(100% + 8px);top:0;font-size:13px;color:#173f3c;font-style:normal}
+
+/* The scene makes room for the section while its content arrives. */
+.travel{grid-template-columns:minmax(0,1fr) minmax(0,0fr);transition:grid-template-columns 380ms cubic-bezier(.22,1,.36,1)}
+.visiting .travel{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.story{min-width:0;overflow-x:hidden}
+.spell-nav button{transition:opacity 240ms ease,color 240ms ease,transform 240ms ease}
+.visiting .spell-nav button:not([aria-current]){opacity:.48}
+.visiting .spell-nav button:hover,.visiting .spell-nav button:focus-visible,.visiting .spell-nav button.matching{opacity:1}
+.travel #key-scene{transition:height 380ms cubic-bezier(.22,1,.36,1)}
+@media(prefers-reduced-motion:reduce){.travel,.travel #key-scene,.spell-nav button{transition:none}}

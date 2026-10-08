@@ -1,7 +1,7 @@
 import {wordPrefix,completeWord} from './word-matching.js';
-import {performer,initPerformer} from './spellkey-performer.js?v=stable-resize';
+import {performer,initPerformer} from './spellkey-performer.js?v=section-motion';
 import {mountScene} from './render-adapter.js?v=homing-shadows';
-import {destinations} from './destinations.js';
+import {destinations} from './destinations.js?v=project-app-link';
 const app=document.querySelector('#app');
 const stops=[['work','Work','work'],['projects','Projects','projects'],['josh','Me','me'],['keyboards','Keyboards','keyboards']];
 app.innerHTML=`<a class="skip" href="#spell-navigation">Skip to navigation</a><header><div class="header-identity">${performer}<a class="identity" href="#home" aria-label="Joshua Semana, home"><span>Joshua Semana</span></a></div></header><main id="content" class="travel"><section class="destination-bar" aria-label="Explore the portfolio"><form id="travel-form"><label for="destination">What would you like to explore?</label><div class="type-line"><input id="destination" name="destination" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder=" " aria-describedby="travel-feedback"><span class="typing-suggestion" aria-hidden="true"><span class="suggested-word">work</span></span><button type="submit" aria-label="Go to destination">↵</button></div></form><p id="travel-feedback" role="status">Type a name + Enter, or choose a word.</p></section><div class="board-stage"><div id="key-scene"></div><nav id="spell-navigation" tabindex="-1" class="spell-nav" aria-label="Destinations">${stops.map(([id,label,word])=>`<button type="button" aria-label="${label}" data-go="${id}" data-word="${word}"><span><em class="word-idle">${label}</em></span></button>`).join('')}</nav></div><section id="story" class="story" hidden aria-label="Portfolio content"></section></main>`;
@@ -9,7 +9,41 @@ app.innerHTML=`<a class="skip" href="#spell-navigation">Skip to navigation</a><h
 const input=document.querySelector('#destination'),story=document.querySelector('#story'),feedback=document.querySelector('#travel-feedback');
 const scene=mountScene(document.querySelector('#key-scene'),{onKey:key=>handleKey(key)});
 function openDestination(raw){const word=raw.trim().toLowerCase(),id=word==='me'?'josh':word;if(id==='home'||id==='escape'){location.hash='home';return}if(!Object.hasOwn(destinations,id)){window.dispatchEvent(new CustomEvent('spellkey-reaction',{detail:'shrugging'}));feedback.textContent='Try work, projects, me, or keyboards.';input.setAttribute('aria-invalid','true');return}input.removeAttribute('aria-invalid');scene.press('Enter');location.hash=id;}
-function show(){const id=location.hash.slice(1);const active=Object.hasOwn(destinations,id);document.body.classList.toggle('visiting',active);story.hidden=!active;story.innerHTML=active?`<a class="back" href="#home">← Back to the keyboard <span>Esc</span></a>${destinations[id]}`:'';document.querySelectorAll('[data-go]').forEach(b=>{if(b.dataset.go===id)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});input.value='';matchWords();feedback.textContent=active?'Type another destination, or press Escape to return.':'Type a name + Enter, or choose a word.';document.title=active?`${id[0].toUpperCase()+id.slice(1)} — Joshua Semana`:'Joshua Semana';if(active){const heading=story.querySelector('h1');heading.tabIndex=-1;heading.focus({preventScroll:true});}}
+const motionPreference=matchMedia('(prefers-reduced-motion: reduce)');
+let navigationVersion=0,sectionAnimations=[],hasShown=false;
+function stopSectionAnimations(){sectionAnimations.forEach(a=>a.cancel());sectionAnimations=[];}
+function sectionAnimate(el,frames,options){const a=el.animate(frames,{fill:'both',...options});sectionAnimations.push(a);return a;}
+async function show(){
+ const version=++navigationVersion,id=location.hash.slice(1),active=Object.hasOwn(destinations,id);
+ const animate=hasShown&&!motionPreference.matches,wasVisiting=!story.hidden;
+ hasShown=true;
+ const currentOpacity=getComputedStyle(story).opacity;
+ stopSectionAnimations();
+ document.querySelectorAll('[data-go]').forEach(b=>{if(b.dataset.go===id)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});
+ input.value='';matchWords();
+ document.title=active?`${id[0].toUpperCase()+id.slice(1)} — Joshua Semana`:'Joshua Semana';
+ // Fade the old content before replacing it; rapid navigation invalidates earlier work.
+ if(animate&&wasVisiting){
+  story.inert=true;
+  const exit=sectionAnimate(story,[{opacity:currentOpacity,transform:'translateY(0)'},{opacity:0,transform:'translateY(-5px)'}],{duration:100,easing:'ease-out'});
+  await exit.finished.catch(()=>{});if(version!==navigationVersion)return;
+ }
+ stopSectionAnimations();
+ document.body.classList.toggle('visiting',active);
+ story.hidden=!active;story.inert=false;
+ story.innerHTML=active?`<a class="back" href="#home">← Back to the keyboard <span>Esc</span></a>${destinations[id]}`:'';
+ story.scrollTop=0;
+ feedback.textContent=active?'Type another destination, or press Escape to return.':'Type a name, or choose a word.';
+ if(active){
+  const heading=story.querySelector('h1');heading.tabIndex=-1;heading.focus({preventScroll:true});
+  if(animate){
+   const elements=[...story.children];
+   elements.forEach((el,i)=>sectionAnimate(el,[{opacity:0,transform:'translateY(10px)'},{opacity:1,transform:'translateY(0)'}],{duration:260,delay:Math.min(i*24,96),easing:'cubic-bezier(.16,1,.3,1)'}));
+   Promise.allSettled(sectionAnimations.map(a=>a.finished)).then(()=>{if(version===navigationVersion)stopSectionAnimations();});
+  }
+ }else if(wasVisiting){document.querySelector('.spellkey-button').focus({preventScroll:true});}
+}
+motionPreference.addEventListener('change',()=>{if(motionPreference.matches){stopSectionAnimations();show();}});
 function clearTyping(){input.value='';input.removeAttribute('aria-invalid');matchWords();}
 function handleKey(key){
  scene.press(key);
