@@ -69,3 +69,6 @@
 .story .project-notes p { margin-bottom: 0; }
 .story .project-notes .stack { margin-top: 16px; }
 @media (max-width:600px) { .story .project-notes { grid-template-columns: 1fr; gap: 24px; } .story .featured-project { margin-top: 32px; } }
+
+/* Sticky positioning isolates blending; provide the same paper behind the iframe. */
+.visiting .board-stage { background: #f5f4ef; }
