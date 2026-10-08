@@ -1,10 +1,10 @@
 import {wordPrefix,completeWord} from './word-matching.js';
 import {performer,initPerformer} from './spellkey-performer.js?v=section-motion';
-import {mountScene} from './render-adapter.js?v=homing-shadows';
+import {mountScene} from './render-adapter.js?v=stable-hover';
 import {destinations} from './destinations.js?v=project-app-link';
 const app=document.querySelector('#app');
 const stops=[['work','Work','work'],['projects','Projects','projects'],['josh','Me','me'],['keyboards','Keyboards','keyboards']];
-app.innerHTML=`<a class="skip" href="#spell-navigation">Skip to navigation</a><header><div class="header-identity">${performer}<a class="identity" href="#home" aria-label="Joshua Semana, home"><span>Joshua Semana</span></a></div></header><main id="content" class="travel"><section class="destination-bar" aria-label="Explore the portfolio"><form id="travel-form"><label for="destination">What would you like to explore?</label><div class="type-line"><input id="destination" name="destination" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder=" " aria-describedby="travel-feedback"><span class="typing-suggestion" aria-hidden="true"><span class="suggested-word">work</span></span><button type="submit" aria-label="Go to destination">↵</button></div></form><p id="travel-feedback" role="status">Type a name + Enter, or choose a word.</p></section><div class="board-stage"><div id="key-scene"></div><nav id="spell-navigation" tabindex="-1" class="spell-nav" aria-label="Destinations">${stops.map(([id,label,word])=>`<button type="button" aria-label="${label}" data-go="${id}" data-word="${word}"><span><em class="word-idle">${label}</em></span></button>`).join('')}</nav></div><section id="story" class="story" hidden aria-label="Portfolio content"></section></main>`;
+app.innerHTML=`<a class="skip" href="#spell-navigation">Skip to navigation</a><header><div class="header-identity">${performer}<a class="identity" href="#home" aria-label="Joshua Semana, home"><span>Joshua Semana</span></a></div></header><main id="content" class="travel"><section class="destination-bar" aria-label="Explore the portfolio"><form id="travel-form"><label for="destination">What would you like to explore?</label><div class="type-line"><input id="destination" name="destination" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder=" " aria-describedby="travel-feedback"><span class="typing-suggestion" aria-hidden="true"><span class="suggested-word">work</span></span><button type="submit" aria-label="Go to destination">↵</button></div></form><p id="travel-feedback" role="status">Type a name + Enter, or choose a word.</p></section><div class="board-stage"><div id="key-scene"></div><nav id="spell-navigation" tabindex="-1" class="spell-nav" aria-label="Destinations">${stops.map(([id,label,word])=>`<button type="button" aria-label="${label}" data-go="${id}" data-word="${word}"><span><em class="word-idle">${label}</em></span></button>`).join('')}</nav><button class="set-hint" aria-expanded="false" aria-controls="set-detail">GMK Rubrehose <span aria-hidden="true">+</span></button><aside id="set-detail" class="set-detail" hidden aria-label="About this keycap set"><button class="set-close" aria-label="Close keycap details">×</button><h2>GMK CYL Rubrehose</h2><a href="https://oblotzky.industries/products/gmk-cyl-rubrehose" target="_blank" rel="noreferrer">View set ↗</a></aside></div><section id="story" class="story" hidden aria-label="Portfolio content"></section></main>`;
 
 const input=document.querySelector('#destination'),story=document.querySelector('#story'),feedback=document.querySelector('#travel-feedback');
 const scene=mountScene(document.querySelector('#key-scene'),{onKey:key=>handleKey(key)});
@@ -91,3 +91,40 @@ window.addEventListener('hashchange',show);show();
 
 
 initPerformer();
+
+
+// Escape remains a key. Pointer curiosity opens a small, traversable preview.
+const setHint=document.querySelector('.set-hint'),setDetail=document.querySelector('#set-detail');
+setHint.innerHTML='About this set';
+let revealTimer,hideTimer,cueTimer;
+const atHome=()=>!document.body.classList.contains('visiting');
+function closeSetDetail(){clearTimeout(revealTimer);clearTimeout(hideTimer);clearTimeout(cueTimer);setDetail.hidden=true;setHint.setAttribute('aria-expanded','false');scene.hintSet(false);}
+function revealSet(){if(!atHome()||document.hidden)return;setDetail.hidden=false;setHint.setAttribute('aria-expanded','true');}
+function deferClose(){clearTimeout(revealTimer);clearTimeout(hideTimer);hideTimer=setTimeout(()=>{if(!setDetail.matches(':hover')&&!setDetail.contains(document.activeElement))closeSetDetail();},450);}
+window.addEventListener('keyboard-set-preview',e=>{
+ if(!atHome())return;
+ const {active,x,y}=e.detail;
+ clearTimeout(revealTimer);clearTimeout(hideTimer);
+ if(!active){deferClose();return;}
+ if(!setDetail.hidden)return;
+ const stage=document.querySelector('.board-stage').getBoundingClientRect();
+ const frame=document.querySelector('.keyboard-render').getBoundingClientRect();
+ const left=Math.max(12,Math.min(frame.left-stage.left+x-35,stage.width-250));
+ setDetail.style.left=left+'px';setDetail.style.top=(frame.top-stage.top+y+18)+'px';
+ revealTimer=setTimeout(()=>{scene.hintSet(true);revealSet();},300);
+});
+setDetail.addEventListener('pointerenter',()=>clearTimeout(hideTimer));
+setDetail.addEventListener('pointerleave',deferClose);
+setDetail.addEventListener('focusin',()=>clearTimeout(hideTimer));
+setDetail.addEventListener('focusout',e=>{if(!setDetail.contains(e.relatedTarget))deferClose();});
+setHint.addEventListener('click',()=>{if(!setDetail.hidden){closeSetDetail();return;}setDetail.style.left='';setDetail.style.top='';revealSet();setDetail.querySelector('a').focus();});
+setDetail.querySelector('button').addEventListener('click',()=>{closeSetDetail();setHint.focus();});
+window.addEventListener('keydown',e=>{if(e.key==='Escape')closeSetDetail();},true);
+window.addEventListener('keyboard-set-dismiss',closeSetDetail);
+window.addEventListener('hashchange',closeSetDetail);
+window.addEventListener('blur',()=>{if(!document.hasFocus())closeSetDetail();});
+document.addEventListener('visibilitychange',()=>{if(document.hidden)closeSetDetail();});
+function syncSetIdle(){scene.idleSet(atHome()&&!document.hidden);}
+window.addEventListener('keyboard-set-cue',syncSetIdle);
+window.addEventListener('hashchange',syncSetIdle);
+document.addEventListener('visibilitychange',syncSetIdle);
