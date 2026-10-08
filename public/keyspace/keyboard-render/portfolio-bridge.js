@@ -1,5 +1,5 @@
 import {hitsRestingKey} from './stable-key-hit.js';
-import './studio.js?v=warm-studio';
+import './studio.js?v=no-cable';
 import * as THREE from './assets/three.module.js';
 const {renderer,camera,root,setView}=window.studio;
 const groups=root.children.filter(o=>o.isGroup&&Math.abs(o.position.y-.83)<.001);
@@ -94,3 +94,5 @@ function syncIdle(){cancelAnimationFrame(idleFrame);idleFrame=0;if(idleEnabled&&
 window.addEventListener('message',e=>{if(e.origin===location.origin&&e.source===parent&&e.data?.type==='keyboard-set-idle'){idleEnabled=e.data.active===true;syncIdle();}});
 document.addEventListener('visibilitychange',syncIdle);hintMotion.addEventListener('change',syncIdle);
 setTimeout(()=>parent.postMessage({type:'keyboard-set-cue'},location.origin),4200);
+
+window.addEventListener('message',e=>{if(e.origin===location.origin&&e.source===parent&&e.data?.type==='keyboard-peek')window.studio.setPeek(e.data.x,e.data.y);});

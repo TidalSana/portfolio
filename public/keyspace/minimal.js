@@ -1,6 +1,6 @@
 import {wordPrefix,completeWord} from './word-matching.js';
 import {performer,initPerformer} from './spellkey-performer.js?v=section-motion';
-import {mountScene} from './render-adapter.js?v=stable-hover';
+import {mountScene} from './render-adapter.js?v=no-cable';
 import {destinations} from './destinations.js?v=project-app-link';
 const app=document.querySelector('#app');
 const stops=[['work','Work','work'],['projects','Projects','projects'],['josh','Me','me'],['keyboards','Keyboards','keyboards']];

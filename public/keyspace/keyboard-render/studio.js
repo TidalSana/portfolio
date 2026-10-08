@@ -106,10 +106,29 @@ await document.fonts.load('12px OpenCherry');applyPalette();
 const undersideLight=new THREE.DirectionalLight('#fff8ef',2.7);undersideLight.position.set(-12,-25,-18);undersideLight.visible=false;scene.add(undersideLight);
 const postTarget=new THREE.WebGLRenderTarget(innerWidth,innerHeight,{type:THREE.HalfFloatType,samples:4});const composer=new EffectComposer(renderer,postTarget);composer.addPass(new RenderPass(scene,camera));
 const creviceShadows=new SSAOPass(scene,camera,innerWidth,innerHeight);creviceShadows.ssaoMaterial.defines.PERSPECTIVE_CAMERA=0;creviceShadows.kernelRadius=1.1;creviceShadows.minDistance=.0008;creviceShadows.maxDistance=.035;composer.addPass(creviceShadows);composer.addPass(new OutputPass());
+// Peek offsets are removed before OrbitControls updates, so they never accumulate.
+const peekTarget=new THREE.Vector2(),peekCurrent=new THREE.Vector2(),peekOffset=new THREE.Vector3();
+const peekRight=new THREE.Vector3(),peekUp=new THREE.Vector3();
+const peekMotion=matchMedia('(prefers-reduced-motion: reduce)');
+let peekDragging=false,peekTime=0;
+function clearPeekOffset(){camera.position.sub(peekOffset);controls.target.sub(peekOffset);peekOffset.set(0,0,0);}
+function setPeek(x=0,y=0){peekTarget.set(Number.isFinite(x)?Math.max(-1,Math.min(1,x)):0,Number.isFinite(y)?Math.max(-1,Math.min(1,y)):0);}
+controls.addEventListener('start',()=>{peekDragging=true;clearPeekOffset();peekCurrent.set(0,0);setPeek();controls.update();});
+controls.addEventListener('end',()=>{peekDragging=false;});
+peekMotion.addEventListener('change',()=>{clearPeekOffset();peekCurrent.set(0,0);setPeek();controls.update();});
 let current='hero';const poses={hero:{p:[-18,25,36],t:[0,1.5,0],span:20},top:{p:[0,46,.01],t:[0,1.5,0],span:19},tabDetail:{p:[-5,23,20],t:[-11,2,-1],span:6},legends:{p:[13,14,24],t:[10,2,-1],span:6},detail:{p:[-24,18,28],t:[-6,2,1],span:13},side:{p:[-36,50,32],t:[-9,2,0],span:18,zoom:1.8},rear:{p:[0,8,-40],t:[0,1,0],span:18},plate:{p:[0,27,-34],t:[0,1,0],span:19},underside:{p:[0,28,-35],t:[0,2,0],span:19}};
 function resize(){const w=innerWidth,h=innerHeight,aspect=w/h;const span=poses[current].span;const half=Math.max(span/aspect,9);camera.left=-half*aspect;camera.right=half*aspect;camera.top=half;camera.bottom=-half;camera.updateProjectionMatrix();renderer.setSize(w,h);composer.setSize(w,h);}
-function setView(view){current=view;const underside=view==='underside'||view==='side';renderer.toneMappingExposure=underside?.78:.95;keyLight.position.set(...(underside?[8,28,-18]:[-18,24,8]));floor.visible=floorShadow.visible=ambientShadow.visible=!underside;undersideLight.visible=false;root.rotation.order='ZXY';root.rotation.z=underside?Math.PI:0;controls.minPolarAngle=.02;controls.maxPolarAngle=1.48;keys.forEach(k=>k.group.visible=!underside&&view!=='plate');caseModel.setView(view==='plate'?'plate':'assembled');renderer.shadowMap.needsUpdate=true;const pose=poses[view];camera.position.set(...pose.p);controls.target.set(...pose.t);camera.zoom=pose.zoom||1;controls.update();resize();document.querySelectorAll('[data-view]').forEach(b=>{b.classList.toggle('active',b.dataset.view===view);b.setAttribute('aria-pressed',String(b.dataset.view===view));});}
+function setView(view){clearPeekOffset();peekCurrent.set(0,0);setPeek();current=view;const underside=view==='underside'||view==='side';renderer.toneMappingExposure=underside?.78:.95;keyLight.position.set(...(underside?[8,28,-18]:[-18,24,8]));floor.visible=floorShadow.visible=ambientShadow.visible=!underside;undersideLight.visible=false;root.rotation.order='ZXY';root.rotation.z=underside?Math.PI:0;controls.minPolarAngle=.02;controls.maxPolarAngle=1.48;keys.forEach(k=>k.group.visible=!underside&&view!=='plate');caseModel.setView(view==='plate'?'plate':'assembled');renderer.shadowMap.needsUpdate=true;const pose=poses[view];camera.position.set(...pose.p);controls.target.set(...pose.t);camera.zoom=pose.zoom||1;controls.update();resize();document.querySelectorAll('[data-view]').forEach(b=>{b.classList.toggle('active',b.dataset.view===view);b.setAttribute('aria-pressed',String(b.dataset.view===view));});}
 document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>setView(b.dataset.view)));window.addEventListener('resize',resize);const requestedView=new URLSearchParams(location.search).get('view');setView(Object.hasOwn(poses,requestedView)?requestedView:'hero');
 document.querySelector('#save').addEventListener('click',()=>{composer.render();const a=document.createElement('a');a.download='korsa-mini-case-v3-'+current+'.png';a.href=renderer.domElement.toDataURL('image/png');a.click();});
 renderer.shadowMap.autoUpdate=false;renderer.shadowMap.needsUpdate=true;
-function tick(){requestAnimationFrame(tick);controls.update();composer.render();}tick();document.querySelector('#loading').remove();window.studio={scene,renderer,camera,controls,root,setView};
+function tick(now=0){
+ requestAnimationFrame(tick);clearPeekOffset();controls.update();
+ const dt=Math.min((now-peekTime)/1000,.05);peekTime=now;
+ if(peekDragging||peekMotion.matches||document.hidden){peekCurrent.set(0,0);}
+ else peekCurrent.lerp(peekTarget,1-Math.exp(-7*Math.max(0,dt)));
+ peekRight.setFromMatrixColumn(camera.matrixWorld,0);peekUp.setFromMatrixColumn(camera.matrixWorld,1);
+ peekOffset.copy(peekRight).multiplyScalar(peekCurrent.x*1.35).addScaledVector(peekUp,peekCurrent.y*.8);
+ camera.position.add(peekOffset);controls.target.add(peekOffset);camera.updateMatrixWorld();
+ composer.render();
+}tick();document.querySelector('#loading').remove();window.studio={scene,renderer,camera,controls,root,setView,setPeek};
