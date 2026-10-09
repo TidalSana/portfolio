@@ -71,3 +71,9 @@ The unchanged approved 14-second study is available at /keyspace/spellkey-motion
 Me uses a small upright portrait above the italic Hafa Adai greeting, a narrow personal-note column, existing bio/interests, and muted turquoise social links. The separate Fluid typography trial is not installed or shipped by this change.
 
 Validation: all 25 Node tests pass, including accidental-drag and canceled-drag keyboard regressions; Next production build succeeds. This branch stacks on feat/portfolio-project-showcase (PR #6). No deployment performed.
+
+## Section navigation — latest main, 2026-10-08
+
+Local development now runs from the repository on port 3016, on feat/section-transitions based on origin/main at 18eacac (which includes PRs #6 and #7). The older port-8766 scratch preview is not the source for these changes.
+
+Keys 1–4 open Work, Projects, Me, and Keyboards. Pressing the current section’s key returns home; clicking its selected navigation label does the same. Section labels have no numeric badges; the compact Back control shows Esc. Escape and full-word typing still work. Keyboard and navigation positions animate between layouts, with reduced-motion bypass and cancellation for rapid navigation. Floating labels gently follow the mouse and spring back on leave; touch and reduced-motion settings skip that effect. Labels stay in screen space.
