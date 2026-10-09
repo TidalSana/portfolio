@@ -85,9 +85,9 @@
   margin: 0 0 26px;
 }
 .story .personal-note h1 { margin: 0 0 10px; }
-.story .personal-note p { margin: 0 0 24px; max-width: none; }
-.story .personal-note .lead { margin-bottom: 32px; font-weight: 500; color: #23362e; }
-.story .personal-note .me-location { display: block; font-weight: 400; color: #68736c; }
+.story .personal-note p { margin: 0 0 24px; max-width: none; font-weight: 500; }
+.story .personal-note .lead { margin-bottom: 32px; font-weight: 600; color: #23362e; }
+.story .personal-note .me-location { display: block; font-weight: 500; color: #68736c; }
 .story .personal-note p:last-child { margin-bottom: 0; }
 .story .personal-note .contact { margin-top: 30px; gap: 24px; flex-wrap: wrap; }
 .story .personal-note .contact a { color: #367c70; }
@@ -113,10 +113,10 @@
 .spell-nav button:hover { transform: none; }
 
 /* A brief light sweep through the bio links, with a soft expansion. */
-.story .bio-link { display: inline-block; position: relative; max-width: 100%; color: var(--bio-ink); text-decoration: none; transform-origin: center; transition: transform 320ms cubic-bezier(.2,.8,.25,1.25); }
-.story .bio-link-code { --bio-ink: #28786c; }
-.story .bio-link-design { --bio-ink: #796098; }
-.story .bio-link-keyboards { --bio-ink: #456db0; }
+.story .bio-link { display: inline-block; position: relative; max-width: 100%; color: var(--bio-ink); font-weight: 600; text-decoration: none; transform-origin: center; transition: transform 320ms cubic-bezier(.2,.8,.25,1.25); }
+.story .bio-link-code { --bio-ink: #35b900; }
+.story .bio-link-design { --bio-ink: #a020f0; }
+.story .bio-link-keyboards { --bio-ink: #006bff; }
 @keyframes bio-light-pass {
  from { background-position: 100% 0; }
  to { background-position: 0% 0; }
@@ -146,3 +146,72 @@
 .story .back .ui-icon{width:14px;height:14px;}
 .set-close{display:grid;place-items:center;}
 .enter-cue .ui-icon{display:block;}
+
+/* Compact work entries with a single, brief gesture from each company mark. */
+.story .career{margin-top:26px}
+.story .career article{grid-template-columns:minmax(155px,.85fr) minmax(0,1.5fr);gap:24px;padding:20px 0;align-items:baseline}
+.story .career article:first-child{padding-top:0}
+.story .career h2{font-size:16px;line-height:1.6;margin:0}
+.story .career .field{font-size:12px;line-height:1.5;margin:4px 0 0 20px}
+.story .career p:not(.field){font-size:14px;line-height:1.6;margin:0}
+.company-link{display:inline-flex;align-items:center;gap:8px;color:inherit;transition:color .18s;text-decoration:none}
+.company-icon{display:block;flex:none;width:12px;height:12px;object-fit:contain;border-radius:1px}
+.experience-crowdvolt{--company-color:#8c12da}
+.experience-biproxi{--company-color:#665336}
+.experience-officespace{--company-color:#007c91}
+.company-link:hover,.company-link:focus-visible{color:var(--company-color)}
+@keyframes company-bolt{0%,100%{transform:rotate(0)}30%{transform:rotate(-13deg) translateY(-2px)}65%{transform:rotate(7deg)}}
+@keyframes company-rise{0%,100%{transform:translateY(0)}45%{transform:translateY(-4px)}}
+@keyframes company-tilt{0%,100%{transform:rotate(0)}40%{transform:rotate(-9deg)}70%{transform:rotate(3deg)}}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){
+ .experience-crowdvolt:hover .company-icon{animation:company-bolt 420ms ease-out}
+ .experience-biproxi:hover .company-icon{animation:company-rise 420ms ease-out}
+ .experience-officespace:hover .company-icon{animation:company-tilt 420ms ease-out}
+}
+@media(prefers-reduced-motion:no-preference){
+ .experience-crowdvolt .company-link:focus-visible .company-icon{animation:company-bolt 420ms ease-out}
+ .experience-biproxi .company-link:focus-visible .company-icon{animation:company-rise 420ms ease-out}
+ .experience-officespace .company-link:focus-visible .company-icon{animation:company-tilt 420ms ease-out}
+}
+@media(max-width:480px){
+ .story .career article{display:grid;grid-template-columns:1fr;gap:8px;padding:18px 0}
+ .story .career article>p{padding-left:20px}
+}
+
+.story .career .company-heading .experience-dates{font-size:12px;line-height:1.5;color:#58665f;margin:4px 0 0 20px;font-variant-numeric:tabular-nums}
+
+/* Work leads with the experience list; other sections keep their composition. */
+@media(min-width:801px){
+ .viewing-work .travel{grid-template-columns:minmax(0,.68fr) minmax(0,.32fr);gap:40px}
+ .viewing-work .story{grid-column:1;grid-row:1}
+ .viewing-work .board-stage{grid-column:2;grid-row:1}
+ .viewing-work .travel #key-scene{height:280px;margin-top:80px}
+ .viewing-work .spell-nav{gap:4px 10px}
+ .viewing-work .spell-nav button{font-size:13px}
+}
+
+/* Projects uses a wide showcase; Keyboards opens into a full-width gallery. */
+@media(min-width:801px){
+ .viewing-projects .travel{grid-template-columns:minmax(0,.7fr) minmax(0,.3fr);gap:40px}
+ .viewing-projects .story{grid-column:1;grid-row:1}
+ .viewing-projects .board-stage{grid-column:2;grid-row:1}
+ .viewing-projects .travel #key-scene{height:260px;margin-top:90px}
+ .viewing-projects .spell-nav{gap:4px 8px}
+ .viewing-projects .spell-nav button{font-size:13px}
+ .viewing-projects .story .featured-project{margin-top:28px}
+ .viewing-keyboards .travel{grid-template-columns:minmax(0,.6fr) minmax(0,.4fr);gap:32px}
+ .viewing-keyboards .story{grid-column:1/-1;grid-row:1;max-width:none;min-width:0}
+ .viewing-keyboards .board-stage{grid-column:2;grid-row:1;position:relative;top:auto;z-index:2;align-self:start}
+ .viewing-keyboards .travel #key-scene{height:180px;margin-top:64px}
+ .viewing-keyboards .spell-nav{gap:4px 10px}
+ .viewing-keyboards .spell-nav button{font-size:13px}
+ .viewing-keyboards .story>h1,.viewing-keyboards .story>.lead{max-width:56%}
+ .viewing-keyboards .story>.lead{min-height:100px;margin-bottom:28px}
+ .viewing-keyboards .collection-hero img{height:clamp(300px,36vw,460px);object-position:center}
+ .viewing-keyboards .collection img{height:clamp(160px,20vw,250px)}
+}
+
+/* Roomier, stationary hit targets; only the inner label responds to the mouse. */
+.visiting .spell-nav{gap:0 2px}
+.visiting .spell-nav button{min-height:48px;min-width:48px;padding:12px 10px;font-size:14px}
+.spell-nav button .word-idle{pointer-events:none}

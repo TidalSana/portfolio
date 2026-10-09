@@ -3,7 +3,7 @@ export function initMagneticNavigation(nav){
  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
  const fine=matchMedia('(hover: hover) and (pointer: fine)');
  const items=[...nav.querySelectorAll('button')].map(button=>({button,label:button.querySelector('.word-idle'),x:0,y:0,vx:0,vy:0,tx:0,ty:0}));
- let frame=0,last=0;
+ let frame=0,last=0,transitioning=false;
  function draw(time){
   frame=0;
   const elapsed=Math.min((time-last)/1000,0.04);last=time;
@@ -12,7 +12,7 @@ export function initMagneticNavigation(nav){
   for(const item of items){
    for(let i=0;i<steps;i++)for(const axis of ['x','y']){
     const v='v'+axis,t='t'+axis;
-    item[v]+=(180*(item[t]-item[axis])-15*item[v])*dt;
+    item[v]+=(180*(item[t]-item[axis])-27*item[v])*dt;
     item[axis]+=item[v]*dt;
    }
    const unsettled=Math.abs(item.tx-item.x)+Math.abs(item.ty-item.y)+Math.abs(item.vx)+Math.abs(item.vy)>.08;
@@ -23,22 +23,29 @@ export function initMagneticNavigation(nav){
   if(moving)frame=requestAnimationFrame(draw);
  }
  function start(){if(!frame){last=performance.now();frame=requestAnimationFrame(draw);}}
+ function settle(){
+  for(const item of items)item.tx=item.ty=0;
+  if(reduced.matches)reset();else start();
+ }
  function reset(){
   cancelAnimationFrame(frame);frame=0;
   for(const item of items){item.x=item.y=item.vx=item.vy=item.tx=item.ty=0;item.label.style.removeProperty('translate');}
  }
  for(const item of items){
   item.button.addEventListener('pointermove',event=>{
-   if(event.pointerType!=='mouse'||reduced.matches||!fine.matches||event.buttons||nav.inert)return;
+   if(event.pointerType!=='mouse'||reduced.matches||!fine.matches||event.buttons||nav.inert||transitioning)return;
    const rect=item.button.getBoundingClientRect();
-   item.tx=Math.max(-10,Math.min(10,(event.clientX-rect.left-rect.width/2)*.3));
-   item.ty=Math.max(-7,Math.min(7,(event.clientY-rect.top-rect.height/2)*.3));
+   item.tx=Math.max(-4,Math.min(4,(event.clientX-rect.left-rect.width/2)*.15));
+   item.ty=Math.max(-3,Math.min(3,(event.clientY-rect.top-rect.height/2)*.15));
    start();
   });
   item.button.addEventListener('pointerleave',()=>{item.tx=item.ty=0;if(!reduced.matches)start();});
-  item.button.addEventListener('pointerdown',reset);
+  item.button.addEventListener('pointerdown',settle);
  }
- for(const event of ['hashchange','section-layout','blur','resize'])window.addEventListener(event,reset);
+ for(const event of ['hashchange','section-layout'])window.addEventListener(event,settle);
+ window.addEventListener('section-transition-start',()=>{transitioning=true;settle();});
+ window.addEventListener('section-transition-end',()=>{transitioning=false;});
+ for(const event of ['blur','resize'])window.addEventListener(event,reset);
  document.addEventListener('visibilitychange',reset);
  reduced.addEventListener('change',reset);fine.addEventListener('change',reset);
 }
