@@ -77,7 +77,3 @@ Validation: all 25 Node tests pass, including accidental-drag and canceled-drag 
 Local development now runs from the repository on port 3016, on feat/section-transitions based on origin/main at 18eacac (which includes PRs #6 and #7). The older port-8766 scratch preview is not the source for these changes.
 
 Keys 1–4 open Work, Projects, Me, and Keyboards. Pressing the current section’s key returns home; clicking its selected navigation label does the same. Compact key hints replace the visible Escape instruction. Escape and full-word typing still work. Keyboard and navigation positions animate between layouts, with reduced-motion bypass and cancellation for rapid navigation.
-
-## Keyboard-relative labels
-
-The homepage labels now project from fixed points on a plane above the keyboard, using the renderer’s orthographic camera and root transform. They follow orbit, zoom, and camera peek, with a two-row arrangement on narrow screens. The existing section navigation row remains flat. Magnetic hover moves only the label within its anchored hit target, and independent idle bobbing is disabled for anchored labels. Browser orbit/click/return and narrow-layout checks passed; 31 Node tests pass.

@@ -1,5 +1,5 @@
 import {hitsRestingKey} from './stable-key-hit.js';
-import './studio.js?v=anchored';
+import './studio.js?v=no-cable';
 import * as THREE from './assets/three.module.js';
 const {renderer,camera,root,setView}=window.studio;
 const groups=root.children.filter(o=>o.isGroup&&Math.abs(o.position.y-.83)<.001);
@@ -96,20 +96,3 @@ document.addEventListener('visibilitychange',syncIdle);hintMotion.addEventListen
 setTimeout(()=>parent.postMessage({type:'keyboard-set-cue'},location.origin),4200);
 
 window.addEventListener('message',e=>{if(e.origin===location.origin&&e.source===parent&&e.data?.type==='keyboard-peek')window.studio.setPeek(e.data.x,e.data.y);});
-
-// The menu lives on a keyboard-local plane, projected by the rendered camera.
-let lastAnchorProjection='';
-window.addEventListener('keyboard-rendered',()=>{
- if(document.hidden)return;
- const compact=innerWidth<520;
- const positions=compact?[[-8,-4],[8,-4],[-8,1],[8,1]]:[[-11,-3],[-4,-3],[3,-3],[10,-3]];
- const pixel=40/innerWidth;
- const project=(x,y,z)=>{
-  const v=root.localToWorld(new THREE.Vector3(x,y,z)).project(camera);
-  return [(v.x+1)/2,(1-v.y)/2];
- };
- const points=positions.map(([x,z])=>({p:project(x,8,z),x:project(x+pixel,8,z),z:project(x,8,z+pixel*1.8)}));
- const stamp=JSON.stringify(points.map(point=>Object.values(point).flat().map(v=>Math.round(v*100000))));
- if(stamp===lastAnchorProjection)return;lastAnchorProjection=stamp;
- parent.postMessage({type:'keyboard-anchors',points},location.origin);
-});

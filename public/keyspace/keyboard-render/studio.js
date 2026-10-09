@@ -131,5 +131,4 @@ function tick(now=0){
  peekOffset.copy(peekRight).multiplyScalar(peekCurrent.x*1.35).addScaledVector(peekUp,peekCurrent.y*.8);
  camera.position.add(peekOffset);controls.target.add(peekOffset);camera.updateMatrixWorld();
  composer.render();
- window.dispatchEvent(new Event('keyboard-rendered'));
 }tick();document.querySelector('#loading').remove();window.studio={scene,renderer,camera,controls,root,setView,setPeek};
