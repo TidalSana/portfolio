@@ -80,6 +80,8 @@ export function initPerformer(){
  window.addEventListener('message',e=>{if(e.origin===location.origin&&e.source===document.querySelector('.keyboard-render')?.contentWindow&&e.data.type==='keyboard-page-focus')updateActivity()});
  function settle(){cancel();layoutWords();nav.inert=away;words.forEach(w=>{w.style.transform='none';w.style.opacity=away?'0':'1'});}
  window.addEventListener('hashchange',settle);window.addEventListener('resize',()=>{if(!resizeFrame)resizeFrame=requestAnimationFrame(()=>{resizeFrame=0;settle();});});reduced.addEventListener('change',settle);
+ // Reflow stable word slots as the section transition changes scene width.
+ const navResize=new ResizeObserver(()=>layoutWords());navResize.observe(nav);
  scatter();
  intro=setTimeout(async()=>{if(!away&&!document.hidden){if(await travel(true))if(!away)travel(false)}},1300);
 }

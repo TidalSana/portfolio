@@ -4,6 +4,14 @@ description: Accepted keyboard prototype, merged checkpoint and session handoff
 type: project
 ---
 
+## 2026-10-08 — Section showcase and camera checkpoint
+
+- PR #6 remains open on feat/portfolio-project-showcase; includes section layouts, restored bio, ExtrasOnly preview, Escape hover fix, warm background, and home camera peek. Deployment unknown; not merged here.
+- Cable experiment removed completely. Camera peek remains; no icon replacements applied.
+- Validation: 17 tests pass. Camera edge shift/return and local section layouts visually checked; full hover pointer sequence was not automated. Production build result recorded in PR.
+- Preview remains on port 8766; test server on 8770 may remain running. Personal GitHub writes use command-scoped TidalSana; global/default work authentication untouched.
+- **Next:** Inventory existing arrows/icons, show rounded minimal alternatives (including custom SVG), get Josh's choice, then unify shared hyperlink/icon styling. See [interface follow-up](interface-follow-up.md).
+
 ## 2026-10-06 — Keyboard portfolio checkpoint and new-session handoff
 
 - PR https://github.com/TidalSana/portfolio/pull/2 was merged by Josh at 2026-10-06T21:17:52Z, commit d95fe95fd98b7d6dbb259bd0e76320083378c133. Local checkout remains on feat/keyboard-portfolio-checkpoint at ceeb5cc; fetch main before new development, preserving this local handoff update.

@@ -66,3 +66,37 @@
 .spell-nav button.matching{color:#748079}
 .typed-letters{font-weight:600;color:#173f3c}
 .enter-cue{position:absolute;left:calc(100% + 8px);top:0;font-size:13px;color:#173f3c;font-style:normal}
+
+/* The scene makes room for the section while its content arrives. */
+.travel{grid-template-columns:minmax(0,1fr) minmax(0,0fr);transition:grid-template-columns 380ms cubic-bezier(.22,1,.36,1)}
+.visiting .travel{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.story{min-width:0;overflow-x:hidden}
+.spell-nav button{transition:opacity 240ms ease,color 240ms ease,transform 240ms ease}
+.visiting .spell-nav button:not([aria-current]){opacity:.48}
+.visiting .spell-nav button:hover,.visiting .spell-nav button:focus-visible,.visiting .spell-nav button.matching{opacity:1}
+.travel #key-scene{transition:height 380ms cubic-bezier(.22,1,.36,1)}
+@media(prefers-reduced-motion:reduce){.travel,.travel #key-scene,.spell-nav button{transition:none}}
+
+.set-hint{display:block;margin:0 auto 24px;border:0;background:none;font:inherit;font-size:13px;color:#58665f;padding:12px;cursor:pointer;min-height:44px}.set-hint span{margin-left:9px}.set-hint:hover,.set-hint:focus-visible{color:#173f3c;text-decoration:underline;text-underline-offset:5px}.visiting .set-hint,.visiting .set-detail{display:none}.set-detail{position:absolute;right:3%;bottom:65px;width:min(280px,calc(100% - 32px));padding:28px;background:#fafaf5;border:1px solid #dce1d9;border-radius:10px;z-index:5;box-shadow:0 12px 36px #23362e12}.set-detail[hidden]{display:none}.set-detail h2{font-size:17px;font-weight:500;margin:20px 0 12px}.set-detail p{font-size:14px;line-height:1.6;color:#58665f;margin-bottom:12px}.set-detail .set-credit{font-size:12px}.set-detail a{font-size:13px;text-decoration:underline;text-underline-offset:4px}.set-close{position:absolute;right:8px;top:8px;width:36px;height:36px;border:0;background:none;font-size:21px;cursor:pointer;color:#58665f}.set-lettering{font-family:Newsreader,Georgia,serif;font-weight:600;font-size:44px;color:#f5e8bf;text-shadow:1px 2px #533b55,2px 4px #533b55,3px 6px #533b55;padding:24px 0 12px;text-align:center;transform:rotate(-5deg)}
+@media(max-width:600px){.set-detail{right:16px;bottom:64px}.set-hint{margin-bottom:8px}}
+
+/* Desktop discovery lives on the Escape key; touch retains an explicit control. */
+.set-hint{opacity:0;pointer-events:none}.set-hint:focus-visible{opacity:1;pointer-events:auto}
+.set-detail{width:238px;padding:18px 20px;right:auto;bottom:auto;top:60%;left:12%;border-radius:8px;box-shadow:0 8px 24px #23362e10}
+.set-detail .set-lettering,.set-detail .set-credit{display:none}.set-detail h2{font-size:14px;margin:0 24px 8px 0}.set-detail p{font-size:12px;margin-bottom:12px}.set-detail a{font-size:12px}.set-close{width:28px;height:28px;right:5px;top:5px;font-size:17px}
+@media(hover:none),(pointer:coarse){.set-hint{opacity:1;pointer-events:auto}}
+
+/* Warm paper surface and a restrained frosted-white preview. */
+html,body{background:#f5f4ef}
+.set-detail{background:rgba(255,255,252,.78);border:1px solid rgba(255,255,255,.86);backdrop-filter:blur(16px) saturate(1.08);-webkit-backdrop-filter:blur(16px) saturate(1.08);box-shadow:0 8px 28px rgba(40,47,41,.09),inset 0 1px rgba(255,255,255,.8)}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.set-detail{background:#fafaf6;border-color:#e0e2db}}
+@media(prefers-reduced-transparency:reduce){.set-detail{background:#fafaf6;backdrop-filter:none;-webkit-backdrop-filter:none}}
+/* Let the studio's near-white floor blend with the surrounding warm paper. */
+.keyboard-render{background:#f5f4ef;mix-blend-mode:multiply;filter:brightness(1.025)}
+
+/* Compact two-line set preview. */
+.set-detail{width:218px;padding:15px 17px;border-color:rgba(255,255,255,.6);box-shadow:0 5px 18px rgba(40,47,41,.06)}
+.set-detail h2{font-size:13px;line-height:1.5;font-weight:500;margin:0 22px 5px 0}
+.set-detail a{display:inline-block;font-size:12px;line-height:1.6;color:#58665f;text-decoration:none}
+.set-detail a:hover{text-decoration:underline;text-underline-offset:4px}
+.set-close{color:#6c756e;font-size:15px}

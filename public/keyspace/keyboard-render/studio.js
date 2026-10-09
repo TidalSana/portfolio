@@ -18,7 +18,7 @@ renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.outputColorSpace=T
 renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.05;
 renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.VSMShadowMap;
 host.append(renderer.domElement);
-const scene=new THREE.Scene();scene.background=new THREE.Color('#fafaf7').multiplyScalar(5); // Match the studio floor through the output tone-mapping pass, including beyond its edges.
+const scene=new THREE.Scene();scene.background=new THREE.Color('#f5f4ef').multiplyScalar(5); // Match the studio floor through the output tone-mapping pass, including beyond its edges.
 // Large luminous cards create broad photographic reflections without a visible HDRI.
 const studio=new THREE.Scene();studio.background=new THREE.Color('#b8b8b8');
 function card(w,h,p,power,color='#ffffff'){const o=new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshBasicMaterial({color,side:THREE.DoubleSide}));o.material.color.multiplyScalar(power);o.position.set(...p);o.lookAt(0,0,0);studio.add(o);}
@@ -30,7 +30,7 @@ const controls=new OrbitControls(camera,renderer.domElement);controls.enableDamp
 scene.add(new THREE.HemisphereLight('#ffffff','#aaa6a0',.12));
 const keyLight=new THREE.DirectionalLight('#ffffff',1.6);keyLight.position.set(-18,24,8);keyLight.castShadow=true;keyLight.shadow.mapSize.set(4096,4096);keyLight.shadow.radius=4;keyLight.shadow.blurSamples=16;Object.assign(keyLight.shadow.camera,{left:-24,right:24,top:22,bottom:-22,near:1,far:80});keyLight.shadow.bias=-.00007;keyLight.shadow.normalBias=.015;scene.add(keyLight);
 const fill=new THREE.DirectionalLight('#ffffff',.35);fill.position.set(15,14,-14);scene.add(fill);
-const floor=new THREE.Mesh(new THREE.PlaneGeometry(240,240),new THREE.MeshBasicMaterial({color:'#fafaf7',toneMapped:false}));floor.material.color.multiplyScalar(5);floor.rotation.x=-Math.PI/2;floor.position.y=-.13;scene.add(floor);const floorShadow=new THREE.Mesh(new THREE.PlaneGeometry(240,240),new THREE.ShadowMaterial({opacity:.94}));floorShadow.rotation.x=-Math.PI/2;floorShadow.position.y=-.125;floorShadow.receiveShadow=true;scene.add(floorShadow);
+const floor=new THREE.Mesh(new THREE.PlaneGeometry(240,240),new THREE.MeshBasicMaterial({color:'#f5f4ef',toneMapped:false}));floor.material.color.multiplyScalar(5);floor.rotation.x=-Math.PI/2;floor.position.y=-.13;scene.add(floor);const floorShadow=new THREE.Mesh(new THREE.PlaneGeometry(240,240),new THREE.ShadowMaterial({opacity:.94}));floorShadow.rotation.x=-Math.PI/2;floorShadow.position.y=-.125;floorShadow.receiveShadow=true;scene.add(floorShadow);
 // Subtle broad contact occlusion complements the crisp near-contact real shadows.
 const ac=document.createElement('canvas');ac.width=ac.height=256;const ax=ac.getContext('2d');const ag=ax.createRadialGradient(128,128,20,128,128,128);ag.addColorStop(0,'rgba(12,12,12,.94)');ag.addColorStop(.55,'rgba(12,12,12,.72)');ag.addColorStop(1,'rgba(60,49,40,0)');ax.fillStyle=ag;ax.fillRect(0,0,256,256);const at=new THREE.CanvasTexture(ac);const ambientShadow=new THREE.Mesh(new THREE.PlaneGeometry(38,16),new THREE.MeshBasicMaterial({map:at,transparent:true,depthWrite:false}));ambientShadow.rotation.x=-Math.PI/2;ambientShadow.position.y=-.115;scene.add(ambientShadow);
 const cache={};function geo(id,top=false){const k=id+':'+top;if(cache[k])return cache[k];const d=id===29?bottomModCAD:boardCAD[id],g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(d.position,3));g.setAttribute('normal',new THREE.Float32BufferAttribute(d.normal,3));g.setAttribute('uv',new THREE.Float32BufferAttribute(d.uv,2));g.setIndex(top?d.topIndex:d.index);if(top)g.translate(0,.003,0);return cache[k]=g;}
@@ -106,10 +106,29 @@ await document.fonts.load('12px OpenCherry');applyPalette();
 const undersideLight=new THREE.DirectionalLight('#fff8ef',2.7);undersideLight.position.set(-12,-25,-18);undersideLight.visible=false;scene.add(undersideLight);
 const postTarget=new THREE.WebGLRenderTarget(innerWidth,innerHeight,{type:THREE.HalfFloatType,samples:4});const composer=new EffectComposer(renderer,postTarget);composer.addPass(new RenderPass(scene,camera));
 const creviceShadows=new SSAOPass(scene,camera,innerWidth,innerHeight);creviceShadows.ssaoMaterial.defines.PERSPECTIVE_CAMERA=0;creviceShadows.kernelRadius=1.1;creviceShadows.minDistance=.0008;creviceShadows.maxDistance=.035;composer.addPass(creviceShadows);composer.addPass(new OutputPass());
+// Peek offsets are removed before OrbitControls updates, so they never accumulate.
+const peekTarget=new THREE.Vector2(),peekCurrent=new THREE.Vector2(),peekOffset=new THREE.Vector3();
+const peekRight=new THREE.Vector3(),peekUp=new THREE.Vector3();
+const peekMotion=matchMedia('(prefers-reduced-motion: reduce)');
+let peekDragging=false,peekTime=0;
+function clearPeekOffset(){camera.position.sub(peekOffset);controls.target.sub(peekOffset);peekOffset.set(0,0,0);}
+function setPeek(x=0,y=0){peekTarget.set(Number.isFinite(x)?Math.max(-1,Math.min(1,x)):0,Number.isFinite(y)?Math.max(-1,Math.min(1,y)):0);}
+controls.addEventListener('start',()=>{peekDragging=true;clearPeekOffset();peekCurrent.set(0,0);setPeek();controls.update();});
+controls.addEventListener('end',()=>{peekDragging=false;});
+peekMotion.addEventListener('change',()=>{clearPeekOffset();peekCurrent.set(0,0);setPeek();controls.update();});
 let current='hero';const poses={hero:{p:[-18,25,36],t:[0,1.5,0],span:20},top:{p:[0,46,.01],t:[0,1.5,0],span:19},tabDetail:{p:[-5,23,20],t:[-11,2,-1],span:6},legends:{p:[13,14,24],t:[10,2,-1],span:6},detail:{p:[-24,18,28],t:[-6,2,1],span:13},side:{p:[-36,50,32],t:[-9,2,0],span:18,zoom:1.8},rear:{p:[0,8,-40],t:[0,1,0],span:18},plate:{p:[0,27,-34],t:[0,1,0],span:19},underside:{p:[0,28,-35],t:[0,2,0],span:19}};
 function resize(){const w=innerWidth,h=innerHeight,aspect=w/h;const span=poses[current].span;const half=Math.max(span/aspect,9);camera.left=-half*aspect;camera.right=half*aspect;camera.top=half;camera.bottom=-half;camera.updateProjectionMatrix();renderer.setSize(w,h);composer.setSize(w,h);}
-function setView(view){current=view;const underside=view==='underside'||view==='side';renderer.toneMappingExposure=underside?.78:.95;keyLight.position.set(...(underside?[8,28,-18]:[-18,24,8]));floor.visible=floorShadow.visible=ambientShadow.visible=!underside;undersideLight.visible=false;root.rotation.order='ZXY';root.rotation.z=underside?Math.PI:0;controls.minPolarAngle=.02;controls.maxPolarAngle=1.48;keys.forEach(k=>k.group.visible=!underside&&view!=='plate');caseModel.setView(view==='plate'?'plate':'assembled');renderer.shadowMap.needsUpdate=true;const pose=poses[view];camera.position.set(...pose.p);controls.target.set(...pose.t);camera.zoom=pose.zoom||1;controls.update();resize();document.querySelectorAll('[data-view]').forEach(b=>{b.classList.toggle('active',b.dataset.view===view);b.setAttribute('aria-pressed',String(b.dataset.view===view));});}
+function setView(view){clearPeekOffset();peekCurrent.set(0,0);setPeek();current=view;const underside=view==='underside'||view==='side';renderer.toneMappingExposure=underside?.78:.95;keyLight.position.set(...(underside?[8,28,-18]:[-18,24,8]));floor.visible=floorShadow.visible=ambientShadow.visible=!underside;undersideLight.visible=false;root.rotation.order='ZXY';root.rotation.z=underside?Math.PI:0;controls.minPolarAngle=.02;controls.maxPolarAngle=1.48;keys.forEach(k=>k.group.visible=!underside&&view!=='plate');caseModel.setView(view==='plate'?'plate':'assembled');renderer.shadowMap.needsUpdate=true;const pose=poses[view];camera.position.set(...pose.p);controls.target.set(...pose.t);camera.zoom=pose.zoom||1;controls.update();resize();document.querySelectorAll('[data-view]').forEach(b=>{b.classList.toggle('active',b.dataset.view===view);b.setAttribute('aria-pressed',String(b.dataset.view===view));});}
 document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>setView(b.dataset.view)));window.addEventListener('resize',resize);const requestedView=new URLSearchParams(location.search).get('view');setView(Object.hasOwn(poses,requestedView)?requestedView:'hero');
 document.querySelector('#save').addEventListener('click',()=>{composer.render();const a=document.createElement('a');a.download='korsa-mini-case-v3-'+current+'.png';a.href=renderer.domElement.toDataURL('image/png');a.click();});
 renderer.shadowMap.autoUpdate=false;renderer.shadowMap.needsUpdate=true;
-function tick(){requestAnimationFrame(tick);controls.update();composer.render();}tick();document.querySelector('#loading').remove();window.studio={scene,renderer,camera,controls,root,setView};
+function tick(now=0){
+ requestAnimationFrame(tick);clearPeekOffset();controls.update();
+ const dt=Math.min((now-peekTime)/1000,.05);peekTime=now;
+ if(peekDragging||peekMotion.matches||document.hidden){peekCurrent.set(0,0);}
+ else peekCurrent.lerp(peekTarget,1-Math.exp(-7*Math.max(0,dt)));
+ peekRight.setFromMatrixColumn(camera.matrixWorld,0);peekUp.setFromMatrixColumn(camera.matrixWorld,1);
+ peekOffset.copy(peekRight).multiplyScalar(peekCurrent.x*1.35).addScaledVector(peekUp,peekCurrent.y*.8);
+ camera.position.add(peekOffset);controls.target.add(peekOffset);camera.updateMatrixWorld();
+ composer.render();
+}tick();document.querySelector('#loading').remove();window.studio={scene,renderer,camera,controls,root,setView,setPeek};
