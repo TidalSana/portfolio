@@ -86,7 +86,8 @@
 }
 .story .personal-note h1 { margin: 0 0 10px; }
 .story .personal-note p { margin: 0 0 24px; max-width: none; }
-.story .personal-note .lead { margin-bottom: 32px; }
+.story .personal-note .lead { margin-bottom: 32px; font-weight: 500; color: #23362e; }
+.story .personal-note .me-location { display: block; font-weight: 400; color: #68736c; }
 .story .personal-note p:last-child { margin-bottom: 0; }
 .story .personal-note .contact { margin-top: 30px; gap: 24px; flex-wrap: wrap; }
 .story .personal-note .contact a { color: #367c70; }
