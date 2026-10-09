@@ -4,6 +4,14 @@ description: Accepted keyboard prototype, merged checkpoint and session handoff
 type: project
 ---
 
+## 2026-10-08 — Bio links and icons parked for review
+
+- Josh requested a PR and an explicit stop: do not merge, deploy, or resume design changes automatically. Branch feat/bio-links-icons; PR link is in interface-follow-up.md.
+- PRs #6, #7, and #8 are merged; origin/main is 3791be5. New changes add bio links, a shared custom shimmer, and Lucide icons for external arrows, Back, close, and Enter. Preserve magnetic labels, the Esc badge, and the rejection of 3D anchoring.
+- Validation: 29 Node tests pass and diff whitespace check is clean. Me icons and project navigation checked in browser. Popup icons exist in DOM, but the popup did not stay open during automated checks; no popup behavior changes were made. A browser MutationObserver error was observed without a verified source. Shimmer pointer motion needs manual review.
+- Active source is the isolated portfolio-save checkout; Next preview remains on http://127.0.0.1:3016/. Old 8766 scratch preview is outdated. Existing servers are left running; deployment is unverified.
+- **Next:** Review the new PR when Josh returns. No merge is authorized.
+
 ## 2026-10-08 — Section showcase and camera checkpoint
 
 - PR #6 remains open on feat/portfolio-project-showcase; includes section layouts, restored bio, ExtrasOnly preview, Escape hover fix, warm background, and home camera peek. Deployment unknown; not merged here.
