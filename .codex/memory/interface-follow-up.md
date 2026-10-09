@@ -6,7 +6,7 @@ type: project
 
 # Current checkpoint — 2026-10-08
 
-PR #8 is merged into origin/main at 3791be5. New branch feat/bio-links-icons contains the subsequent bio and icon work. Josh requested pushing a PR, leaving it unmerged, and stopping. PR URL pending creation below.
+PR #8 is merged into origin/main at 3791be5. New branch feat/bio-links-icons contains the subsequent bio and icon work. Josh requested pushing a PR, leaving it unmerged, and stopping. PR #9: https://github.com/TidalSana/portfolio/pull/9 (open, unmerged).
 
 Bio links connect craft (code) to GitHub, design to Projects, and mechanical keyboards to Keyboards. Their base colors differ, but their custom shimmer colors, timing, and motion are shared. Fine-pointer hover only, with reduced-motion fallback. No reference-site code copied.
 
