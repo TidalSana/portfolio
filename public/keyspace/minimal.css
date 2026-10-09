@@ -106,3 +106,7 @@ html,body{background:#f5f4ef}
 .spellkey-button .performer-body { transform-origin: 0 0; }
 .spellkey-button .performer-eye { animation: none; transform-origin: 0 0; }
 .spellkey-button .performer-pupil { transform: none; transition: none; }
+
+/* Tiny outline Spelky: local design preview only. */
+.spellkey-button{width:24px;height:24px;margin:0;overflow:visible}
+#app > header{padding:10px 12px}
