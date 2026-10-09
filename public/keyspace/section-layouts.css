@@ -109,3 +109,5 @@
 .spell-nav button > span { display: inline-flex; align-items: center; justify-content: center; }
 .visiting .spell-nav button { width: auto !important; }
 .travel #key-scene { background: #f5f4ef; }
+/* Magnetic motion belongs to the label; the pointer target stays still. */
+.spell-nav button:hover { transform: none; }
