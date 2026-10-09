@@ -1,8 +1,9 @@
+import {initKeyboardAnchors} from './keyboard-anchors.js';
 import {initMagneticNavigation} from './magnetic-navigation.js';
 import {shortcutDestination,sectionKey,layoutDelta} from './section-navigation.js';
 import {wordPrefix,completeWord} from './word-matching.js';
 import {performer,initPerformer} from './spellkey-performer.js?v=one-eye-motion2';
-import {mountScene} from './render-adapter.js?v=no-cable';
+import {mountScene} from './render-adapter.js?v=anchored';
 import {destinations} from './destinations.js?v=me-location';
 const app=document.querySelector('#app');
 const stops=[['work','Work','work'],['projects','Projects','projects'],['josh','Me','me'],['keyboards','Keyboards','keyboards']];
@@ -108,6 +109,7 @@ window.addEventListener('hashchange',show);show();
 
 initPerformer();
 initMagneticNavigation(document.querySelector('.spell-nav'));
+initKeyboardAnchors(document.querySelector('.spell-nav'),document.querySelector('.keyboard-render'));
 
 
 // Escape remains a key. Pointer curiosity opens a small, traversable preview.

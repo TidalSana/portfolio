@@ -3,7 +3,7 @@ import {edgeAmount} from './edge-peek.js';
 export function mountScene(host,{onSelect=()=>{},onKey=()=>{},compact=false}={}){
  const frame=document.createElement('iframe');
  frame.title='Turquoise 60% WKL keyboard with GMK Rubrehose keycaps. Drag to rotate and scroll to zoom.';
- frame.src=new URL('./keyboard-render/embed.html?view=hero&caps=rubrehose&finish=turquoise&v=no-cable',import.meta.url).href;
+ frame.src=new URL('./keyboard-render/embed.html?view=hero&caps=rubrehose&finish=turquoise&v=anchored',import.meta.url).href;
  frame.className='keyboard-render';host.append(frame);
  const receive=e=>{if(e.origin===location.origin&&e.source===frame.contentWindow&&e.data.type==='keyboard-route')onSelect(e.data.id);if(e.origin===location.origin&&e.source===frame.contentWindow&&e.data.type==='keyboard-key')onKey(e.data.key)};
  window.addEventListener('message',receive);

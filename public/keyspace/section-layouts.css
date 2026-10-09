@@ -109,3 +109,12 @@
 .spell-nav button > span { display: inline-flex; align-items: center; justify-content: center; }
 .visiting .spell-nav button { width: auto !important; }
 .travel #key-scene { background: #f5f4ef; }
+
+/* Project the homepage labels onto the keyboard's hovering plane. */
+body:not(.visiting) .keyboard-anchored button {
+ left: var(--anchor-left) !important;
+ top: var(--anchor-top) !important;
+ transform: var(--anchor-plane) !important;
+ transform-origin: center;
+}
+body:not(.visiting) .keyboard-anchored .word-idle { animation: none; }
