@@ -1,28 +1,30 @@
 ---
 name: Portfolio interface follow-up
-description: Current local design and next icon comparison request
+description: Parked bio links and Lucide icon checkpoint
 type: project
 ---
 
-# Current checkpoint
+# Current checkpoint — 2026-10-08
 
-2026-10-08: PR #6 https://github.com/TidalSana/portfolio/pull/6 is open on feat/portfolio-project-showcase. Root homepage cutover is already on main; deployment not verified this session. This supersedes earlier root-cutover and active-account notes.
+PR #8 is merged into origin/main at 3791be5. New branch feat/bio-links-icons contains the subsequent bio and icon work. Josh requested pushing a PR, leaving it unmerged, and stopping. PR URL pending creation below.
 
-Accepted: quiet typography across Work, Projects, Me, and Keyboards; original purple-portfolio intro and learning/hobby wording; ExtrasOnly real archived screenshot, short project story, and https://extrasonly.io link. Escape key previews Rubrehose details with a stable resting hit area and traversable popup. Sticky section keyboard background blends into warm paper.
+Bio links connect craft (code) to GitHub, design to Projects, and mechanical keyboards to Keyboards. Their base colors differ, but their custom shimmer colors, timing, and motion are shared. Fine-pointer hover only, with reduced-motion fallback. No reference-site code copied.
 
-Home-only camera peek: cursor in outer 15% pans camera slightly, middle 70% returns to center; text stays stationary. Fine-pointer only, reduced-motion and section entry disable it. Browser-verified edge shift and return. The orange cable and unplugging experiment were rejected and removed completely from active source. Do not restore them.
+Shared Lucide SVGs replace external-link arrows, Back, popup close, and Enter cues. Icons are decorative with accessible labels retained; ISC license is included. Saved Desktop options also include Phosphor and Tabler. Lucide was the stated default for this pass; no explicit family selection was received.
 
-# Next request — do not apply before comparison
+Preserve Manrope and Newsreader, the quiet Me layout, magnetic navigation labels, stationary hit targets, and Esc badge. The 3D navigation anchors and cable experiment were rejected; do not restore them.
 
-Josh wants shared styling for section hyperlinks and the Rubrehose popup, with a manageable single styling location so changes apply uniformly. Current external links generally use the text glyph ↗; back links use ←; popup close uses ×. Inventory actual rendered icons before proposing replacements.
+# Resume locations
 
-Show the current icons beside a few rounded, minimal alternatives, including custom SVG options if useful. Let Josh choose before applying. Then consolidate shared link/icon styles and update the sections and popup consistently. Do not redesign other content or silently replace symbols now.
+Active isolated repository: /Users/joshuasemana/Documents/Codex/2026-10-06/continue-my-personal-keyboard-portfolio-from/work/portfolio-save
+Active app: http://127.0.0.1:3016/ (Next dev left running).
+Old 8766 scratch preview is outdated; do not sync changes there automatically.
+Desktop saved design options: /Users/joshuasemana/Desktop/Personal Projects/Keyboard Portfolio — 2026-10-08/
 
-# Locations and account isolation
+Use TidalSana credentials and personal commit identity per command only. Never switch global authentication. Leave the original portfolio-checkpoint checkout untouched.
 
-Local preview source: /Users/joshuasemana/Documents/Codex/2026-10-04/here/outputs/keyspace-cherry; URL http://127.0.0.1:8766/outputs/keyspace-cherry/index.html#home.
-Repository: /Users/joshuasemana/Documents/Codex/2026-10-06/continue-my-personal-keyboard-portfolio-from/work/portfolio-save; deployed files live under public/keyspace with module-relative asset resolution. Preserve that routing when syncing scratch files.
+# Verification and stopping point
 
-Use TidalSana credentials only per command, plus personal commit identity. Do not run gh auth switch or change global Git settings; default account remains JoshuaCrowdVolt for other workflows. Never save credentials in files.
+29 Node tests pass; diff whitespace check clean. Browser verified Me icon alignment, preserved links, section navigation, and Escape. Popup SVGs present, but automated opening was inconclusive; an unrelated-source MutationObserver error was observed. Full build not rerun for static icon changes. Deployment unverified.
 
-Original main checkout /Users/joshuasemana/Documents/Codex/2026-10-04/here/work/portfolio-checkpoint contains an unrelated intentional handoff edit; leave it untouched. Local server 8766 remains running; test server 8770 was also started during this session. No merge/deploy authorized.
+Wait for Josh to return and review. Do not merge or deploy.

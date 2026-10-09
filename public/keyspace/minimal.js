@@ -1,12 +1,13 @@
+import {icon} from './icons.js';
 import {initMagneticNavigation} from './magnetic-navigation.js';
 import {shortcutDestination,sectionKey,layoutDelta} from './section-navigation.js';
 import {wordPrefix,completeWord} from './word-matching.js';
 import {performer,initPerformer} from './spellkey-performer.js?v=one-eye-motion2';
 import {mountScene} from './render-adapter.js?v=no-cable';
-import {destinations} from './destinations.js?v=bio-links';
+import {destinations} from './destinations.js?v=lucide-icons';
 const app=document.querySelector('#app');
 const stops=[['work','Work','work'],['projects','Projects','projects'],['josh','Me','me'],['keyboards','Keyboards','keyboards']];
-app.innerHTML=`<a class="skip" href="#spell-navigation">Skip to navigation</a><header><div class="header-identity">${performer}<a class="identity" href="#home" aria-label="Joshua Semana, home"><span>Joshua Semana</span></a></div></header><main id="content" class="travel"><section class="destination-bar" aria-label="Explore the portfolio"><form id="travel-form"><label for="destination">What would you like to explore?</label><div class="type-line"><input id="destination" name="destination" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder=" " aria-describedby="travel-feedback"><span class="typing-suggestion" aria-hidden="true"><span class="suggested-word">work</span></span><button type="submit" aria-label="Go to destination">↵</button></div></form><p id="travel-feedback" role="status">Type a name + Enter, or choose a word.</p></section><div class="board-stage"><div id="key-scene"></div><nav id="spell-navigation" tabindex="-1" class="spell-nav" aria-label="Destinations">${stops.map(([id,label,word])=>`<button type="button" aria-label="${label}" data-go="${id}" data-word="${word}" aria-keyshortcuts="${sectionKey(id)}"><span><em class="word-idle">${label}</em></span></button>`).join('')}</nav><button class="set-hint" aria-expanded="false" aria-controls="set-detail">GMK Rubrehose <span aria-hidden="true">+</span></button><aside id="set-detail" class="set-detail" hidden aria-label="About this keycap set"><button class="set-close" aria-label="Close keycap details">×</button><h2>GMK CYL Rubrehose</h2><a href="https://oblotzky.industries/products/gmk-cyl-rubrehose" target="_blank" rel="noreferrer">View set ↗</a></aside></div><section id="story" class="story" hidden aria-label="Portfolio content"></section></main>`;
+app.innerHTML=`<a class="skip" href="#spell-navigation">Skip to navigation</a><header><div class="header-identity">${performer}<a class="identity" href="#home" aria-label="Joshua Semana, home"><span>Joshua Semana</span></a></div></header><main id="content" class="travel"><section class="destination-bar" aria-label="Explore the portfolio"><form id="travel-form"><label for="destination">What would you like to explore?</label><div class="type-line"><input id="destination" name="destination" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder=" " aria-describedby="travel-feedback"><span class="typing-suggestion" aria-hidden="true"><span class="suggested-word">work</span></span><button type="submit" aria-label="Go to destination">${icon('corner-down-left')}</button></div></form><p id="travel-feedback" role="status">Type a name + Enter, or choose a word.</p></section><div class="board-stage"><div id="key-scene"></div><nav id="spell-navigation" tabindex="-1" class="spell-nav" aria-label="Destinations">${stops.map(([id,label,word])=>`<button type="button" aria-label="${label}" data-go="${id}" data-word="${word}" aria-keyshortcuts="${sectionKey(id)}"><span><em class="word-idle">${label}</em></span></button>`).join('')}</nav><button class="set-hint" aria-expanded="false" aria-controls="set-detail">About this set</button><aside id="set-detail" class="set-detail" hidden aria-label="About this keycap set"><button class="set-close" aria-label="Close keycap details">${icon('x')}</button><h2>GMK CYL Rubrehose</h2><a href="https://oblotzky.industries/products/gmk-cyl-rubrehose" target="_blank" rel="noreferrer">View set ${icon('arrow-up-right')}</a></aside></div><section id="story" class="story" hidden aria-label="Portfolio content"></section></main>`;
 
 const input=document.querySelector('#destination'),story=document.querySelector('#story'),feedback=document.querySelector('#travel-feedback');
 const scene=mountScene(document.querySelector('#key-scene'),{onKey:key=>handleKey(key)});
@@ -35,7 +36,7 @@ async function show(){
  stopSectionAnimations();
  document.body.classList.toggle('visiting',active);
  story.hidden=!active;story.inert=false;
- story.innerHTML=active?`<a class="back" href="#home" aria-label="Back to the keyboard" aria-keyshortcuts="Escape" title="Back to the keyboard · press Escape"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M7 3 2 8l5 5M2 8h12" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Back<kbd class="section-key">Esc</kbd></a>${destinations[id]}`:'';
+ story.innerHTML=active?`<a class="back" href="#home" aria-label="Back to the keyboard" aria-keyshortcuts="Escape" title="Back to the keyboard · press Escape">${icon('arrow-left')}Back<kbd class="section-key">Esc</kbd></a>${destinations[id]}`:'';
  story.scrollTop=0;
  window.scrollTo({top:0,behavior:'instant'});
  window.dispatchEvent(new Event('section-layout'));
@@ -87,7 +88,7 @@ function matchWords(){
   const caret=document.createElement('i');caret.className='destination-caret';caret.setAttribute('aria-hidden','true');
   const progress=document.createElement('strong');progress.className='typed-letters';progress.textContent=label.slice(0,offset);
   text.append(progress,caret,document.createTextNode(label.slice(offset)));
-  if(b===match&&completeWord(typed)){const cue=document.createElement('small');cue.className='enter-cue';cue.textContent='↵';cue.setAttribute('aria-hidden','true');text.append(cue);}
+  if(b===match&&completeWord(typed)){const cue=document.createElement('small');cue.className='enter-cue';cue.innerHTML=icon('corner-down-left');cue.setAttribute('aria-hidden','true');text.append(cue);}
  });
  feedback.textContent=completeWord(typed)?`${match.getAttribute('aria-label')} ready. Press Enter to open.`:typed?`Typing ${match.getAttribute('aria-label')}.`:'Type a name, or choose a word.';
  attend(match);

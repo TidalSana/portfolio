@@ -112,15 +112,37 @@
 /* Magnetic motion belongs to the label; the pointer target stays still. */
 .spell-nav button:hover { transform: none; }
 
-/* Personal interests become quiet links within the existing bio. */
-.story .bio-link { display: inline-block; position: relative; max-width: 100%; text-decoration: none; transition: transform 180ms cubic-bezier(.16,1,.3,1); }
-.story .bio-link-code { color: #28786c; }
-.story .bio-link-design { color: #796098; }
-.story .bio-link-keyboards { color: #456db0; }
-.story .bio-link::after { content: ''; position: absolute; left: 0; right: 0; bottom: 2px; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform 200ms cubic-bezier(.16,1,.3,1); }
-.story .bio-link:hover, .story .bio-link:focus-visible { transform: translateY(-1px); }
-.story .bio-link:hover::after, .story .bio-link:focus-visible::after { transform: scaleX(1); }
-@media (prefers-reduced-motion: reduce) {
- .story .bio-link, .story .bio-link::after { transition: none; }
- .story .bio-link:hover, .story .bio-link:focus-visible { transform: none; }
+/* A brief light sweep through the bio links, with a soft expansion. */
+.story .bio-link { display: inline-block; position: relative; max-width: 100%; color: var(--bio-ink); text-decoration: none; transform-origin: center; transition: transform 320ms cubic-bezier(.2,.8,.25,1.25); }
+.story .bio-link-code { --bio-ink: #28786c; }
+.story .bio-link-design { --bio-ink: #796098; }
+.story .bio-link-keyboards { --bio-ink: #456db0; }
+@keyframes bio-light-pass {
+ from { background-position: 100% 0; }
+ to { background-position: 0% 0; }
 }
+@media (hover: hover) and (pointer: fine) {
+ .story .bio-link:hover {
+  transform: scale(1.035);
+  background-image: linear-gradient(105deg,var(--bio-ink) 35%,#4d9490 43%,#b99562 49%,#9c718f 55%,var(--bio-ink) 64%);
+  background-size: 300% 100%;
+  background-repeat: no-repeat;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: bio-light-pass 720ms cubic-bezier(.25,.1,.25,1) both;
+ }
+}
+.story .bio-link:focus-visible { text-decoration: underline; text-underline-offset: 4px; }
+.story .bio-link:active { transform: scale(.98); transition-duration: 90ms; }
+@media (prefers-reduced-motion: reduce) {
+ .story .bio-link { transition: none; }
+ .story .bio-link:hover, .story .bio-link:active { transform: none; animation: none; background-image: none; -webkit-text-fill-color: currentColor; }
+ .story .bio-link:hover { text-decoration: underline; text-underline-offset: 4px; }
+}
+
+/* Shared Lucide icons: one weight and scale across links and controls. */
+.ui-icon{display:inline-block;width:1em;height:1em;flex-shrink:0;vertical-align:-.125em;}
+.story .back .ui-icon{width:14px;height:14px;}
+.set-close{display:grid;place-items:center;}
+.enter-cue .ui-icon{display:block;}
