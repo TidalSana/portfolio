@@ -61,3 +61,13 @@ Post-deploy check: open / in a fresh tab, type random letters followed by work a
 Word slots, offsets, and idle timing are randomized only during a cast. Window resize reflows that saved layout without changing the cursor suggestion. Repeated resize events are coalesced into an animation frame. Desktop/mobile layout changes preserve the typed prefix and restore the same positions when returning to the original width.
 
 Regression checks: `node --test tests/*.test.mjs` includes layout stability, bounded placements, and typing/root-route checks.
+
+## Approved one-eye motion and Me layout — 2026-10-08
+
+Spellkey now uses the approved original, soft-oval, and knowing single-eye geometry. Pointer tracking, hover/focus, press squash, drag stretch, click pulses, spring settling, and the slow blink share the approved study’s values. Native keyboard activation still casts words; deliberate drags only change expression. Reduced motion and inactive pages return to a still pose.
+
+The unchanged approved 14-second study is available at /keyspace/spellkey-motion.html with its original mood selector, scrubber, and SVG. The live header maps the same poses to real interactions rather than running its choreographed cursor.
+
+Me uses a small upright portrait above the italic Hafa Adai greeting, a narrow personal-note column, existing bio/interests, and muted turquoise social links. The separate Fluid typography trial is not installed or shipped by this change.
+
+Validation: all 25 Node tests pass, including accidental-drag and canceled-drag keyboard regressions; Next production build succeeds. This branch stacks on feat/portfolio-project-showcase (PR #6). No deployment performed.
