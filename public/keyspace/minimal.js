@@ -1,16 +1,18 @@
+import {shortcutDestination,sectionKey,layoutDelta} from './section-navigation.js';
 import {wordPrefix,completeWord} from './word-matching.js';
 import {performer,initPerformer} from './spellkey-performer.js?v=one-eye-motion2';
 import {mountScene} from './render-adapter.js?v=no-cable';
 import {destinations} from './destinations.js?v=me-location';
 const app=document.querySelector('#app');
 const stops=[['work','Work','work'],['projects','Projects','projects'],['josh','Me','me'],['keyboards','Keyboards','keyboards']];
-app.innerHTML=`<a class="skip" href="#spell-navigation">Skip to navigation</a><header><div class="header-identity">${performer}<a class="identity" href="#home" aria-label="Joshua Semana, home"><span>Joshua Semana</span></a></div></header><main id="content" class="travel"><section class="destination-bar" aria-label="Explore the portfolio"><form id="travel-form"><label for="destination">What would you like to explore?</label><div class="type-line"><input id="destination" name="destination" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder=" " aria-describedby="travel-feedback"><span class="typing-suggestion" aria-hidden="true"><span class="suggested-word">work</span></span><button type="submit" aria-label="Go to destination">↵</button></div></form><p id="travel-feedback" role="status">Type a name + Enter, or choose a word.</p></section><div class="board-stage"><div id="key-scene"></div><nav id="spell-navigation" tabindex="-1" class="spell-nav" aria-label="Destinations">${stops.map(([id,label,word])=>`<button type="button" aria-label="${label}" data-go="${id}" data-word="${word}"><span><em class="word-idle">${label}</em></span></button>`).join('')}</nav><button class="set-hint" aria-expanded="false" aria-controls="set-detail">GMK Rubrehose <span aria-hidden="true">+</span></button><aside id="set-detail" class="set-detail" hidden aria-label="About this keycap set"><button class="set-close" aria-label="Close keycap details">×</button><h2>GMK CYL Rubrehose</h2><a href="https://oblotzky.industries/products/gmk-cyl-rubrehose" target="_blank" rel="noreferrer">View set ↗</a></aside></div><section id="story" class="story" hidden aria-label="Portfolio content"></section></main>`;
+app.innerHTML=`<a class="skip" href="#spell-navigation">Skip to navigation</a><header><div class="header-identity">${performer}<a class="identity" href="#home" aria-label="Joshua Semana, home"><span>Joshua Semana</span></a></div></header><main id="content" class="travel"><section class="destination-bar" aria-label="Explore the portfolio"><form id="travel-form"><label for="destination">What would you like to explore?</label><div class="type-line"><input id="destination" name="destination" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder=" " aria-describedby="travel-feedback"><span class="typing-suggestion" aria-hidden="true"><span class="suggested-word">work</span></span><button type="submit" aria-label="Go to destination">↵</button></div></form><p id="travel-feedback" role="status">Type a name + Enter, or choose a word.</p></section><div class="board-stage"><div id="key-scene"></div><nav id="spell-navigation" tabindex="-1" class="spell-nav" aria-label="Destinations">${stops.map(([id,label,word])=>`<button type="button" aria-label="${label}" data-go="${id}" data-word="${word}" aria-keyshortcuts="${sectionKey(id)}"><span><em class="word-idle">${label}</em><kbd class="section-key" aria-hidden="true">${sectionKey(id)}</kbd></span></button>`).join('')}</nav><button class="set-hint" aria-expanded="false" aria-controls="set-detail">GMK Rubrehose <span aria-hidden="true">+</span></button><aside id="set-detail" class="set-detail" hidden aria-label="About this keycap set"><button class="set-close" aria-label="Close keycap details">×</button><h2>GMK CYL Rubrehose</h2><a href="https://oblotzky.industries/products/gmk-cyl-rubrehose" target="_blank" rel="noreferrer">View set ↗</a></aside></div><section id="story" class="story" hidden aria-label="Portfolio content"></section></main>`;
 
 const input=document.querySelector('#destination'),story=document.querySelector('#story'),feedback=document.querySelector('#travel-feedback');
 const scene=mountScene(document.querySelector('#key-scene'),{onKey:key=>handleKey(key)});
 function openDestination(raw){const word=raw.trim().toLowerCase(),id=word==='me'?'josh':word;if(id==='home'||id==='escape'){location.hash='home';return}if(!Object.hasOwn(destinations,id)){window.dispatchEvent(new CustomEvent('spellkey-reaction',{detail:'shrugging'}));feedback.textContent='Try work, projects, me, or keyboards.';input.setAttribute('aria-invalid','true');return}input.removeAttribute('aria-invalid');scene.press('Enter');location.hash=id;}
 const motionPreference=matchMedia('(prefers-reduced-motion: reduce)');
 let navigationVersion=0,sectionAnimations=[],hasShown=false;
+const anchors=[document.querySelector('#key-scene'),...document.querySelectorAll('[data-go]')];
 function stopSectionAnimations(){sectionAnimations.forEach(a=>a.cancel());sectionAnimations=[];}
 function sectionAnimate(el,frames,options){const a=el.animate(frames,{fill:'both',...options});sectionAnimations.push(a);return a;}
 async function show(){
@@ -18,6 +20,7 @@ async function show(){
  const animate=hasShown&&!motionPreference.matches,wasVisiting=!story.hidden;
  hasShown=true;
  const currentOpacity=getComputedStyle(story).opacity;
+ const previousRects=anchors.map(el=>el.getBoundingClientRect());
  stopSectionAnimations();
  document.querySelectorAll('[data-go]').forEach(b=>{if(b.dataset.go===id)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});
  input.value='';matchWords();
@@ -31,22 +34,34 @@ async function show(){
  stopSectionAnimations();
  document.body.classList.toggle('visiting',active);
  story.hidden=!active;story.inert=false;
- story.innerHTML=active?`<a class="back" href="#home">← Back to the keyboard <span>Esc</span></a>${destinations[id]}`:'';
+ story.innerHTML=active?`<a class="back" href="#home" aria-label="Back to the keyboard" aria-keyshortcuts="${sectionKey(id)}" title="Back to the keyboard · press ${sectionKey(id)}"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M7 3 2 8l5 5M2 8h12" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Back<kbd class="section-key">${sectionKey(id)}</kbd></a>${destinations[id]}`:'';
  story.scrollTop=0;
- feedback.textContent=active?'Type another destination, or press Escape to return.':'Type a name, or choose a word.';
+ window.scrollTo({top:0,behavior:'instant'});
+ window.dispatchEvent(new Event('section-layout'));
+ feedback.textContent=active?`Press ${sectionKey(id)} to return, or choose another section.`:'Type a name, or choose a word. Keys 1–4 open sections.';
+ if(animate){
+  anchors.forEach((el,i)=>{
+   const delta=layoutDelta(previousRects[i],el.getBoundingClientRect());if(!delta)return;
+   const frames=i===0?[{transform:`translate(${delta.x}px,${delta.y}px) scale(${delta.sx},${delta.sy})`},{transform:'none'}]:[{translate:`${delta.x}px ${delta.y}px`},{translate:'0px 0px'}];
+   sectionAnimate(el,frames,{duration:360,easing:'cubic-bezier(.16,1,.3,1)'});
+  });
+ }
  if(active){
   const heading=story.querySelector('h1');heading.tabIndex=-1;heading.focus({preventScroll:true});
   if(animate){
    const elements=[...story.children];
    elements.forEach((el,i)=>sectionAnimate(el,[{opacity:0,transform:'translateY(10px)'},{opacity:1,transform:'translateY(0)'}],{duration:260,delay:Math.min(i*24,96),easing:'cubic-bezier(.16,1,.3,1)'}));
-   Promise.allSettled(sectionAnimations.map(a=>a.finished)).then(()=>{if(version===navigationVersion)stopSectionAnimations();});
+
   }
  }else if(wasVisiting){document.querySelector('.spellkey-button').focus({preventScroll:true});}
+ Promise.allSettled(sectionAnimations.map(a=>a.finished)).then(()=>{if(version===navigationVersion)stopSectionAnimations();});
 }
 motionPreference.addEventListener('change',()=>{if(motionPreference.matches){stopSectionAnimations();show();}});
 function clearTyping(){input.value='';input.removeAttribute('aria-invalid');matchWords();}
 function handleKey(key){
  scene.press(key);
+ const destination=shortcutDestination(key,location.hash.slice(1));
+ if(destination){clearTyping();location.hash=destination;return;}
  if(key==='Escape'){clearTyping();location.hash='home';input.blur();return;}
  if(key==='Enter'){if(completeWord(input.value))openDestination(input.value);return;}
  if(key==='Backspace'){input.value=input.value.slice(0,-1);matchWords();return;}
@@ -78,7 +93,7 @@ function matchWords(){
 }
 window.addEventListener('spellkey-suggestion',matchWords);
 input.addEventListener('input',()=>{input.value=wordPrefix(input.value);matchWords();input.removeAttribute('aria-invalid');});
-document.querySelectorAll('[data-go]').forEach(b=>{b.onclick=()=>openDestination(b.dataset.go);b.onpointerenter=b.onfocus=()=>attend(b);b.onpointerleave=b.onblur=()=>attend(document.querySelector('[data-word].matching'));});
+document.querySelectorAll('[data-go]').forEach(b=>{b.onclick=()=>openDestination(location.hash.slice(1)===b.dataset.go?'home':b.dataset.go);b.onpointerenter=b.onfocus=()=>attend(b);b.onpointerleave=b.onblur=()=>attend(document.querySelector('[data-word].matching'));});
 window.addEventListener('keydown',e=>{
  if(e.ctrlKey||e.metaKey||e.altKey||e.repeat)return;
  if(e.key==='Escape'){e.preventDefault();handleKey('Escape');return;}
