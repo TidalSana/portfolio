@@ -72,3 +72,25 @@
 
 /* Sticky positioning isolates blending; provide the same paper behind the iframe. */
 .visiting .board-stage { background: #f5f4ef; }
+
+/* Me: one personal note, with the portrait supporting the introduction. */
+.story .personal-note { max-width: 520px; }
+.story .me-portrait {
+  display: block;
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  object-position: center 35%;
+  border-radius: 4px;
+  margin: 0 0 26px;
+}
+.story .personal-note h1 { margin: 0 0 10px; }
+.story .personal-note p { margin: 0 0 24px; max-width: none; }
+.story .personal-note .lead { margin-bottom: 32px; font-weight: 500; color: #23362e; }
+.story .personal-note .me-location { display: block; font-weight: 400; color: #68736c; }
+.story .personal-note p:last-child { margin-bottom: 0; }
+.story .personal-note .contact { margin-top: 30px; gap: 24px; flex-wrap: wrap; }
+.story .personal-note .contact a { color: #367c70; }
+@media (max-width:480px) {
+  .story .me-portrait { width: 56px; height: 56px; margin-bottom: 22px; }
+}
