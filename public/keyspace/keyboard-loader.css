@@ -1,0 +1,17 @@
+#key-scene{position:relative}
+.keyboard-loader{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:27px;pointer-events:none;opacity:0;color:#69746e;font-size:12px;letter-spacing:.02em;z-index:5}
+.keyboard-loader.is-visible{opacity:1;transition:opacity 150ms ease}
+.loader-friend{position:relative;width:64px;height:64px;animation:loader-breathe 1.8s ease-in-out infinite}
+.loader-friend>svg:first-child{display:block;width:100%;height:100%;overflow:visible}
+.loader-friend .performer-eye{animation:none}
+.keyboard-loader>span{margin-top:14px;transition:opacity 100ms}
+.keyboard-render{opacity:0;transition:opacity 200ms ease}
+.keyboard-render.keyboard-is-ready{opacity:1}
+@keyframes loader-breathe{50%{translate:0 -2px}}
+@media(prefers-reduced-motion:reduce){.loader-friend,.loader-leg{animation:none}.keyboard-render,.keyboard-loader{transition:none}}
+
+.loader-replay{position:fixed;right:20px;bottom:20px;z-index:20;padding:10px 14px;border:1px solid #d5d9d1;border-radius:8px;background:#f5f4ef;color:#58665f;font:12px Arial;cursor:pointer}
+.loader-friend .performer-pupil{animation:loader-look 2.4s ease-in-out infinite}
+.loader-friend.is-leaving,.loader-friend.is-leaving .performer-pupil{animation:none}
+@keyframes loader-look{0%,20%,100%{transform:translateX(0)}40%,55%{transform:translateX(9px)}75%,85%{transform:translateX(-9px)}}
+@media(prefers-reduced-motion:reduce){.loader-friend .performer-pupil{animation:none}}

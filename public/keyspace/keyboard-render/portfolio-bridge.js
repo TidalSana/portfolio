@@ -1,5 +1,5 @@
 import {hitsRestingKey} from './stable-key-hit.js';
-import './studio.js?v=no-cable';
+import './studio.js?v=mascot-loader';
 import * as THREE from './assets/three.module.js';
 const {renderer,camera,root,setView}=window.studio;
 const groups=root.children.filter(o=>o.isGroup&&Math.abs(o.position.y-.83)<.001);
@@ -96,3 +96,5 @@ document.addEventListener('visibilitychange',syncIdle);hintMotion.addEventListen
 setTimeout(()=>parent.postMessage({type:'keyboard-set-cue'},location.origin),4200);
 
 window.addEventListener('message',e=>{if(e.origin===location.origin&&e.source===parent&&e.data?.type==='keyboard-peek')window.studio.setPeek(e.data.x,e.data.y);});
+
+parent.postMessage({type:'keyboard-ready'},location.origin);
