@@ -1,43 +1,82 @@
 import {initKeyboardGallery} from './keyboard-gallery.js?v=project-story';
 import {initNameplate} from './nameplate.js?v=letter-shuffle';
-import {initPortraitInk} from './portrait-ink.js?v=rose';
+import {initPortraitInk} from './portrait-ink.js?v=signature';
 import {icon} from './icons.js';
 import {initMagneticNavigation} from './magnetic-navigation.js?v=soft-tabs';
 import {shortcutDestination,sectionKey,layoutDelta} from './section-navigation.js';
 import {wordPrefix,completeWord} from './word-matching.js';
 import {performer,initPerformer} from './spellkey-performer.js?v=loading-gate';
-import {mountScene} from './render-adapter.js?v=return-smooth';
-import {destinations} from './destinations.js?v=project-story';
+import {mountScene} from './render-adapter.js?v=stable-canvas';
+import {destinations} from './destinations.js?v=keyboard-no-captions';
 const app=document.querySelector('#app');
 const stops=[['work','Work','work'],['projects','Projects','projects'],['josh','Me','me'],['keyboards','Keyboards','keyboards']];
 app.innerHTML=`<a class="skip" href="#spell-navigation">Skip to navigation</a><header><div class="header-identity">${performer}<a class="identity" href="#home" aria-label="Joshua Semana, home"><span class="identity-name" aria-hidden="true">${[...'Joshua Semana'].map((letter,i)=>`<span class="identity-letter" style="--letter:${i}">${letter===' '?'&nbsp;':letter}</span>`).join('')}</span></a></div></header><main id="content" class="travel"><section class="destination-bar" aria-label="Explore the portfolio"><form id="travel-form"><label for="destination">What would you like to explore?</label><div class="type-line"><input id="destination" name="destination" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder=" " aria-describedby="travel-feedback"><span class="typing-suggestion" aria-hidden="true"><span class="suggested-word">work</span></span><button type="submit" aria-label="Go to destination">${icon('corner-down-left')}</button></div></form><p id="travel-feedback" role="status">Type a name + Enter, or choose a word.</p></section><div class="board-stage"><div id="key-scene"></div><nav id="spell-navigation" tabindex="-1" class="spell-nav" aria-label="Destinations">${stops.map(([id,label,word])=>`<button type="button" aria-label="${label}" data-go="${id}" data-word="${word}" aria-keyshortcuts="${sectionKey(id)}"><span><em class="word-idle">${label}</em></span></button>`).join('')}</nav><button class="set-hint" aria-expanded="false" aria-controls="set-detail">About this set</button><aside id="set-detail" class="set-detail" hidden aria-label="About this keycap set"><button class="set-close" aria-label="Close keycap details">${icon('x')}</button><h2>GMK CYL Rubrehose</h2><a href="https://oblotzky.industries/products/gmk-cyl-rubrehose" target="_blank" rel="noreferrer">View set ${icon('arrow-up-right')}</a></aside></div><section id="story" class="story" hidden aria-label="Portfolio content"></section></main>`;
 
 const input=document.querySelector('#destination'),story=document.querySelector('#story'),feedback=document.querySelector('#travel-feedback');
 const scene=mountScene(document.querySelector('#key-scene'),{onKey:key=>handleKey(key)});
-function openDestination(raw){if(app.inert)return;const word=raw.trim().toLowerCase(),id=word==='me'?'josh':word;if(id==='home'||id==='escape'){location.hash='home';return}if(!Object.hasOwn(destinations,id)){window.dispatchEvent(new CustomEvent('spellkey-reaction',{detail:'shrugging'}));feedback.textContent='Try work, projects, me, or keyboards.';input.setAttribute('aria-invalid','true');return}input.removeAttribute('aria-invalid');scene.press('Enter');location.hash=id;}
+function openDestination(raw){if(app.inert)return;const word=raw.trim().toLowerCase(),id=word==='me'?'josh':word;if(id==='home'||id==='escape'){location.hash='home';return}if(!Object.hasOwn(destinations,id)){window.dispatchEvent(new CustomEvent('spellkey-reaction',{detail:'shrugging'}));feedback.textContent='Try work, projects, me, or keyboards.';input.setAttribute('aria-invalid','true');return}input.removeAttribute('aria-invalid');location.hash=id;}
 const motionPreference=matchMedia('(prefers-reduced-motion: reduce)');
-let navigationVersion=0,sectionAnimations=[],hasShown=false;
+// Keep opening responsive; returning home gets a slower, layered release.
+const sectionTiming={duration:180,easing:'cubic-bezier(.16,1,.3,1)'};
+const sectionNav=document.querySelector('.spell-nav');
+// Only the desktop layout is a sheet; mobile keeps its normal page navigation.
+let outsidePress=false;
+function outsideSheet(target){
+ return !app.inert&&!story.hidden&&matchMedia('(min-width:801px)').matches
+  &&!target.closest('#story,.spell-nav,dialog');
+}
+document.addEventListener('pointerdown',event=>{outsidePress=event.button===0&&outsideSheet(event.target);});
+document.addEventListener('pointercancel',()=>{outsidePress=false;});
+document.addEventListener('click',event=>{
+ const dismiss=outsidePress&&event.detail>0&&outsideSheet(event.target);
+ outsidePress=false;
+ if(dismiss)openDestination('home');
+});
+let navigationVersion=0,sectionAnimations=[],hasShown=false,outgoingSheet=null;
 const anchors=[document.querySelector('#key-scene'),...document.querySelectorAll('[data-go]')];
-function stopSectionAnimations(){sectionAnimations.forEach(a=>a.cancel());sectionAnimations=[];}
+function stopSectionAnimations(){sectionAnimations.forEach(a=>a.cancel());sectionAnimations=[];outgoingSheet?.remove();outgoingSheet=null;}
 function sectionAnimate(el,frames,options){const a=el.animate(frames,{fill:'both',...options});sectionAnimations.push(a);return a;}
 async function show(){
  const version=++navigationVersion,id=location.hash.slice(1),active=Object.hasOwn(destinations,id);
  const animate=hasShown&&!motionPreference.matches,wasVisiting=!story.hidden;
+ const desktopSheet=matchMedia('(min-width:801px)').matches;
+ const returning=desktopSheet&&wasVisiting&&!active;
+ const switching=animate&&desktopSheet&&wasVisiting&&active;
  window.dispatchEvent(new Event('section-transition-start'));
  hasShown=true;
  const currentOpacity=getComputedStyle(story).opacity;
+ const previousHeight=story.getBoundingClientRect().height;
+ // A short-lived, non-interactive copy lets text crossfade without fading the paper.
+ const outgoing=switching?story.cloneNode(true):null;
+ if(outgoing){
+  outgoing.removeAttribute('id');outgoing.inert=true;outgoing.setAttribute('aria-hidden','true');
+  outgoing.querySelectorAll('[id]').forEach(el=>el.removeAttribute('id'));
+  outgoing.querySelectorAll('dialog').forEach(el=>el.remove());
+  [...outgoing.children].forEach((el,i)=>{el.style.opacity=getComputedStyle(story.children[i]).opacity;});
+  outgoing.querySelector('.back')?.style.setProperty('visibility','hidden');
+  Object.assign(outgoing.style,{height:`${previousHeight}px`,opacity:currentOpacity,background:'transparent',borderColor:'transparent',boxShadow:'none',pointerEvents:'none',overflow:'hidden',zIndex:'2'});
+ }
+ const sceneStyle=getComputedStyle(anchors[0]);
+ const previousScene={filter:sceneStyle.filter,opacity:sceneStyle.opacity};
  const previousRects=anchors.map(el=>el.getBoundingClientRect());
  stopSectionAnimations();
+ story.style.removeProperty('height');
+ if(animate&&wasVisiting&&!active)story.style.height=`${previousHeight}px`;
  document.querySelectorAll('[data-go]').forEach(b=>{if(b.dataset.go===id)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});
  input.value='';matchWords();
  document.title=active?`${id[0].toUpperCase()+id.slice(1)} — Joshua Semana`:'Joshua Semana';
  // Fade the old content before replacing it; rapid navigation invalidates earlier work.
- if(animate&&wasVisiting&&active){
+ if(animate&&wasVisiting&&!switching){
   story.inert=true;
-  const exit=sectionAnimate(story,[{opacity:currentOpacity,transform:'translateY(0)'},{opacity:0,transform:'translateY(-5px)'}],{duration:60,easing:'ease-out'});
+  const exitFrames=[{opacity:currentOpacity,transform:'translateY(0)'},{opacity:0,transform:active?'translateY(-5px)':'translateY(8px)'}];
+  const exitTiming={duration:returning?140:60,easing:'cubic-bezier(.4,0,1,1)'};
+  const exit=sectionAnimate(story,exitFrames,exitTiming);
+  if(returning)sectionAnimate(sectionNav,[{opacity:1,transform:'translateY(0)'},{opacity:0,transform:'translateY(8px)'}],exitTiming);
   await exit.finished.catch(()=>{});if(version!==navigationVersion)return;
  }
  stopSectionAnimations();
+ story.style.removeProperty('height');
+ if(outgoing){story.after(outgoing);outgoing.scrollTop=story.scrollTop;outgoingSheet=outgoing;}
  document.body.classList.toggle('visiting',active);
  for (const section of ['work','projects','keyboards']) document.body.classList.toggle(`viewing-${section}`,active && id===section);
  story.hidden=!active;story.inert=false;
@@ -48,19 +87,50 @@ async function show(){
  window.scrollTo({top:0,behavior:'instant'});
  window.dispatchEvent(new Event('section-layout'));
  feedback.textContent=active?'Press Escape to return, or choose another section.':'Type a name, or choose a word. Keys 1–4 open sections.';
- if(animate){
+ if(switching){
+  const nextHeight=story.getBoundingClientRect().height;
+  const shrinking=nextHeight<previousHeight;
+  const resizeFrames=[{height:`${previousHeight}px`},{height:`${nextHeight}px`}];
+  const resizeTiming={duration:300,easing:shrinking?'cubic-bezier(.4,0,.2,1)':'cubic-bezier(.22,1,.36,1)'};
+  sectionAnimate(story,resizeFrames,resizeTiming);
+  // The fading old content must share the paper's moving clip edge.
+  // Otherwise the Projects screenshot briefly hangs below the smaller Me sheet.
+  sectionAnimate(outgoing,resizeFrames,resizeTiming);
+  sectionAnimate(outgoing,[{opacity:currentOpacity},{opacity:0}],{duration:120,easing:'ease-out'});
+ }
+ if(animate&&!switching){
+  // Read every destination rectangle before animation writes force another layout.
+  const nextRects=anchors.map(el=>el.getBoundingClientRect());
+  const nextSceneStyle=getComputedStyle(anchors[0]);
+  const nextScene={filter:nextSceneStyle.filter,opacity:nextSceneStyle.opacity};
   anchors.forEach((el,i)=>{
-   const delta=layoutDelta(previousRects[i],el.getBoundingClientRect());if(!delta)return;
+   // The desktop tabs enter with their sheet, rather than flying across its header.
+   if(desktopSheet&&active&&i>0)return;
+   const delta=layoutDelta(previousRects[i],nextRects[i]);if(!delta)return;
    const frames=i===0?[{transform:`translate(${delta.x}px,${delta.y}px) scale(${delta.sx},${delta.sy})`},{transform:'none'}]:[{translate:`${delta.x}px ${delta.y}px`},{translate:'0px 0px'}];
-   sectionAnimate(el,frames,{duration:220,easing:'cubic-bezier(.16,1,.3,1)'});
+   if(desktopSheet&&i===0){
+    Object.assign(frames[0],previousScene);
+    Object.assign(frames[1],nextScene);
+   }
+   if(returning){
+    if(i>0){
+     frames[0].opacity=0;
+     frames[1].opacity=1;
+    }
+    // Reveal the keyboard first; the labels follow and settle without a bounce.
+    sectionAnimate(el,frames,{duration:i===0?280:220,delay:i===0?0:60,easing:'cubic-bezier(.22,1,.36,1)'});
+   }else sectionAnimate(el,frames,sectionTiming);
   });
  }
  if(active){
   const heading=story.querySelector('h1');heading.tabIndex=-1;heading.focus({preventScroll:true});
   if(animate){
-   const elements=[...story.children];
-   elements.forEach(el=>sectionAnimate(el,[{opacity:0,transform:'translateY(10px)'},{opacity:1,transform:'translateY(0)'}],{duration:200,easing:'cubic-bezier(.16,1,.3,1)'}));
-
+   const frames=[{opacity:0,transform:'translateY(8px)'},{opacity:1,transform:'translateY(0)'}];
+   // Animate the surface itself so its background and contents arrive together.
+   if(switching){
+    [...story.children].filter(el=>!el.matches('.back,dialog')).forEach(el=>sectionAnimate(el,[{opacity:0},{opacity:1}],{duration:200,delay:60,easing:'ease-out'}));
+   }else sectionAnimate(story,frames,sectionTiming);
+   if(desktopSheet&&!wasVisiting)sectionAnimate(sectionNav,frames,sectionTiming);
   }
  }else if(wasVisiting){document.querySelector('.spellkey-button').focus({preventScroll:true});}
  Promise.allSettled(sectionAnimations.map(a=>a.finished)).then(()=>{if(version===navigationVersion){stopSectionAnimations();window.dispatchEvent(new Event('section-transition-end'));}});
