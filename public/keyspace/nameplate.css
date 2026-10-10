@@ -1,0 +1,10 @@
+/* One steady typeface and frame; only the individual letters change their motion. */
+.header-identity .identity{width:154px;height:24px;line-height:24px;white-space:nowrap;font-family:Manrope,Arial,sans-serif;font-size:14px;font-weight:600;font-style:normal;letter-spacing:normal}
+.identity-name{display:inline-block;overflow:hidden;vertical-align:middle}
+.identity-letter{display:inline-block;transform-origin:50% 100%}
+body:not(.keyboard-loading) .identity-letter{animation:identity-unfurl var(--entry-duration,480ms) cubic-bezier(.16,1,.3,1) both;animation-delay:var(--entry-delay,60ms)}
+body:not(.keyboard-loading) .identity-name.is-leaving .identity-letter{animation:identity-depart 180ms ease-in both;animation-delay:var(--exit-delay,0ms)}
+.keyboard-loading .identity-letter{opacity:0}
+@keyframes identity-unfurl{from{opacity:0;transform:translate(var(--entry-x,0px),var(--entry-y,105%)) rotate(var(--entry-tilt,12deg))}to{opacity:1;transform:translate(0,0) rotate(0)}}
+@keyframes identity-depart{from{opacity:1;transform:translate(0,0) rotate(0)}to{opacity:0;transform:translate(var(--entry-x,0px),-85%) rotate(var(--entry-tilt,12deg))}}
+@media(prefers-reduced-motion:reduce){body:not(.keyboard-loading) .identity-letter,body:not(.keyboard-loading) .identity-name.is-leaving .identity-letter{animation:none}}
