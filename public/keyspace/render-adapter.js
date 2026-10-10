@@ -17,10 +17,13 @@ export function mountScene(host,{onSelect=()=>{},onKey=()=>{},compact=false}={})
  });
  const motion=matchMedia('(prefers-reduced-motion: reduce)');
  const finePointer=matchMedia('(hover:hover) and (pointer:fine)');
+ let transitioning=false;
+ const beginTransition=()=>{transitioning=true;resetPeek();};
+ const endTransition=()=>{transitioning=false;};
  const sendPeek=(x=0,y=0)=>frame.contentWindow?.postMessage({type:'keyboard-peek',x,y},location.origin);
  const resetPeek=()=>sendPeek();
  function trackPeek(x,y){
-  if(motion.matches||!finePointer.matches||document.hidden||document.body.classList.contains('visiting')){resetPeek();return;}
+  if(transitioning||motion.matches||!finePointer.matches||document.hidden||document.body.classList.contains('visiting')){resetPeek();return;}
   sendPeek(edgeAmount(x,innerWidth),-edgeAmount(y,innerHeight));
  }
  const trackPage=e=>{if(e.pointerType==='mouse'&&!e.buttons)trackPeek(e.clientX,e.clientY);else resetPeek();};
@@ -33,9 +36,11 @@ export function mountScene(host,{onSelect=()=>{},onKey=()=>{},compact=false}={})
  document.documentElement.addEventListener('pointerleave',resetPeek);
  window.addEventListener('blur',resetPeek);
  window.addEventListener('hashchange',resetPeek);
+ window.addEventListener('section-transition-start',beginTransition);
+ window.addEventListener('section-transition-end',endTransition);
  document.addEventListener('visibilitychange',resetPeek);
  motion.addEventListener('change',resetPeek);
  finePointer.addEventListener('change',resetPeek);
  const setView=view=>frame.contentWindow?.postMessage({type:'keyboard-view',view},location.origin);
- return {idleSet(active){frame.contentWindow?.postMessage({type:'keyboard-set-idle',active},location.origin)},hintSet(active){frame.contentWindow?.postMessage({type:'keyboard-set-hint',active},location.origin)},press(key){frame.contentWindow?.postMessage({type:"keyboard-press",key},location.origin)},setView,resetView(){setView('hero')},dispose(){disposeLoader();window.removeEventListener('message',receive);window.removeEventListener('pointermove',trackPage);window.removeEventListener('message',trackFrame);document.documentElement.removeEventListener('pointerleave',resetPeek);window.removeEventListener('blur',resetPeek);window.removeEventListener('hashchange',resetPeek);document.removeEventListener('visibilitychange',resetPeek);motion.removeEventListener('change',resetPeek);finePointer.removeEventListener('change',resetPeek);frame.remove()}};
+ return {idleSet(active){frame.contentWindow?.postMessage({type:'keyboard-set-idle',active},location.origin)},hintSet(active){frame.contentWindow?.postMessage({type:'keyboard-set-hint',active},location.origin)},press(key){frame.contentWindow?.postMessage({type:"keyboard-press",key},location.origin)},setView,resetView(){setView('hero')},dispose(){disposeLoader();window.removeEventListener('message',receive);window.removeEventListener('pointermove',trackPage);window.removeEventListener('message',trackFrame);document.documentElement.removeEventListener('pointerleave',resetPeek);window.removeEventListener('blur',resetPeek);window.removeEventListener('hashchange',resetPeek);window.removeEventListener('section-transition-start',beginTransition);window.removeEventListener('section-transition-end',endTransition);document.removeEventListener('visibilitychange',resetPeek);motion.removeEventListener('change',resetPeek);finePointer.removeEventListener('change',resetPeek);frame.remove()}};
 }

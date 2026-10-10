@@ -110,3 +110,21 @@ html,body{background:#f5f4ef}
 /* Tiny outline Spelky: local design preview only. */
 .spellkey-button{width:24px;height:24px;margin:0;overflow:visible}
 #app > header{padding:10px 12px}
+
+/* Give the floating homepage destinations a little more presence. */
+body:not(.visiting) .spell-nav button{font-size:17px;font-weight:600}
+@media(max-width:700px){
+ body:not(.visiting) .spell-nav button{font-size:15px}
+}
+
+/* Leave more air around the keyboard without resizing its render canvas.
+   Keep this scale through section transitions to avoid a size jump. */
+.travel .keyboard-render{transform:scale(.9);transform-origin:center}
+
+/* Gather the floating destinations over the keyboard instead of the page edges. */
+@media(min-width:701px){
+ body:not(.visiting) .spell-nav{left:18%;right:18%}
+}
+@media(max-width:700px){
+ body:not(.visiting) .spell-nav{left:9%;right:9%}
+}

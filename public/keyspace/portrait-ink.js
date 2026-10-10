@@ -19,6 +19,9 @@ export function initPortraitInk(root) {
   drop.className = 'portrait-ink-drop';
   drop.setAttribute('aria-hidden', 'true');
   button.append(wash, drop);
+  // Sign off the personal note with the portrait after the contact sentence.
+  const note = button.closest(".personal-note");
+  if (note) note.append(button);
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   let hovering = false, pinned = false, frame = 0, x = 50, y = 50, tx = 50, ty = 50, radius = 0, previous = 0;
   function animate(time) {
