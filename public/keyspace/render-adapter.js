@@ -1,10 +1,12 @@
+import {mountKeyboardLoader} from './keyboard-loader.js?v=idle';
 import {edgeAmount} from './edge-peek.js';
 // Isolated local copy preserves the finished renderer's geometry and lighting.
 export function mountScene(host,{onSelect=()=>{},onKey=()=>{},compact=false}={}){
  const frame=document.createElement('iframe');
  frame.title='Turquoise 60% WKL keyboard with GMK Rubrehose keycaps. Drag to rotate and scroll to zoom.';
- frame.src=new URL('./keyboard-render/embed.html?view=hero&caps=rubrehose&finish=turquoise&v=no-cable',import.meta.url).href;
- frame.className='keyboard-render';host.append(frame);
+ frame.src=new URL('./keyboard-render/embed.html?view=hero&caps=rubrehose&finish=turquoise&v=mascot-loader',import.meta.url).href;
+ frame.className='keyboard-render';
+ const disposeLoader=mountKeyboardLoader(host,frame);host.append(frame);
  const receive=e=>{if(e.origin===location.origin&&e.source===frame.contentWindow&&e.data.type==='keyboard-route')onSelect(e.data.id);if(e.origin===location.origin&&e.source===frame.contentWindow&&e.data.type==='keyboard-key')onKey(e.data.key)};
  window.addEventListener('message',receive);
  window.addEventListener('message',e=>{
@@ -35,5 +37,5 @@ export function mountScene(host,{onSelect=()=>{},onKey=()=>{},compact=false}={})
  motion.addEventListener('change',resetPeek);
  finePointer.addEventListener('change',resetPeek);
  const setView=view=>frame.contentWindow?.postMessage({type:'keyboard-view',view},location.origin);
- return {idleSet(active){frame.contentWindow?.postMessage({type:'keyboard-set-idle',active},location.origin)},hintSet(active){frame.contentWindow?.postMessage({type:'keyboard-set-hint',active},location.origin)},press(key){frame.contentWindow?.postMessage({type:"keyboard-press",key},location.origin)},setView,resetView(){setView('hero')},dispose(){window.removeEventListener('message',receive);window.removeEventListener('pointermove',trackPage);window.removeEventListener('message',trackFrame);document.documentElement.removeEventListener('pointerleave',resetPeek);window.removeEventListener('blur',resetPeek);window.removeEventListener('hashchange',resetPeek);document.removeEventListener('visibilitychange',resetPeek);motion.removeEventListener('change',resetPeek);finePointer.removeEventListener('change',resetPeek);frame.remove()}};
+ return {idleSet(active){frame.contentWindow?.postMessage({type:'keyboard-set-idle',active},location.origin)},hintSet(active){frame.contentWindow?.postMessage({type:'keyboard-set-hint',active},location.origin)},press(key){frame.contentWindow?.postMessage({type:"keyboard-press",key},location.origin)},setView,resetView(){setView('hero')},dispose(){disposeLoader();window.removeEventListener('message',receive);window.removeEventListener('pointermove',trackPage);window.removeEventListener('message',trackFrame);document.documentElement.removeEventListener('pointerleave',resetPeek);window.removeEventListener('blur',resetPeek);window.removeEventListener('hashchange',resetPeek);document.removeEventListener('visibilitychange',resetPeek);motion.removeEventListener('change',resetPeek);finePointer.removeEventListener('change',resetPeek);frame.remove()}};
 }

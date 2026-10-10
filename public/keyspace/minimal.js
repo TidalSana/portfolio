@@ -4,7 +4,7 @@ import {initMagneticNavigation} from './magnetic-navigation.js?v=soft-tabs';
 import {shortcutDestination,sectionKey,layoutDelta} from './section-navigation.js';
 import {wordPrefix,completeWord} from './word-matching.js';
 import {performer,initPerformer} from './spellkey-performer.js?v=tiny-outline';
-import {mountScene} from './render-adapter.js?v=no-cable';
+import {mountScene} from './render-adapter.js?v=mascot-idle';
 import {destinations} from './destinations.js?v=experience-dates';
 const app=document.querySelector('#app');
 const stops=[['work','Work','work'],['projects','Projects','projects'],['josh','Me','me'],['keyboards','Keyboards','keyboards']];
