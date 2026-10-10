@@ -52,7 +52,6 @@ export function initNameplate(link,app){
  link.addEventListener('focusin',schedule);link.addEventListener('focusout',schedule);
  document.addEventListener('visibilitychange',schedule);
  window.addEventListener('keyboard-loader-complete',schedule);
- window.addEventListener('hashchange',schedule);
  reduced.addEventListener('change',()=>{if(reduced.matches)render(nameVariants[0]);schedule()});
  render(current);schedule();
 }

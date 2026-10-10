@@ -1,4 +1,4 @@
-import {mountKeyboardLoader} from './keyboard-loader.js?v=loading-gate';
+import {mountKeyboardLoader} from './keyboard-loader.js?v=quiet-arrival';
 import {edgeAmount} from './edge-peek.js';
 // Isolated local copy preserves the finished renderer's geometry and lighting.
 export function mountScene(host,{onSelect=()=>{},onKey=()=>{},compact=false}={}){
