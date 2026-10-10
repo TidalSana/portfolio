@@ -66,3 +66,29 @@ test('section changes cancel the trick and restore usable words',async()=>{
  assert.equal(f.nav.inert,false);assert.ok(f.words.every(w=>w.style.opacity==='1'));
  f.button.dispatchEvent(new Event('click'));assert.equal(f.flights.length,8);
 });
+test('direct section loads keep the header mascot visible and skip the hop',()=>{
+ for(const hash of ['#work','#projects','#josh','#keyboards']){
+  const f=fixture('keyboard-loader.js');f.context.location.hash=hash;f.context.mountKeyboardLoader(f.host,f.frame);
+  f.tick(180);assert.notEqual(f.button.style.visibility,'hidden');
+  assert.equal(f.host.children[0].classList.contains('is-visible'),false);
+  f.ready();assert.equal(f.flights.length,0);assert.equal(f.app.inert,false);
+  assert.equal(f.frame.classList.contains('keyboard-is-ready'),true);
+ }
+});
+test('returning home after the show timer still displays the pending loader',()=>{
+ const f=fixture('keyboard-loader.js');f.context.location.hash='#josh';f.context.mountKeyboardLoader(f.host,f.frame);f.tick(180);
+ f.context.location.hash='#home';f.win.dispatchEvent(new Event('hashchange'));
+ assert.equal(f.app.inert,true);assert.equal(f.host.children[0].classList.contains('is-visible'),true);
+});
+test('opening a section during the loader hop restores the header immediately',async()=>{
+ const f=fixture('keyboard-loader.js');f.context.mountKeyboardLoader(f.host,f.frame);f.tick(180);f.ready();
+ f.context.location.hash='#josh';f.win.dispatchEvent(new Event('hashchange'));await flush();
+ assert.notEqual(f.button.style.visibility,'hidden');assert.equal(f.app.inert,false);
+ assert.equal(f.host.children[0].removed,true);
+});
+test('section tabs stay visible when the page loses focus',()=>{
+ const f=fixture('spellkey-performer.js');f.body.classList.add('visiting');f.context.initPerformer();
+ f.context.document.hidden=true;f.context.document.dispatchEvent(new Event('visibilitychange'));
+ assert.equal(f.flights.length,0);assert.equal(f.nav.inert,false);
+ f.button.dispatchEvent(new Event('click'));assert.equal(f.flights.length,0);
+});

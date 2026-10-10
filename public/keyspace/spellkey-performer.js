@@ -7,6 +7,7 @@ export function initPerformer(){
  const motion=initSpellkeyMotion(button);
  const reduced=matchMedia('(prefers-reduced-motion: reduce)');let animations=[],epoch=0,variant=0,focusTimer,away=false,casting=false;
  const loading=()=>document.querySelector('#app').inert;
+ const visiting=()=>document.body.classList.contains('visiting');
  function cancel(){++epoch;animations.forEach(a=>a.cancel());animations=[];}
  function animate(el,frames,options){const a=el.animate(frames,{fill:'forwards',...options});animations.push(a);return a;}
  let layout=createWordLayout(words.length),resizeFrame=0;
@@ -39,8 +40,9 @@ export function initPerformer(){
   // Let outstanding word flights settle before clearing the cast.
   await Promise.allSettled(animations.map(a=>a.finished));if(token!==epoch)return false;cancel();return true;
  }
- function updateActivity(){if(loading())return;const inactive=document.hidden||!document.hasFocus();if(inactive===away)return;away=inactive;travel(away);}
+ function updateActivity(){if(loading()||visiting())return;const inactive=document.hidden||!document.hasFocus();if(inactive===away)return;away=inactive;travel(away);}
  button.addEventListener('click',async()=>{
+  if(visiting()){motion.react('welcoming');return;}
   if(away||casting||loading())return;
   casting=true;button.setAttribute('aria-disabled','true');
   try{if(await travel(true)){if(!away)await travel(false)}}
@@ -51,7 +53,7 @@ export function initPerformer(){
  window.addEventListener('focus',()=>{clearTimeout(focusTimer);updateActivity()});
  document.addEventListener('visibilitychange',updateActivity);
  window.addEventListener('message',e=>{if(e.origin===location.origin&&e.source===document.querySelector('.keyboard-render')?.contentWindow&&e.data.type==='keyboard-page-focus')updateActivity()});
- function settle(){cancel();layoutWords();nav.inert=away;words.forEach(w=>{w.style.transform='none';w.style.opacity=away?'0':'1'});}
+ function settle(){cancel();layoutWords();if(visiting())away=false;nav.inert=away;words.forEach(w=>{w.style.transform='none';w.style.opacity=away?'0':'1'});}
  window.addEventListener('hashchange',settle);window.addEventListener('section-layout',settle);window.addEventListener('resize',()=>{if(!resizeFrame)resizeFrame=requestAnimationFrame(()=>{resizeFrame=0;settle();});});reduced.addEventListener('change',settle);
  // Reflow stable word slots as the section transition changes scene width.
  const navResize=new ResizeObserver(()=>layoutWords());navResize.observe(nav);

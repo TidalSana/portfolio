@@ -1,13 +1,14 @@
+import {initGreetingNote} from './greeting-note.js';
 import {initKeyboardGallery} from './keyboard-gallery.js?v=project-story';
-import {initNameplate} from './nameplate.js?v=letter-shuffle';
+import {initNameplate} from './nameplate.js?v=independent-shuffle';
 import {initPortraitInk} from './portrait-ink.js?v=signature';
 import {icon} from './icons.js';
 import {initMagneticNavigation} from './magnetic-navigation.js?v=soft-tabs';
 import {shortcutDestination,sectionKey,layoutDelta} from './section-navigation.js';
 import {wordPrefix,completeWord} from './word-matching.js';
-import {performer,initPerformer} from './spellkey-performer.js?v=loading-gate';
-import {mountScene} from './render-adapter.js?v=stable-canvas';
-import {destinations} from './destinations.js?v=keyboard-no-captions';
+import {performer,initPerformer} from './spellkey-performer.js?v=quiet-arrival';
+import {mountScene} from './render-adapter.js?v=quiet-arrival';
+import {destinations} from './destinations.js?v=mt-nyc-location';
 const app=document.querySelector('#app');
 const stops=[['work','Work','work'],['projects','Projects','projects'],['josh','Me','me'],['keyboards','Keyboards','keyboards']];
 app.innerHTML=`<a class="skip" href="#spell-navigation">Skip to navigation</a><header><div class="header-identity">${performer}<a class="identity" href="#home" aria-label="Joshua Semana, home"><span class="identity-name" aria-hidden="true">${[...'Joshua Semana'].map((letter,i)=>`<span class="identity-letter" style="--letter:${i}">${letter===' '?'&nbsp;':letter}</span>`).join('')}</span></a></div></header><main id="content" class="travel"><section class="destination-bar" aria-label="Explore the portfolio"><form id="travel-form"><label for="destination">What would you like to explore?</label><div class="type-line"><input id="destination" name="destination" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder=" " aria-describedby="travel-feedback"><span class="typing-suggestion" aria-hidden="true"><span class="suggested-word">work</span></span><button type="submit" aria-label="Go to destination">${icon('corner-down-left')}</button></div></form><p id="travel-feedback" role="status">Type a name + Enter, or choose a word.</p></section><div class="board-stage"><div id="key-scene"></div><nav id="spell-navigation" tabindex="-1" class="spell-nav" aria-label="Destinations">${stops.map(([id,label,word])=>`<button type="button" aria-label="${label}" data-go="${id}" data-word="${word}" aria-keyshortcuts="${sectionKey(id)}"><span><em class="word-idle">${label}</em></span></button>`).join('')}</nav><button class="set-hint" aria-expanded="false" aria-controls="set-detail">About this set</button><aside id="set-detail" class="set-detail" hidden aria-label="About this keycap set"><button class="set-close" aria-label="Close keycap details">${icon('x')}</button><h2>GMK CYL Rubrehose</h2><a href="https://oblotzky.industries/products/gmk-cyl-rubrehose" target="_blank" rel="noreferrer">View set ${icon('arrow-up-right')}</a></aside></div><section id="story" class="story" hidden aria-label="Portfolio content"></section></main>`;
@@ -32,9 +33,9 @@ document.addEventListener('click',event=>{
  outsidePress=false;
  if(dismiss)openDestination('home');
 });
-let navigationVersion=0,sectionAnimations=[],hasShown=false,outgoingSheet=null;
+let navigationVersion=0,sectionAnimations=[],hasShown=false;
 const anchors=[document.querySelector('#key-scene'),...document.querySelectorAll('[data-go]')];
-function stopSectionAnimations(){sectionAnimations.forEach(a=>a.cancel());sectionAnimations=[];outgoingSheet?.remove();outgoingSheet=null;}
+function stopSectionAnimations(){sectionAnimations.forEach(a=>a.cancel());sectionAnimations=[];}
 function sectionAnimate(el,frames,options){const a=el.animate(frames,{fill:'both',...options});sectionAnimations.push(a);return a;}
 async function show(){
  const version=++navigationVersion,id=location.hash.slice(1),active=Object.hasOwn(destinations,id);
@@ -46,25 +47,23 @@ async function show(){
  hasShown=true;
  const currentOpacity=getComputedStyle(story).opacity;
  const previousHeight=story.getBoundingClientRect().height;
- // A short-lived, non-interactive copy lets text crossfade without fading the paper.
- const outgoing=switching?story.cloneNode(true):null;
- if(outgoing){
-  outgoing.removeAttribute('id');outgoing.inert=true;outgoing.setAttribute('aria-hidden','true');
-  outgoing.querySelectorAll('[id]').forEach(el=>el.removeAttribute('id'));
-  outgoing.querySelectorAll('dialog').forEach(el=>el.remove());
-  [...outgoing.children].forEach((el,i)=>{el.style.opacity=getComputedStyle(story.children[i]).opacity;});
-  outgoing.querySelector('.back')?.style.setProperty('visibility','hidden');
-  Object.assign(outgoing.style,{height:`${previousHeight}px`,opacity:currentOpacity,background:'transparent',borderColor:'transparent',boxShadow:'none',pointerEvents:'none',overflow:'hidden',zIndex:'2'});
- }
+ // Keep the real outgoing nodes in their original layout until they disappear.
+ const previousContent=[...story.children].filter(el=>!el.matches('.back,dialog')).map(el=>({el,opacity:getComputedStyle(el).opacity,transform:getComputedStyle(el).transform}));
  const sceneStyle=getComputedStyle(anchors[0]);
  const previousScene={filter:sceneStyle.filter,opacity:sceneStyle.opacity};
  const previousRects=anchors.map(el=>el.getBoundingClientRect());
  stopSectionAnimations();
  story.style.removeProperty('height');
- if(animate&&wasVisiting&&!active)story.style.height=`${previousHeight}px`;
+ if(switching||(animate&&wasVisiting&&!active))story.style.height=`${previousHeight}px`;
  document.querySelectorAll('[data-go]').forEach(b=>{if(b.dataset.go===id)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});
  input.value='';matchWords();
  document.title=active?`${id[0].toUpperCase()+id.slice(1)} — Joshua Semana`:'Joshua Semana';
+ if(switching){
+  story.inert=true;
+  const exits=previousContent.map(({el,opacity,transform})=>sectionAnimate(el,[{opacity,transform},{opacity:0,transform:'translateY(-4px)'}],{duration:120,easing:'cubic-bezier(.4,0,1,1)'}));
+  await Promise.allSettled(exits.map(animation=>animation.finished));
+  if(version!==navigationVersion)return;
+ }
  // Fade the old content before replacing it; rapid navigation invalidates earlier work.
  if(animate&&wasVisiting&&!switching){
   story.inert=true;
@@ -76,12 +75,12 @@ async function show(){
  }
  stopSectionAnimations();
  story.style.removeProperty('height');
- if(outgoing){story.after(outgoing);outgoing.scrollTop=story.scrollTop;outgoingSheet=outgoing;}
  document.body.classList.toggle('visiting',active);
  for (const section of ['work','projects','keyboards']) document.body.classList.toggle(`viewing-${section}`,active && id===section);
  story.hidden=!active;story.inert=false;
  story.innerHTML=active?`<a class="back" href="#home" aria-label="Back to the keyboard" aria-keyshortcuts="Escape" title="Back to the keyboard · press Escape">${icon('arrow-left')}Back<kbd class="section-key">Esc</kbd></a>${destinations[id]}`:'';
  initPortraitInk(story);
+ initGreetingNote(story);
  initKeyboardGallery(story);
  story.scrollTop=0;
  window.scrollTo({top:0,behavior:'instant'});
@@ -93,10 +92,7 @@ async function show(){
   const resizeFrames=[{height:`${previousHeight}px`},{height:`${nextHeight}px`}];
   const resizeTiming={duration:300,easing:shrinking?'cubic-bezier(.4,0,.2,1)':'cubic-bezier(.22,1,.36,1)'};
   sectionAnimate(story,resizeFrames,resizeTiming);
-  // The fading old content must share the paper's moving clip edge.
-  // Otherwise the Projects screenshot briefly hangs below the smaller Me sheet.
-  sectionAnimate(outgoing,resizeFrames,resizeTiming);
-  sectionAnimate(outgoing,[{opacity:currentOpacity},{opacity:0}],{duration:120,easing:'ease-out'});
+
  }
  if(animate&&!switching){
   // Read every destination rectangle before animation writes force another layout.
@@ -128,7 +124,7 @@ async function show(){
    const frames=[{opacity:0,transform:'translateY(8px)'},{opacity:1,transform:'translateY(0)'}];
    // Animate the surface itself so its background and contents arrive together.
    if(switching){
-    [...story.children].filter(el=>!el.matches('.back,dialog')).forEach(el=>sectionAnimate(el,[{opacity:0},{opacity:1}],{duration:200,delay:60,easing:'ease-out'}));
+    [...story.children].filter(el=>!el.matches('.back,dialog')).forEach(el=>sectionAnimate(el,[{opacity:0,transform:'translateY(5px)'},{opacity:1,transform:'translateY(0)'}],{duration:200,delay:40,easing:'cubic-bezier(.16,1,.3,1)'}));
    }else sectionAnimate(story,frames,sectionTiming);
    if(desktopSheet&&!wasVisiting)sectionAnimate(sectionNav,frames,sectionTiming);
   }
