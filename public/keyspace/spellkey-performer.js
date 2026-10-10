@@ -5,8 +5,9 @@ export function initPerformer(){
  const button=document.querySelector('.spellkey-button'),nav=document.querySelector('.spell-nav');
  const words=[...nav.querySelectorAll('button span')];
  const motion=initSpellkeyMotion(button);
- const reduced=matchMedia('(prefers-reduced-motion: reduce)');let animations=[],epoch=0,variant=0,intro,focusTimer,away=false;
- function cancel(){++epoch;clearTimeout(intro);animations.forEach(a=>a.cancel());animations=[];}
+ const reduced=matchMedia('(prefers-reduced-motion: reduce)');let animations=[],epoch=0,variant=0,focusTimer,away=false,casting=false;
+ const loading=()=>document.querySelector('#app').inert;
+ function cancel(){++epoch;animations.forEach(a=>a.cancel());animations=[];}
  function animate(el,frames,options){const a=el.animate(frames,{fill:'forwards',...options});animations.push(a);return a;}
  let layout=createWordLayout(words.length),resizeFrame=0;
  function layoutWords(){
@@ -38,8 +39,13 @@ export function initPerformer(){
   // Let outstanding word flights settle before clearing the cast.
   await Promise.allSettled(animations.map(a=>a.finished));if(token!==epoch)return false;cancel();return true;
  }
- function updateActivity(){const inactive=document.hidden||!document.hasFocus();if(inactive===away)return;away=inactive;travel(away);}
- button.addEventListener('click',async()=>{if(away)return;if(await travel(true)){if(!away)travel(false)}});
+ function updateActivity(){if(loading())return;const inactive=document.hidden||!document.hasFocus();if(inactive===away)return;away=inactive;travel(away);}
+ button.addEventListener('click',async()=>{
+  if(away||casting||loading())return;
+  casting=true;button.setAttribute('aria-disabled','true');
+  try{if(await travel(true)){if(!away)await travel(false)}}
+  finally{casting=false;button.removeAttribute('aria-disabled');}
+ });
  window.addEventListener('spellkey-reaction',e=>{if(['thinking','shrugging'].includes(e.detail))motion.react(e.detail)});
  window.addEventListener('blur',()=>{clearTimeout(focusTimer);focusTimer=setTimeout(updateActivity,80)});
  window.addEventListener('focus',()=>{clearTimeout(focusTimer);updateActivity()});
@@ -50,5 +56,5 @@ export function initPerformer(){
  // Reflow stable word slots as the section transition changes scene width.
  const navResize=new ResizeObserver(()=>layoutWords());navResize.observe(nav);
  scatter();
- intro=setTimeout(async()=>{if(!away&&!document.hidden&&!document.body.classList.contains('visiting')){if(await travel(true))if(!away)travel(false)}},1300);
+ // Loading owns the entrance; words appear in place once that entrance is done.
 }

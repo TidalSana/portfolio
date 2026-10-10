@@ -13,7 +13,7 @@ import {paintKeycapLegend} from './keycap-legends.js?v=light48';
 import {rubrehoseNovelty,paintRubrehoseNovelty} from './rubrehose-novelties.js?v=light48';
 import {applyAbsSurface} from './abs-surface.js?v=light48';
 const host=document.querySelector('#scene');
-const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});
+const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:false});
 renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.outputColorSpace=THREE.SRGBColorSpace;
 renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.05;
 renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.VSMShadowMap;

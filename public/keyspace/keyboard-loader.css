@@ -1,4 +1,7 @@
 #key-scene{position:relative}
+.keyboard-loading header,.keyboard-loading .skip,.keyboard-loading .destination-bar,.keyboard-loading .spell-nav,.keyboard-loading .set-hint,.keyboard-loading .set-detail{visibility:hidden}
+.keyboard-loading .keyboard-render,.keyboard-loading .keyboard-render.keyboard-is-ready{opacity:0;pointer-events:none}
+.loader-announcement{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 .keyboard-loader{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:27px;pointer-events:none;opacity:0;color:#69746e;font-size:12px;letter-spacing:.02em;z-index:5}
 .keyboard-loader.is-visible{opacity:1;transition:opacity 150ms ease}
 .loader-friend{position:relative;width:64px;height:64px;animation:loader-breathe 1.8s ease-in-out infinite}

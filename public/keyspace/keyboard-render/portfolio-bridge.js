@@ -1,5 +1,5 @@
 import {hitsRestingKey} from './stable-key-hit.js';
-import './studio.js?v=mascot-loader';
+import './studio.js?v=return-smooth';
 import * as THREE from './assets/three.module.js';
 const {renderer,camera,root,setView}=window.studio;
 const groups=root.children.filter(o=>o.isGroup&&Math.abs(o.position.y-.83)<.001);
@@ -71,6 +71,8 @@ function liftEscape(active){
  cancelAnimationFrame(motions.get(escapeCap));
  const oldHint=hints.get(escapeCap);if(oldHint){oldHint.remove();hints.delete(escapeCap);}
  const from=escapeCap.position.y,to=active&&!hintMotion.matches?1.35:.83,start=performance.now();
+ // Repeated dismissals at rest need no animation or shadow-map redraw.
+ if(Math.abs(from-to)<.0001){motions.delete(escapeCap);return;}
  function move(now){const t=hintMotion.matches?1:Math.min((now-start)/220,1);escapeCap.position.y=from+(to-from)*(1-Math.pow(1-t,3));renderer.shadowMap.needsUpdate=true;if(t<1)motions.set(escapeCap,requestAnimationFrame(move));else motions.delete(escapeCap);}
  motions.set(escapeCap,requestAnimationFrame(move));
 }
@@ -91,7 +93,7 @@ function idleTick(now){
  idleFrame=requestAnimationFrame(idleTick);
 }
 function syncIdle(){cancelAnimationFrame(idleFrame);idleFrame=0;if(idleEnabled&&!document.hidden&&!hintMotion.matches){idleStart=performance.now();idleFrame=requestAnimationFrame(idleTick);}else if(!hintHeld)liftEscape(false);}
-window.addEventListener('message',e=>{if(e.origin===location.origin&&e.source===parent&&e.data?.type==='keyboard-set-idle'){idleEnabled=e.data.active===true;syncIdle();}});
+window.addEventListener('message',e=>{if(e.origin===location.origin&&e.source===parent&&e.data?.type==='keyboard-set-idle'){const next=e.data.active===true;if(next!==idleEnabled){idleEnabled=next;syncIdle();}}});
 document.addEventListener('visibilitychange',syncIdle);hintMotion.addEventListener('change',syncIdle);
 setTimeout(()=>parent.postMessage({type:'keyboard-set-cue'},location.origin),4200);
 
