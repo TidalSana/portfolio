@@ -9,7 +9,7 @@ import {boardCAD} from './assets/board-cad.js';
 import {buildCase} from './case-model.js?v=light48';
 import {createSteppedCaps} from './stepped-caps.js?v=light48';
 import {STRIKER_DARK} from './striker-legends.js';
-import {paintKeycapLegend} from './keycap-legends.js?v=light48';
+import {paintKeycapLegend} from './keycap-legends.js?v=balanced-brackets';
 import {rubrehoseNovelty,paintRubrehoseNovelty} from './rubrehose-novelties.js?v=light48';
 import {applyAbsSurface} from './abs-surface.js?v=light48';
 const host=document.querySelector('#scene');
@@ -26,7 +26,7 @@ card(18,24,[-18,26,8],4.5);card(20,24,[22,14,-12],2.2);card(26,4,[0,12,-24],2.2)
 const pmrem=new THREE.PMREMGenerator(renderer);const environment=pmrem.fromScene(studio,.02);scene.environment=environment.texture;pmrem.dispose();
 const root=new THREE.Group();root.rotation.x=THREE.MathUtils.degToRad(7);root.position.y=1.57;scene.add(root);
 const camera=new THREE.OrthographicCamera(-20,20,12,-12,.1,160);
-const controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.dampingFactor=.08;controls.enablePan=false;controls.minZoom=.65;controls.maxZoom=2.6;controls.minPolarAngle=.02;controls.maxPolarAngle=1.48;controls.rotateSpeed=.55;
+const controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.dampingFactor=.08;controls.enablePan=false;controls.zoomSpeed=2;controls.minZoom=.65;controls.maxZoom=2.6;controls.minPolarAngle=.02;controls.maxPolarAngle=1.48;controls.rotateSpeed=.55;
 scene.add(new THREE.HemisphereLight('#ffffff','#aaa6a0',.12));
 const keyLight=new THREE.DirectionalLight('#ffffff',1.6);keyLight.position.set(-18,24,8);keyLight.castShadow=true;keyLight.shadow.mapSize.set(4096,4096);keyLight.shadow.radius=4;keyLight.shadow.blurSamples=16;Object.assign(keyLight.shadow.camera,{left:-24,right:24,top:22,bottom:-22,near:1,far:80});keyLight.shadow.bias=-.00007;keyLight.shadow.normalBias=.015;scene.add(keyLight);
 const fill=new THREE.DirectionalLight('#ffffff',.35);fill.position.set(15,14,-14);scene.add(fill);

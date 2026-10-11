@@ -1,5 +1,5 @@
 import {hitsRestingKey} from './stable-key-hit.js';
-import './studio.js?v=return-smooth';
+import './studio.js?v=balanced-brackets';
 import * as THREE from './assets/three.module.js';
 const {renderer,camera,root,setView}=window.studio;
 const groups=root.children.filter(o=>o.isGroup&&Math.abs(o.position.y-.83)<.001);

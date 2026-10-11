@@ -7,7 +7,7 @@ import {initMagneticNavigation} from './magnetic-navigation.js?v=soft-tabs';
 import {shortcutDestination,sectionKey,layoutDelta} from './section-navigation.js';
 import {wordPrefix,completeWord} from './word-matching.js';
 import {performer,initPerformer} from './spellkey-performer.js?v=quiet-arrival';
-import {mountScene} from './render-adapter.js?v=quiet-arrival';
+import {mountScene} from './render-adapter.js?v=balanced-brackets';
 import {destinations} from './destinations.js?v=mt-nyc-location';
 const app=document.querySelector('#app');
 const stops=[['work','Work','work'],['projects','Projects','projects'],['josh','Me','me'],['keyboards','Keyboards','keyboards']];
