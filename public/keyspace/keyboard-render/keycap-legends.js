@@ -5,6 +5,12 @@ import {paintStrikerLegend} from './striker-legends.js';
 // Open Cherry vector outlines (MIT, Dakota Felder), already bundled with the study.
 // Place ink by its visible bounds in millimetres, independent of font ascent metrics.
 const paths=new Map();
+// Keep square-bracket outer bounds, but reduce their 120-unit stems to 95
+// to balance the adjacent curly braces at the same displayed height.
+const squareBracketPaths={
+ '[':'M328 -100C328 -74 307 -53 281 -53H150C136 -53 125 -42 125 -28V580C125 594 136 605 150 605H281C307 605 328 626 328 653C328 679 307 700 281 700H90C58 700 30 673 30 640V-88C30 -120 58 -148 90 -148H281C307 -148 328 -127 328 -100Z',
+ ']':'M20 -100C20 -127 41 -148 67 -148H258C290 -148 318 -120 318 -88V640C318 673 290 700 258 700H67C41 700 20 679 20 653C20 626 41 605 67 605H198C212 605 223 594 223 580V-28C223 -42 212 -53 198 -53H67C41 -53 20 -74 20 -100Z'
+};
 function drawGlyph(ctx,g,x,y,height){
  const [bx,by,,bh]=g.boundsMM,scale=height/bh;
  if(!paths.has(g.path))paths.set(g.path,new Path2D(g.path));
@@ -82,12 +88,14 @@ export function paintKeycapLegend(ctx,letter,widthMM,ink,{kana=false,layout='sta
   const alpha=/^[A-Z]$/.test(letter);
   const selected=alpha?records.slice(0,1):records.slice(0,2);
   for(const [i,g] of selected.entries()){
-   if(alpha)drawGlyph(ctx,g,g.boundsMM[0],g.boundsMM[1],3.05);
+   if(alpha)drawGlyph(ctx,g,3.95,1.6,4.62875);
    else{
     // One font-unit scale for digits AND punctuation, not one bounding-box height.
     // This preserves short quote strokes, thin hyphens, and compact star/hash shapes.
-    const height=g.boundsMM[3]*(.00335/g.scale);
-    drawGlyph(ctx,g,4.65,(i===0?5.0:10.15)-height/2,height);
+    const bracket=letter==='['||letter===']';
+    const height=bracket?4.62875:g.boundsMM[3]*(.00335/g.scale);
+    const glyph=bracket&&i===1?{...g,path:squareBracketPaths[letter]}:g;
+    drawGlyph(ctx,glyph,4.65,(i===0?5.0:10.15)-height/2,height);
    }
   }
  }
